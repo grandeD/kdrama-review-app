@@ -13,9 +13,27 @@ def hompage():
     ''' View Homepage '''
     return render_template('homepage.html')
 
-# Login page
-# Account Page
-# Search Results Page
+# Login page /login
+@app.route('/login')
+def show_login():
+    ''' View Login Page '''
+    '''View Login/Create Account Page'''
+    return render_template('login.html')
+
+# Account Page /profile
+@app.route('/profile')
+def show_profile():
+    '''View Account Page'''
+    return render_template('profile.html')
+
+# Search Results Page /search and /results
+@app.route('/search')
+def show_results():
+    '''Take search_input from form and redirect user to respective results page'''
+    search_query = request.args.get('search-query')
+    return render_template('results.html', search_query=search_query)
+
+
 # Kdrama Page
 # Person Page
 
