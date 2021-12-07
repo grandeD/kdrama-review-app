@@ -2,6 +2,9 @@
 from flask import (Flask, render_template, request, flash, session,
                    redirect)
 
+from model import connect_to_db
+import crud
+
 from jinja2 import StrictUndefined
 
 app = Flask(__name__)
@@ -16,7 +19,6 @@ def hompage():
 # Login page /login
 @app.route('/login')
 def show_login():
-    ''' View Login Page '''
     '''View Login/Create Account Page'''
     return render_template('login.html')
 
@@ -39,4 +41,5 @@ def show_results():
 
 if __name__ == '__main__':
     # DebugToolbarExtension(app)
+    connect_to_db(app)
     app.run(host="0.0.0.0", debug=True)
