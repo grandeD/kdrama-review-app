@@ -5,7 +5,19 @@
 {% block body %}
 
 <div>
-   <h1>Search Results for:  {{search_query}} </h1>
+   <h1>Search Results for '{{search_query}}'' </h1>
+   {% for kdrama in kdrama_results %}
+   
+   <div className='card'>
+      <a href="/kdrama/{{kdrama['kdrama_id']}}">
+      <img style='height: 200px;' src="https://image.tmdb.org/t/p/original/{{kdrama['poster_path']}}"" alt='Kdrama Poster' />
+      </a>
+      <p>{{kdrama['title']}}</p>
+   </div>
+   
+   {%endfor%}
+ 
+
 </div>
 
 {% endblock %}

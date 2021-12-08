@@ -34,7 +34,8 @@ def show_profile():
 def show_results():
     '''Take search_input from form and redirect user to respective results page'''
     search_query = request.args.get('search-query')
-    return render_template('results.html', search_query=search_query)
+    kdrama_results = crud.get_kdrama_by_title(search_query)
+    return render_template('results.html', search_query=search_query, kdrama_results=kdrama_results)
 
 
 # Kdrama Page
