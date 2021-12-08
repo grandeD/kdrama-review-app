@@ -1,12 +1,21 @@
 {% extends 'base.html' %}
 
-{% block title %}Kdrama Review App{% endblock %}
+{% block title %}Koreview{% endblock %}
+
+{% block js %}
+<script src="/static/js/homepage.jsx" type="text/jsx"></script>
+{% endblock %}
+
+{% block data_attributes %}
+<meta id='data' data-api_key={{api_key}}>
+{% endblock %}
 
 {% block body %}
 
 <div>
-   <h1>Welcome to Kdrama Review App! </h1>
-   <h2>By Diana Grande</h2>
+   <h1>Welcome to Koreview, a Korean Drama Review App! </h1>
+   <div class='content'>
+   </div>
 </div>
 
 {% endblock %}
