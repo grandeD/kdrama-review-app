@@ -18,12 +18,17 @@
     {% block css %}
     {% endblock %}
 
+
+    <!-- Include any page-specific data attributes using this block. -->
+    {% block data_attributes %}
+    {% endblock %}
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
     <!-- Navbar -->
     <nav>
-        <a href="/">Kdrama Reviews</a>
+        <a href="/">Koreview</a>
         <a href="/login" >Login</a>
         <a href="/profile" >Account</a>
         <div class="search-container">
