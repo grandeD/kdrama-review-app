@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Koreview{% endblock %}
+
+{% block js %}
+<script src="/static/js/kdramaInfo.jsx" type="text/jsx"></script>
+{% endblock %}
+
+{% block data_attributes %}
+<meta id='data' data-kdrama_id={{kdrama_id}}
+                data-api_key={{api_key}}>
+{% endblock %}
+
+{% block body %}
+
+<div>
+   <div class='content'>
+   </div>
+</div>
+
+{% endblock %}
