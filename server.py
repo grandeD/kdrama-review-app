@@ -6,6 +6,7 @@ from model import connect_to_db
 import crud
 
 from jinja2 import StrictUndefined
+import os
 
 app = Flask(__name__)
 app.secret_key = 'thebestkoreandramareviewsiteever'
@@ -14,7 +15,7 @@ app.jinja_env.undefined = StrictUndefined
 @app.route('/')
 def hompage():
     ''' View Homepage '''
-    return render_template('homepage.html')
+    return render_template('homepage.html', api_key=os.environ['TMDB_API_KEY'])
 
 # Login page /login
 @app.route('/login')
@@ -37,7 +38,25 @@ def show_results():
 
 
 # Kdrama Page
-# Person Page
+@app.route('/kdrama/<kdrama_id>')
+def show_kdrama(kdrama_id):
+    ''' View Page for specified Kdrama '''
+    return render_template('kdrama.html', kdrama_id=kdrama_id, api_key=os.environ['TMDB_API_KEY'])
+
+
+def shutdown_server():
+    '''Stop current Flask app'''
+    func = request.environ.get('werkzeug.server.shutdown')
+    if func is None:
+        raise RuntimeError('Not running with the Werkzeug Server')
+    func()
+
+# Shutdown route for debugging
+@app.route('/shutdown', methods=['GET'])
+def shutdown():
+    ''' Shutdown Flask app and display message '''
+    shutdown_server()
+    return 'Server shutting down...'
 
 if __name__ == '__main__':
     # DebugToolbarExtension(app)
