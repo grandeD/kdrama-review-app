@@ -1,6 +1,6 @@
 ''' Server for Korean Drama Review Web App '''
 from flask import (Flask, render_template, request, flash, session,
-                   redirect)
+                   redirect, jsonify)
 
 from model import connect_to_db
 import crud
@@ -23,11 +23,74 @@ def show_login():
     '''View Login/Create Account Page'''
     return render_template('login.html')
 
+@app.route('/logout')
+def logout():
+    '''Clear user session and redirect user to homepage'''
+    session.clear()
+    return redirect('/')
+
+
+def check_password(user, password):
+    if user.password == password:
+        session['user_id'] = user.user_id
+        return {'status': 'success', 'message': 'Successfully logged in', 'user_id': user.user_id}
+    else:
+        return {'status': 'error', 'message': 'Password is incorrect'}
+
+@app.route('/login.json', methods=['POST'])
+def login_user():
+    '''Log in user'''
+    response = {'status': 'success', 'message': 'User logged in'}
+    email = request.get_json().get("email")
+    username = request.get_json().get("username")
+    password = request.get_json().get("password")
+
+    check_email = crud.get_user_by_email(email)
+    check_username = crud.get_user_by_username(username)
+
+    if email and not check_email:
+        response = {'status': 'error', 'message': 'Email does not exist'}
+    else:
+        response = check_password(check_email, password)
+    if username and not check_username:
+        response = {'status': 'error', 'message': 'Username does not exist'}
+    else:
+        response = check_password(check_username, password)
+
+    return jsonify(response)
+
+
+@app.route('/create-user.json', methods=['POST'])
+def create_account():
+    """Create an account"""
+    response = {'status': 'success', 'message': 'Account successfully created'}
+
+    fname = request.get_json().get("fname")
+    lname = request.get_json().get("lname")
+    email = request.get_json().get("email")
+    username = request.get_json().get("username")
+    password = request.get_json().get("password")
+
+    check_email = crud.get_user_by_email(email)
+    check_username = crud.get_user_by_username(username)
+
+    if check_email:
+        response = {'status': 'error', 'message': 'Email taken'}
+    elif check_username:
+        response = {'status': 'error', 'message': 'Username taken'}
+    else:
+        crud.create_user(fname, lname, email, password, username)
+
+    return jsonify(response)
+
+
+
 # Account Page /profile
 @app.route('/profile')
 def show_profile():
     '''View Account Page'''
-    return render_template('profile.html')
+    user = crud.get_user_by_id(session.get('user_id'))
+    return render_template('profile.html', user=user)
 
 # Search Results Page /search and /results
 @app.route('/search')

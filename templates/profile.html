@@ -6,6 +6,11 @@
 
 <div>
    <h1>Your Account</h1>
+   {% if user %}
+      <h2>{{user.fname}} {{user.lname}}</h2>
+      <h3>{{user.username}}</h3>
+      <h3>{{user.email}}</h3>
+   {% endif %}
 </div>
 
 {% endblock %}

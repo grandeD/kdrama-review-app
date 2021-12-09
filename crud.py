@@ -27,6 +27,12 @@ def get_user_by_email(email):
     user = User.query.filter(User.email == email).first()
     return user
 
+def get_user_by_username(username):
+    '''Return a user by username'''
+
+    user = User.query.filter(User.username == username).first()
+    return user
+
 def create_kdrama(kdrama_id, title, overview, release_date, poster_path):
     """Create and return a new kdrama."""
 
