@@ -2,8 +2,14 @@
 
 {% block title %}Koreview{% endblock %}
 
+{% block css %}
+<link href="/static/css/kdrama.css" rel="stylesheet">
+{% endblock %}
+
+
 {% block js %}
 <script src="/static/js/kdramaInfo.jsx" type="text/jsx"></script>
+<script src="/static/js/userreviews.jsx" type="text/jsx"></script>
 {% endblock %}
 
 {% block data_attributes %}
@@ -15,6 +21,8 @@
 
 <div>
    <div class='content'>
+   </div>
+   <div class='user_revs'>
    </div>
 </div>
 

@@ -8,6 +8,8 @@ import crud
 from jinja2 import StrictUndefined
 import os
 
+from datetime import datetime
+
 app = Flask(__name__)
 app.secret_key = 'thebestkoreandramareviewsiteever'
 app.jinja_env.undefined = StrictUndefined
@@ -106,6 +108,41 @@ def show_results():
 def show_kdrama(kdrama_id):
     ''' View Page for specified Kdrama '''
     return render_template('kdrama.html', kdrama_id=kdrama_id, api_key=os.environ['TMDB_API_KEY'])
+
+@app.route('/reviews.json/<kdrama_id>')
+def get_reviews(kdrama_id):
+    ''' Get reviews for Kdrama '''
+    reviews = []
+    revs = crud.get_reviews(kdrama_id)
+    for rev in revs:
+        reviews.append({'username': rev.user.username,
+                        'user_id': rev.user.user_id,
+                        'rating': rev.rating, 'content': rev.content,
+                        'review_date': rev.review_date.strftime('%m/%d/%Y - %H:%M')})
+    
+    return jsonify({'status': 'success', 'reviews': reviews})
+
+
+@app.route('/create-review.json', methods=['POST'])
+def create_review():
+    """Create an review of kdrama for user and return new list of reviews"""
+    user_id = session.get('user_id')
+    if not user_id:
+        return jsonfify({   'status': 'error', 
+                            'message': 'Please login to create review'})
+
+
+    rating = request.get_json().get("rating")
+    content = request.get_json().get("content")
+    kdrama_id = request.get_json().get("kdrama_id")
+
+    review = crud.create_review(rating, content, user_id, kdrama_id)
+    rev_json = {'username': review.user.username,
+                        'user_id': review.user.user_id,
+                        'rating': review.rating, 'content': review.content,
+                        'review_date': review.review_date.strftime('%m/%d/%Y - %H:%M')}
+
+    return jsonify({'status': 'success', 'review': rev_json})
 
 
 def shutdown_server():

@@ -1,7 +1,7 @@
 """Models for kdrama review app."""
 
 from flask_sqlalchemy import SQLAlchemy
-
+from datetime import datetime
 db = SQLAlchemy()
 
 class User(db.Model):
@@ -52,7 +52,7 @@ class Review(db.Model):
 
     rating = db.Column(db.Integer, nullable=False)
     edited = db.Column(db.Boolean, nullable=False, default=False)
-    review_date = db.Column(db.DateTime, nullable=False, default=False)
+    review_date = db.Column(db.DateTime, nullable=False, default=datetime.now())
     content = db.Column(db.String, nullable=True)
 
     upvotes = db.Column(db.Integer, nullable=False, default=0)

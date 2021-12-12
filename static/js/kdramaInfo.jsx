@@ -1,11 +1,13 @@
 'use strict';
-
+const kdrama_id = document.querySelector('#data').dataset.kdrama_id;
+ 
+const TMDB_IMAGE_URL = 'https://image.tmdb.org/t/p/original/';
 // Card view component of a specific korean drama
 const KdramaCard = (props) => {
     return(
     <div className='card'>
         <a href={`/kdrama/${props.kdrama_id}`}>
-        <img style={{height: '200px'}} src={`https://image.tmdb.org/t/p/original/${props.poster_path}`} alt='Kdrama Poster' />
+        <img style={{height: '200px'}} src={`${TMDB_IMAGE_URL}${props.poster_path}`} alt='Kdrama Poster' />
         </a>
         <p>{props.title}</p>
     </div>
@@ -17,7 +19,7 @@ const CastCard = (props) => {
     return(
     <div className='card'>
         <a href={`/cast/${props.cast_id}`}>
-        <img style={{height: '150px'}} src={`https://image.tmdb.org/t/p/original/${props.profile_path}`} alt={name} />
+        <img style={{height: '150px'}} src={`${TMDB_IMAGE_URL}${props.profile_path}`} alt={props.name} />
         </a>
         <p>{props.name}</p>
         <p>Character: {props.character}</p>
@@ -29,17 +31,19 @@ const CastCard = (props) => {
 const HeadContent = (props) => {
     return(
     <div className='top'>
-        <img style={{height: '400px'}} src={`https://image.tmdb.org/t/p/original/${props.backdrop_path}`} alt='Kdrama Backdrop' />
-        <img style={{height: '200px'}} src={`https://image.tmdb.org/t/p/original/${props.poster_path}`} alt='Kdrama Poster' />
+        <img style={{height: '400px'}} src={`${TMDB_IMAGE_URL}${props.backdrop_path}`} alt='Kdrama Backdrop' />
+        <img style={{height: '200px'}} src={`${TMDB_IMAGE_URL}${props.poster_path}`} alt='Kdrama Poster' />
 
         <h2>{props.title}</h2>
         <p>First Air Date: {props.first_air_date}</p>
 
         <h3>Overview</h3>
         <p>{props.overview}</p>
+
     </div>
     );
 }
+
 
 // Displays basic kdrama info, cast members and similar kdramas if any
 const KdramaInfo = (props) =>  {
@@ -136,7 +140,7 @@ const KdramaInfo = (props) =>  {
     );
 }
 
-const kdrama_id = document.querySelector('#data').dataset.kdrama_id;
+// const kdrama_id = document.querySelector('#data').dataset.kdrama_id;
 const api_key = document.querySelector('#data').dataset.api_key;
 ReactDOM.render(<KdramaInfo kdrama_id={kdrama_id} api_key={api_key}/>, document.querySelector('.content'));
 

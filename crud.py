@@ -1,5 +1,5 @@
 """CRUD operations"""
-from model import db, User, Kdrama, connect_to_db
+from model import db, User, Kdrama, Review, connect_to_db
 
 def create_user(fname, lname, email, password, username):
     """Create and return a new user"""
@@ -54,6 +54,21 @@ def get_kdrama_by_id(kdrama_id):
 def get_kdrama_by_title(title):
     ''' Return a kdrama based off title '''
     return Kdrama.query.filter(Kdrama.title.ilike(f'%{title}%')).all()
+
+def get_reviews(kdrama_id):
+    ''' Return a list of reviews based off kdrama_id '''
+    kdrama = get_kdrama_by_id(kdrama_id)
+    return kdrama.reviews
+
+def create_review(rating, content, user_id, kdrama_id):
+    ''' Creates and returns a new rating by a user ''' 
+
+    review = Review(rating=rating, content=content, user_id=user_id, kdrama_id = kdrama_id)
+
+    db.session.add(review)
+    db.session.commit()
+
+    return review
 
 
 if __name__ == '__main__':
