@@ -64,7 +64,7 @@ def login_user():
 
 @app.route('/create-user.json', methods=['POST'])
 def create_account():
-    """Create an account"""
+    """Creates an account"""
     response = {'status': 'success', 'message': 'Account successfully created'}
 
     fname = request.get_json().get("fname")
@@ -85,11 +85,29 @@ def create_account():
 
     return jsonify(response)
 
+@app.route('/get-user-id.json')
+def get_user_id():
+    ''' Gets user_id by email or username '''
+    email = request.args.get("email")
+    username = request.args.get("username")
+
+    if email:
+        user = crud.get_user_by_email(email)
+    elif username:
+        user = crud.get_user_by_username(username)
+    else:
+        return jsonify({'status': 'error', 'message': 'Invalid request, must send email or username in body'})
+
+    if user:
+        return jsonify({'status': 'success', 'user_id': user.user_id, 'message': 'Found user'})
+    else:
+        return jsonify({'status': 'error', 'message': 'No user with email/username'})
 
 
 # Account Page /profile
 @app.route('/profile')
 def show_profile():
+    '''Shows the profile of the user that is currently in session'''
     '''View Account Page'''
     user = crud.get_user_by_id(session.get('user_id'))
     return render_template('profile.html', user=user)
