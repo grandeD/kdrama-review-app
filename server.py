@@ -31,6 +31,11 @@ def logout():
     session.clear()
     return redirect('/')
 
+@app.route('/discover')
+def show_discover():
+    ''' View Discover Page '''
+    return render_template('discover.html', api_key=os.environ['TMDB_API_KEY'])   
+
 
 def check_password(user, password):
     if user.password == password:

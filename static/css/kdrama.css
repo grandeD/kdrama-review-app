@@ -1,12 +1,56 @@
-button {
+#star {
     background-color: transparent;
     border: none;
     outline: none;
     cursor: pointer;
   }
-  .on {
+#star.on {
     color: gold;
   }
-  .off {
+#star.off {
     color: #ccc;
   }
+
+
+#genre {
+    /* background-color: transparent; */
+    border: none;
+    outline: none;
+    /* cursor: pointer; */
+    color: black;
+    padding: 0.5em;
+  }
+ #genre.on {
+    background-color: lightskyblue;
+  }
+ #genre.off {
+    background-color: #ccc;
+  }
+
+
+.flex-gap {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 1.5em;
+}
+
+.pagination {
+  display: inline-block;
+}
+
+.pagination button {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+  transition: background-color .3s;
+  border: 1px solid #ddd;
+}
+
+.pagination button.active {
+  background-color: #4CAF50;
+  color: white;
+  border: 1px solid #4CAF50;
+}
+
+.pagination button:hover:not(.active):enabled {background-color: #ddd;}
