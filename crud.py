@@ -60,6 +60,16 @@ def get_reviews(kdrama_id):
     kdrama = get_kdrama_by_id(kdrama_id)
     return kdrama.reviews
 
+def get_review(user_id, kdrama_id):
+    ''' Return a review based of user_id and kdrama_id '''
+    review = Review.query.filter(Review.user_id == user_id, Review.kdrama_id == kdrama_id).first()
+    return review
+
+def get_reviews_for_user(user_id):
+    ''' Get reviews created by a user '''
+    user = get_user_by_id(user_id)
+    return user.reviews
+
 def create_review(rating, content, user_id, kdrama_id):
     ''' Creates and returns a new rating by a user ''' 
 
@@ -68,6 +78,16 @@ def create_review(rating, content, user_id, kdrama_id):
     db.session.add(review)
     db.session.commit()
 
+    return review
+
+def update_review(rating, content, review_id):
+    ''' Updates values of review and returns updated review ''' 
+
+    review = Review.query.get(review_id)
+    review.update(rating, content)
+
+
+    db.session.commit()
     return review
 
 

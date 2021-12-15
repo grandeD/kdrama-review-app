@@ -138,17 +138,37 @@ def get_reviews(kdrama_id):
     reviews = []
     revs = crud.get_reviews(kdrama_id)
     for rev in revs:
-        reviews.append({'username': rev.user.username,
+        reviews.append({'review_id': rev.review_id,
+                        'username': rev.user.username,
                         'user_id': rev.user.user_id,
                         'rating': rev.rating, 'content': rev.content,
                         'review_date': rev.review_date.strftime('%m/%d/%Y - %H:%M')})
     
     return jsonify({'status': 'success', 'reviews': reviews})
 
+@app.route('/user-review.json/<kdrama_id>')
+def get_user_review(kdrama_id):
+    ''' Get a review for a Kdrama for a specific user'''
+    user_id = session.get('user_id')
+    if not user_id:
+        return jsonify({   'status': 'login', 
+                            'message': 'Please login to create review'})
+
+    review = crud.get_review(user_id, kdrama_id)
+    if review:
+        result = {'review_id': review.review_id,
+                'username': review.user.username,
+                'user_id': review.user.user_id,
+                'rating': review.rating, 'content': review.content,
+                'review_date': review.review_date.strftime('%m/%d/%Y - %H:%M')}
+        return jsonify({'status': 'success', 'review': result})
+    
+    return jsonify({'status': 'none', 'message': 'no review for user from this drama'})
+
 
 @app.route('/create-review.json', methods=['POST'])
 def create_review():
-    """Create an review of kdrama for user and return new list of reviews"""
+    """Create an review of kdrama for user and return that review"""
     user_id = session.get('user_id')
     if not user_id:
         return jsonfify({   'status': 'error', 
@@ -161,6 +181,22 @@ def create_review():
 
     review = crud.create_review(rating, content, user_id, kdrama_id)
     rev_json = {'username': review.user.username,
+                        'user_id': review.user.user_id,
+                        'rating': review.rating, 'content': review.content,
+                        'review_date': review.review_date.strftime('%m/%d/%Y - %H:%M')}
+
+    return jsonify({'status': 'success', 'review': rev_json})
+
+
+@app.route('/update-review.json', methods=['POST'])
+def update_review():
+    """Updates an existing review of kdrama for user and returns updated review"""
+    rating = request.get_json().get("rating")
+    content = request.get_json().get("content")
+    review_id = request.get_json().get("review_id")
+
+    review = crud.update_review(rating, content, review_id)
+    rev_json = {'review_id': review.review_id, 'username': review.user.username,
                         'user_id': review.user.user_id,
                         'rating': review.rating, 'content': review.content,
                         'review_date': review.review_date.strftime('%m/%d/%Y - %H:%M')}
