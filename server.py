@@ -38,6 +38,7 @@ def show_discover():
 
 
 def check_password(user, password):
+    print(user)
     if user.password == password:
         session['user_id'] = user.user_id
         return {'status': 'success', 'message': 'Successfully logged in', 'user_id': user.user_id}
@@ -51,17 +52,19 @@ def login_user():
     email = request.get_json().get("email")
     username = request.get_json().get("username")
     password = request.get_json().get("password")
+    print(email, username, password)
 
     check_email = crud.get_user_by_email(email)
     check_username = crud.get_user_by_username(username)
+    print(check_username)
 
     if email and not check_email:
         response = {'status': 'error', 'message': 'Email does not exist'}
-    else:
+    elif check_email:
         response = check_password(check_email, password)
     if username and not check_username:
         response = {'status': 'error', 'message': 'Username does not exist'}
-    else:
+    elif check_username:
         response = check_password(check_username, password)
 
     return jsonify(response)
@@ -171,7 +174,7 @@ def create_review():
     """Create an review of kdrama for user and return that review"""
     user_id = session.get('user_id')
     if not user_id:
-        return jsonfify({   'status': 'error', 
+        return jsonify({   'status': 'error', 
                             'message': 'Please login to create review'})
 
 
@@ -180,10 +183,11 @@ def create_review():
     kdrama_id = request.get_json().get("kdrama_id")
 
     review = crud.create_review(rating, content, user_id, kdrama_id)
-    rev_json = {'username': review.user.username,
+    rev_json = {'review_id': review.review_id, 'username': review.user.username,
                         'user_id': review.user.user_id,
                         'rating': review.rating, 'content': review.content,
-                        'review_date': review.review_date.strftime('%m/%d/%Y - %H:%M')}
+                        'review_date': review.review_date.strftime('%m/%d/%Y - %H:%M')
+                        }
 
     return jsonify({'status': 'success', 'review': rev_json})
 
@@ -202,6 +206,59 @@ def update_review():
                         'review_date': review.review_date.strftime('%m/%d/%Y - %H:%M')}
 
     return jsonify({'status': 'success', 'review': rev_json})
+
+@app.route('/create-playlist.json', methods=['POST'])
+def create_playlist():
+    """Create an new playlist for a user"""
+    user_id = session.get('user_id')
+    if not user_id:
+        return jsonify({   'status': 'error', 
+                            'message': 'Please login to create playlist'})
+
+
+    title = request.get_json().get("title")
+    content = request.get_json().get("content")
+
+    playlist = crud.create_playlist(user_id, title, content)
+    pl_json = {'playlist_id': playlist.playlist_id,
+                'title': playlist.title,
+                'content': playlist.content
+                }
+
+    return jsonify({'status': 'success', 'playlist': pl_json})
+
+@app.route('/user_playlists.json')
+def get_playlists():
+    ''' Get playlists created by user '''
+    playlists = []
+    pls = crud.get_user_playlists(session.get('user_id'))
+    for pl in pls:
+        playlists.append({'playlist_id': pl.playlist_id,
+                        'title': pl.title,
+                        'content': pl.content})
+    
+    return jsonify({'status': 'success', 'playlists': playlists})
+
+@app.route('/add-to-playlist.json', methods=['POST'])
+def add_to_playlist():
+    """Adds a new playlist entry to a playlist"""
+    user_id = session.get('user_id')
+    if not user_id:
+        return jsonify({   'status': 'error', 
+                            'message': 'Please login to add to playlist'})
+
+    playlist_id = request.get_json().get("playlist_id")
+    kdrama_id = request.get_json().get("kdrama_id")
+    existing_ple = crud.get_playlist_entry(kdrama_id, playlist_id)
+    if existing_ple:
+        print(existing_ple)
+        return jsonify({  'status': 'error', 
+                    'message': 'Kdrama already in playlist'})
+
+    playlist_entry = crud.create_playlist_entry(kdrama_id, playlist_id)
+    ple_json = {'playlist_entry_id': playlist_entry.playlist_entry_id}
+
+    return jsonify({'status': 'success', 'playlist_entry': ple_json, 'message': 'Added to playlist'})
 
 
 def shutdown_server():

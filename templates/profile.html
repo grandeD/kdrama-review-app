@@ -10,6 +10,25 @@
       <h2>{{user.fname}} {{user.lname}}</h2>
       <h3>{{user.username}}</h3>
       <h3>{{user.email}}</h3>
+
+      <h3>Your Reviews</h3>
+      {%for review in user.reviews%}
+      <div>
+         <h4>{{review.kdrama.title}}</h4>
+         <p>Rating: {{review.rating}}</p>
+         <p>Content: {{review.content}}</p>
+      </div>
+      {%endfor%}
+
+      <h3>Your Playlists</h3>
+      {%for playlist in user.playlists%}
+      <div>
+         <h4>{{playlist.title}}</h4>
+         {%for ple in playlist.playlistentries%}
+         <p>  -  {{ple.kdrama.title}}</p>
+         {% endfor %}
+      </div>
+      {%endfor%}
    {% endif %}
 </div>
 

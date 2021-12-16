@@ -18,6 +18,7 @@ class User(db.Model):
     image_path = db.Column(db.String, unique=True, nullable=True)
 
     reviews = db.relationship('Review', back_populates='user')
+    playlists = db.relationship('Playlist', back_populates='user')
 
     def __repr__(self):
         return f'<User user_id={self.user_id} email={self.email} name={self.fname} {self.lname}>'
@@ -35,6 +36,7 @@ class Kdrama(db.Model):
     poster_path = db.Column(db.String, nullable=True)
 
     reviews = db.relationship('Review', back_populates='kdrama')
+    playlistentries = db.relationship('PlaylistEntry', back_populates='kdrama')
     
     def __repr__(self):
         return f'<Kdrama kdrama_id={self.kdrama_id} title={self.title}>'
@@ -71,6 +73,36 @@ class Review(db.Model):
     
     def downvote(self, amount):
         self.downvotes += amount
+
+class Playlist(db.Model):
+    """A Kdrama Playlist """
+    __tablename__ = "playlists"
+
+    playlist_id = db.Column(db.Integer, autoincrement = True, primary_key = True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
+    title = db.Column(db.String, nullable=False)
+    content = db.Column(db.String, nullable=True)
+    followers = db.Column(db.Integer, nullable=False, default=0)
+
+    user = db.relationship('User', back_populates='playlists')
+    playlistentries = db.relationship('PlaylistEntry', back_populates='playlist')
+
+    def __repr__(self):
+        return f'<Playlist playlist_id={self.playlist_id} title={self.title}'
+
+class PlaylistEntry(db.Model):
+    """A Kdrama Playlist Entry"""
+    __tablename__ = "playlistentries"
+
+    playlist_entry_id = db.Column(db.Integer, autoincrement = True, primary_key = True)
+    playlist_id = db.Column(db.Integer, db.ForeignKey('playlists.playlist_id'))
+    kdrama_id = db.Column(db.Integer, db.ForeignKey('kdramas.kdrama_id'))
+
+    kdrama = db.relationship('Kdrama', back_populates='playlistentries')
+    playlist = db.relationship('Playlist', back_populates='playlistentries')
+
+    def __repr__(self):
+        return f'<PlaylistEntry playlist_entry_id={self.playlist_entry_id}'
 
 def connect_to_db(flask_app, db_uri="postgresql:///kdrama-review-db", echo=True):
     flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri

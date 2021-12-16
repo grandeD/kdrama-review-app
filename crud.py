@@ -1,5 +1,5 @@
 """CRUD operations"""
-from model import db, User, Kdrama, Review, connect_to_db
+from model import db, User, Kdrama, Review, Playlist, PlaylistEntry, connect_to_db
 
 def create_user(fname, lname, email, password, username):
     """Create and return a new user"""
@@ -71,7 +71,7 @@ def get_reviews_for_user(user_id):
     return user.reviews
 
 def create_review(rating, content, user_id, kdrama_id):
-    ''' Creates and returns a new rating by a user ''' 
+    ''' Creates and returns a new review by a user ''' 
 
     review = Review(rating=rating, content=content, user_id=user_id, kdrama_id = kdrama_id)
 
@@ -86,9 +86,35 @@ def update_review(rating, content, review_id):
     review = Review.query.get(review_id)
     review.update(rating, content)
 
-
     db.session.commit()
     return review
+
+def create_playlist(user_id, title, content):
+    '''Creates and returns a new playlist by a user '''
+    playlist = Playlist(user_id=user_id, title=title, content=content)
+    db.session.add(playlist)
+    db.session.commit()
+
+    return playlist
+
+def create_playlist_entry(kdrama_id, playlist_id):
+    ''' Creates and returns a new playlist entry '''
+    playlist_entry = PlaylistEntry(playlist_id=playlist_id, kdrama_id=kdrama_id)
+    db.session.add(playlist_entry)
+    db.session.commit()
+
+    return playlist_entry
+
+def get_playlist_entry(kdrama_id, playlist_id):
+    ''' Returns if there is an entry with kdrama and playlist id'''
+    playlist_entry = PlaylistEntry.query.filter(PlaylistEntry.playlist_id==playlist_id, PlaylistEntry.kdrama_id==kdrama_id).first()
+    return playlist_entry
+
+def get_user_playlists(user_id):
+    '''Returns the playlists of a user '''
+    user = get_user_by_id(user_id)
+    return user.playlists
+
 
 
 if __name__ == '__main__':
