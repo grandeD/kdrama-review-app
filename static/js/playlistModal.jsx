@@ -8,7 +8,7 @@ const PlaylistModal = (props) => {
 
 
     React.useEffect(() => {
-        // grabs all user playlists 
+        // grabs all user playlists and assigns to state
         fetch(`/user_playlists.json`)
         .then(response => response.json())
         .then(data => {
@@ -17,49 +17,45 @@ const PlaylistModal = (props) => {
         });
     }, []);
 
-    const showModal = () => {
-        setModal(true);
-    };
 
     const closeModal = () => {
         setModal(false);
-        setCreatePlaylist(false);
+        setCreatePlaylist(false); // resets modal create playlist to false
     };
 
-    const showCreatePlaylist = () => {
-        setCreatePlaylist(true);
-    };
-
+    // Creates new playlist and adds to state to update playlist cards
     const submitPlaylist = (e) => {
         e.preventDefault();
-        
-        fetch('/create-playlist.json', {
-            method: 'POST',
-            headers: {
-            'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({'title': e.target.title.value, 'content': '' }),
-        }).then(response => {
-            response.json().then(res=> {
-                console.log(res);
-                if (res.status === 'success') {
-                    // add res.playlist to list of playlists
-                    setUserPlaylists([res.playlist, ...userPlaylists]);
-                }
-                setCreatePlaylist(false);
+        // checks if there is an existing title
+        if (e.target.title.value !== '') {
+            fetch('/create-playlist.json', {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({'title': e.target.title.value, 'content': '' }),
+            }).then(response => {
+                response.json().then(res=> {
+                    console.log(res);
+                    if (res.status === 'success') {
+                        // add res.playlist to list of playlists
+                        setUserPlaylists([res.playlist, ...userPlaylists]);
+                    }
+                });
             });
-        });
-
+        }
         setCreatePlaylist(false);
     }
 
-    const addToPlaylist = (e) => {
+    // Attempts to add the current kdrama to passed in playlist id
+    // sets state message of successful or unsuccessful add
+    const addToPlaylist = (playlist_id) => {
         fetch('/add-to-playlist.json', {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',
             },
-            body: JSON.stringify({'kdrama_id': props.kdrama_id, 'playlist_id': e.target.name }),
+            body: JSON.stringify({'kdrama_id': props.kdrama_id, 'playlist_id': playlist_id}),
         }).then(response => {
             response.json().then(res=> {
                 console.log(res);
@@ -73,12 +69,13 @@ const PlaylistModal = (props) => {
 
     const plCards = [];
 
-    for (const ndx in userPlaylists) {
+    for (const playlist of userPlaylists) {
         plCards.push(
-            <div key={ndx}>
-                <button onClick={addToPlaylist} name={userPlaylists[ndx].playlist_id}>
-                    {userPlaylists[ndx].title}</button>
-                
+            <div key={playlist.playlist_id}>
+                <button onClick={() => addToPlaylist(playlist.playlist_id)}>
+                    <i className="fas fa-plus-square"></i>
+                </button>
+                <p>{playlist.title}</p>
             </div>
         );
     }
@@ -88,7 +85,6 @@ const PlaylistModal = (props) => {
         { modal ? 
         <div className='modal'>
             <section className='modal-main'>
-                Hi Diana! {props.kdrama_id}
                 
                 {createPlaylist ? <div>
                     <form onSubmit={submitPlaylist}>
@@ -97,7 +93,7 @@ const PlaylistModal = (props) => {
                     </form>
                     </div>
                     :
-                    <button onClick={showCreatePlaylist}>Create Playlist</button>    
+                    <button onClick={() => setCreatePlaylist(true)}>Create Playlist</button>    
                 }
                 {plCards}
 
@@ -108,7 +104,7 @@ const PlaylistModal = (props) => {
         </div>
         :
         <div> 
-            <button onClick={showModal}>Add to List</button>
+            <button onClick={() => setModal(true)}>Add to List</button>
             <p>{message}</p>
         </div>
 

@@ -1,11 +1,17 @@
 'use strict';
 const kdrama_id = document.querySelector('#data').dataset.kdrama_id;
 
-const UserReviews = () => {
+// component to allow user to see kdrama reviews and input their own
+const KdramaReviews = () => {
+
+    // Rating and content - vars for user review input
     const [rating, setRating] = React.useState(0);
+    const [content, setContent] = React.useState('');
+    // Hover determines which stars in input rating should be filled in
     const [hover, setHover] = React.useState(0);
-    const [content, setContent] = React.useState(0);
+    // kdrama reviews of all users
     const [reviews, setReviews] = React.useState([]);
+    // userReview if user already has one, showInput will disable input if user has review
     const [userReview, setReview] = React.useState({});
     const [showInput, setInput] = React.useState(true);
 
@@ -31,9 +37,11 @@ const UserReviews = () => {
 
     }, []);
 
+    // Submits user input to database and updates state
     const handleSubmit = (event) => {
         event.preventDefault();
 
+        // if a user review exists, updates the existing review in the db
         if (userReview.review_id) {
             fetch('/update-review.json', {
                 method: 'POST',
@@ -50,6 +58,7 @@ const UserReviews = () => {
                 });
             });
         }
+        // Create review and submit to db
         else if(rating > 0) {
             fetch('/create-review.json', {
                 method: 'POST',
@@ -70,6 +79,8 @@ const UserReviews = () => {
 
     };
 
+    // If user wants to edit existing review, will enable input
+    // and set the placeholder values to existing review content and rating
     const handleEdit = (event) => {
         setInput(true);
         setRating(userReview.rating);
@@ -78,7 +89,7 @@ const UserReviews = () => {
 
 
     const revCards = [];
-
+    // Review cards of Kdrama reviews by all users
     for (const ndx in reviews) {
         if (userReview.review_id !== reviews[ndx].review_id)
         revCards.push(
@@ -133,4 +144,4 @@ const UserReviews = () => {
     );
 };
 
-ReactDOM.render(<UserReviews/>, document.querySelector('.user_revs'));
+ReactDOM.render(<KdramaReviews/>, document.querySelector('#kdrama_revs'));
