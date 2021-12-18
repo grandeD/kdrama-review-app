@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Kdrama Review App{% endblock %}
+
+{% block css %}
+<link href="/static/css/playlists.css" rel="stylesheet">
+<link href="/static/css/kdrama.css" rel="stylesheet">
+{% endblock %}
+
+
+{% block js %}
+<script src="/static/js/playlist.jsx" type="text/jsx"></script>
+{% endblock %}
+
+{% block data_attributes %}
+<meta id='data' data-playlist_id={{playlist_id}}>
+{% endblock %}
+
+
+{% block body %}
+
+<div class='content'>
+</div>
+
+{% endblock %}

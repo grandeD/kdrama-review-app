@@ -115,6 +115,30 @@ def get_user_playlists(user_id):
     user = get_user_by_id(user_id)
     return user.playlists
 
+def get_user_playlist(user_id, playlist_id):
+    '''Returns the playlists of a user '''
+    playlist = Playlist.query.get(playlist_id)
+    if playlist:
+        if playlist.user_id != user_id: return None
+    return playlist
+
+def delete_playlist_entry(playlist_entry_id):
+    ''' Deletes playlist entry '''
+    entry = PlaylistEntry.query.get(playlist_entry_id)
+    db.session.delete(entry)
+    db.session.commit()
+
+
+def update_playlist(playlist_id, title, content):
+    ''' Updates values of playlist and returns updated playlist ''' 
+
+    playlist = Playlist.query.get(playlist_id)
+    playlist.title = title
+    playlist.content = content
+
+    db.session.commit()
+    return playlist
+
 
 
 if __name__ == '__main__':

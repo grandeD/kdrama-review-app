@@ -2,6 +2,23 @@
 
 {% block title %}Kdrama Review App{% endblock %}
 
+
+
+{% block css %}
+<link href="/static/css/playlists.css" rel="stylesheet">
+{% endblock %}
+
+
+{% block js %}
+<script src="/static/js/userPlaylists.jsx" type="text/jsx"></script>
+<!-- <script src="/static/js/userReviews.jsx" type="text/jsx"></script> -->
+{% endblock %}
+
+{% block data_attributes %}
+<meta id='data' data-api_key={{api_key}}>
+{% endblock %}
+
+
 {% block body %}
 
 <div>
@@ -11,22 +28,18 @@
       <h3>{{user.username}}</h3>
       <h3>{{user.email}}</h3>
 
+      <h3>Your Playlists</h3>
+      <div id='user_playlists' class='flex-container'></div>
+
       <h3>Your Reviews</h3>
+      <div id='user_reviews'></div>
       {%for review in user.reviews%}
       <div>
          <h4>{{review.kdrama.title}}</h4>
          <p>Rating: {{review.rating}}</p>
+         {% if review.content != '0' and review.content != ''%}
          <p>Content: {{review.content}}</p>
-      </div>
-      {%endfor%}
-
-      <h3>Your Playlists</h3>
-      {%for playlist in user.playlists%}
-      <div>
-         <h4>{{playlist.title}}</h4>
-         {%for ple in playlist.playlistentries%}
-         <p>  -  {{ple.kdrama.title}}</p>
-         {% endfor %}
+         {% endif %}
       </div>
       {%endfor%}
    {% endif %}

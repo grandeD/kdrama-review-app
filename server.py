@@ -38,7 +38,6 @@ def show_discover():
 
 
 def check_password(user, password):
-    print(user)
     if user.password == password:
         session['user_id'] = user.user_id
         return {'status': 'success', 'message': 'Successfully logged in', 'user_id': user.user_id}
@@ -52,11 +51,9 @@ def login_user():
     email = request.get_json().get("email")
     username = request.get_json().get("username")
     password = request.get_json().get("password")
-    print(email, username, password)
 
     check_email = crud.get_user_by_email(email)
     check_username = crud.get_user_by_username(username)
-    print(check_username)
 
     if email and not check_email:
         response = {'status': 'error', 'message': 'Email does not exist'}
@@ -118,7 +115,7 @@ def show_profile():
     '''Shows the profile of the user that is currently in session'''
     '''View Account Page'''
     user = crud.get_user_by_id(session.get('user_id'))
-    return render_template('profile.html', user=user)
+    return render_template('profile.html', user=user,  api_key=os.environ['TMDB_API_KEY'])
 
 # Search Results Page /search and /results
 @app.route('/search')
@@ -235,7 +232,8 @@ def get_playlists():
     for pl in pls:
         playlists.append({'playlist_id': pl.playlist_id,
                         'title': pl.title,
-                        'content': pl.content})
+                        'content': pl.content,
+                        'amount': len(pl.playlistentries)})
     
     return jsonify({'status': 'success', 'playlists': playlists})
 
@@ -251,15 +249,65 @@ def add_to_playlist():
     kdrama_id = request.get_json().get("kdrama_id")
     existing_ple = crud.get_playlist_entry(kdrama_id, playlist_id)
     if existing_ple:
-        print(existing_ple)
         return jsonify({  'status': 'error', 
                     'message': 'Kdrama already in playlist'})
 
     playlist_entry = crud.create_playlist_entry(kdrama_id, playlist_id)
-    ple_json = {'playlist_entry_id': playlist_entry.playlist_entry_id}
+    ple_json = {'playlist_entry_id': playlist_entry.playlist_entry_id, 'playlist_id': playlist_entry.playlist_id}
 
     return jsonify({'status': 'success', 'playlist_entry': ple_json, 'message': 'Added to playlist'})
 
+# Playlist Page
+@app.route('/playlist/<playlist_id>')
+def show_playlist(playlist_id):
+    ''' View Page for specified Playlist '''
+    return render_template('playlist.html', playlist_id=playlist_id)
+
+
+@app.route('/user_playlist.json/<playlist_id>')
+def get_playlist(playlist_id):
+    ''' Get specified playlist created by user '''
+    playlist = crud.get_user_playlist(session.get('user_id'), playlist_id )
+
+    count = 0
+    entries = []
+    for entry in playlist.playlistentries:
+        count += 1
+        entries.append({'playlistentry_id': entry.playlist_entry_id,
+                        'kdrama_id': entry.kdrama.kdrama_id, 
+                        'title': entry.kdrama.title,
+                        'poster_path': entry.kdrama.poster_path })
+
+    info = {'playlist_id': playlist.playlist_id,
+            'title': playlist.title, 
+            'content': playlist.content, 
+            'amount': count}
+    
+    return jsonify({'status': 'success', 'info': info, 'entries': entries})
+
+@app.route('/delete-entry.json', methods=['POST'])
+def delete_playlist_entry():
+    """Delete specified playlist entry from playlist"""
+    playlist_entry_id = request.get_json().get("playlist_entry_id")
+    crud.delete_playlist_entry(playlist_entry_id)
+    return jsonify({'status': 'success', 'message': f'deleted playlist entry: {playlist_entry_id}'})
+
+
+@app.route('/update-playlist.json', methods=['POST'])
+def update_playlist():
+    """Updates an existing review of kdrama for user and returns updated review"""
+    title = request.get_json().get("title")
+    content = request.get_json().get("content")
+    playlist_id = request.get_json().get("playlist_id")
+
+    playlist = crud.update_playlist(playlist_id, title, content)
+    pl_json = { 'playlist_id':  playlist.playlist_id,
+                'title':        playlist.title,
+                'content':      playlist.content }
+
+    print(playlist, pl_json)
+
+    return jsonify({'status': 'success', 'playlist': pl_json})
 
 def shutdown_server():
     '''Stop current Flask app'''

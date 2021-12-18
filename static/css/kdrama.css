@@ -80,3 +80,9 @@
   gap: 1em;
 }
 
+#pl-info-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
