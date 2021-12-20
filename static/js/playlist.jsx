@@ -19,11 +19,14 @@ const Playlist = (props) => {
     // var to control showing the delete buttons for entries
     const [showDelete, setDelete] = React.useState(false);
     const [modal, setModal] = React.useState(false);
-    const [updateInfo, setUpdateInfo] = React.useState({title: '', content: ''})
+    const [updateInfo, setUpdateInfo] = React.useState({title: '', content: ''});
+    const [publicView, setPublicView] = React.useState(false);
+    const [edit, setEdit] = React.useState(false);
 
     React.useEffect(() => {
         // grabs playlist info and playlist entries 
-        fetch(`/user_playlist.json/${props.playlist_id}`)
+        let url = `/user_playlist.json/${props.playlist_id}`;
+        fetch(url)
         .then(response => response.json())
         .then(data => {
             console.log(data);
@@ -31,6 +34,7 @@ const Playlist = (props) => {
                 setInfo(data.info);
                 setUpdateInfo(data.info);
                 setEntries(data.entries);
+                setEdit(data.edit)
             }
         });
     }, []);
@@ -148,12 +152,13 @@ const Playlist = (props) => {
             </div>
             :
             <div> 
-                <button onClick={() => setModal(true)}>Edit Info</button>
+                {edit && 
+                <button onClick={() => setModal(true)}>Edit Info</button>}
             </div>
 
             }
             <br></br><br></br>
-            {!showDelete && <button onClick={() => setDelete(true)}>Edit Entries</button>}
+            {!showDelete && edit && <button onClick={() => setDelete(true)}>Edit Entries</button>}
             {showDelete && <button onClick={() => setDelete(false)}>Done</button>}
 
 

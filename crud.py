@@ -115,11 +115,9 @@ def get_user_playlists(user_id):
     user = get_user_by_id(user_id)
     return user.playlists
 
-def get_user_playlist(user_id, playlist_id):
-    '''Returns the playlists of a user '''
+def get_user_playlist(playlist_id):
+    '''Returns the playlist of a user '''
     playlist = Playlist.query.get(playlist_id)
-    if playlist:
-        if playlist.user_id != user_id: return None
     return playlist
 
 def delete_playlist_entry(playlist_entry_id):

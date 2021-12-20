@@ -18,7 +18,7 @@ const UserPlaylists = (props) => {
 
     React.useEffect(() => {
         // grabs all user playlists 
-        fetch(`/user_playlists.json`)
+        fetch(`/user_playlists.json/${props.user_id}`)
         .then(response => response.json())
         .then(data => {
             console.log(data);
@@ -47,4 +47,5 @@ const UserPlaylists = (props) => {
     );
 };
 
-ReactDOM.render(<UserPlaylists />, document.querySelector('#user_playlists'));
+const user_id = document.querySelector('#data').dataset.user_id;
+ReactDOM.render(<UserPlaylists user_id={user_id}/>, document.querySelector('#user_playlists'));

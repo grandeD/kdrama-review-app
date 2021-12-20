@@ -27,6 +27,9 @@ const LoginForm = () => {
                 console.log(jsonResponse)
                 setSubmitted(true);
                 setMessage(`${jsonResponse.status}: ${jsonResponse.message}`)
+                if (jsonResponse.status === 'success'){
+                    window.location = '/';
+                }
             });
           });
 

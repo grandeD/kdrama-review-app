@@ -110,12 +110,37 @@ def get_user_id():
 
 
 # Account Page /profile
+@app.route('/users')
+def show_users():
+    '''Shows the users of Koreview in list view'''
+    users = crud.get_users()
+    return render_template('users.html', users=users)
+
+# Account Page /profile
 @app.route('/profile')
 def show_profile():
     '''Shows the profile of the user that is currently in session'''
     '''View Account Page'''
     user = crud.get_user_by_id(session.get('user_id'))
     return render_template('profile.html', user=user,  api_key=os.environ['TMDB_API_KEY'])
+
+# Public profile page of specified user /profile
+@app.route('/profile/<user_id>')
+def show_user_profile(user_id):
+    '''Shows the public profile of specified user'''
+    user = crud.get_user_by_id(user_id)
+    # set edit to false so user cannot edit public user profile
+    return render_template('profile.html', user=user, edit=False, api_key=os.environ['TMDB_API_KEY'])
+
+# Account Page /account
+@app.route('/account')
+def show_user_account():
+    '''Shows the private account profile of specified user'''
+    user_id = session.get('user_id')
+    user = crud.get_user_by_id(user_id)
+    # set edit to true so user can edit their profile
+    return render_template('profile.html', user=user, edit=True,  api_key=os.environ['TMDB_API_KEY'])
+
 
 # Search Results Page /search and /results
 @app.route('/search')
@@ -225,10 +250,13 @@ def create_playlist():
     return jsonify({'status': 'success', 'playlist': pl_json})
 
 @app.route('/user_playlists.json')
-def get_playlists():
+@app.route('/user_playlists.json/<user_id>')
+def get_playlists(user_id=None):
     ''' Get playlists created by user '''
     playlists = []
-    pls = crud.get_user_playlists(session.get('user_id'))
+    if not user_id: user_id = session.get('user_id')
+
+    pls = crud.get_user_playlists(user_id)
     for pl in pls:
         playlists.append({'playlist_id': pl.playlist_id,
                         'title': pl.title,
@@ -257,6 +285,7 @@ def add_to_playlist():
 
     return jsonify({'status': 'success', 'playlist_entry': ple_json, 'message': 'Added to playlist'})
 
+
 # Playlist Page
 @app.route('/playlist/<playlist_id>')
 def show_playlist(playlist_id):
@@ -267,7 +296,8 @@ def show_playlist(playlist_id):
 @app.route('/user_playlist.json/<playlist_id>')
 def get_playlist(playlist_id):
     ''' Get specified playlist created by user '''
-    playlist = crud.get_user_playlist(session.get('user_id'), playlist_id )
+    playlist = crud.get_user_playlist( playlist_id )
+    current_user_id = session.get('user_id')
 
     count = 0
     entries = []
@@ -283,7 +313,11 @@ def get_playlist(playlist_id):
             'content': playlist.content, 
             'amount': count}
     
-    return jsonify({'status': 'success', 'info': info, 'entries': entries})
+    # session user matches playlist user, then edit is True
+    return jsonify({'status': 'success', 'info': info, 
+                    'entries': entries,
+                    'edit': current_user_id == playlist.user_id})
+
 
 @app.route('/delete-entry.json', methods=['POST'])
 def delete_playlist_entry():

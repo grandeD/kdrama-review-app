@@ -15,24 +15,34 @@
 {% endblock %}
 
 {% block data_attributes %}
-<meta id='data' data-api_key={{api_key}}>
+<meta id='data' data-api_key={{api_key}}
+                data-user_id={{user.user_id}}>
 {% endblock %}
 
 
 {% block body %}
 
 <div>
-   <h1>Your Account</h1>
    {% if user %}
       <h2>{{user.fname}} {{user.lname}}</h2>
       <h3>{{user.username}}</h3>
       <h3>{{user.email}}</h3>
 
-      <h3>Your Playlists</h3>
+      {%if edit%}
+         <h3>Your Playlists</h3>
+      {% else %}
+         <h3>{{user.username}}'s Playlists</h3>
+      {%endif%}
       <div id='user_playlists' class='flex-container'></div>
 
-      <h3>Your Reviews</h3>
+
+      {%if edit%}
+         <h3>Your Reviews</h3>
+      {% else %}
+         <h3>{{user.username}}'s Reviews</h3>
+      {%endif%}
       <div id='user_reviews'></div>
+      
       {%for review in user.reviews%}
       <div>
          <h4>{{review.kdrama.title}}</h4>

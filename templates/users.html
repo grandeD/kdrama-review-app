@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Koreview{% endblock %}
+
+{% block js %}
+{% endblock %}
+
+{% block data_attributes %}
+{% endblock %}
+
+{% block body %}
+
+<div>
+   <h1>Users</h1>
+   {%for user in users%}
+    <div>
+        <h3>{{user.fname}} {{user.lname}}</h3>
+        <h4>@{{user.username}}</h4>
+        <a href='profile/{{user.user_id}}'>Profile</a>
+    </div>
+
+   {%endfor%}
+</div>
+
+{% endblock %}
