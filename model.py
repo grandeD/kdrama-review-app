@@ -19,6 +19,7 @@ class User(db.Model):
 
     reviews = db.relationship('Review', back_populates='user')
     playlists = db.relationship('Playlist', back_populates='user')
+    followplaylists = db.relationship('FollowPlaylist', back_populates='user')
 
     def __repr__(self):
         return f'<User user_id={self.user_id} email={self.email} name={self.fname} {self.lname}>'
@@ -83,12 +84,20 @@ class Playlist(db.Model):
     title = db.Column(db.String, nullable=False)
     content = db.Column(db.String, nullable=True)
     followers = db.Column(db.Integer, nullable=False, default=0)
+    image_url = db.Column(db.String, nullable=True)
 
     user = db.relationship('User', back_populates='playlists')
     playlistentries = db.relationship('PlaylistEntry', back_populates='playlist')
+    followplaylists = db.relationship('FollowPlaylist', back_populates='playlist')
 
     def __repr__(self):
-        return f'<Playlist playlist_id={self.playlist_id} title={self.title}'
+        return f'<Playlist playlist_id={self.playlist_id} title={self.title}>'
+
+    def add_follower(self):
+        self.followers += 1
+    
+    def subtract_follower(self):
+        self.followers -= 1
 
 class PlaylistEntry(db.Model):
     """A Kdrama Playlist Entry"""
@@ -103,6 +112,17 @@ class PlaylistEntry(db.Model):
 
     def __repr__(self):
         return f'<PlaylistEntry playlist_entry_id={self.playlist_entry_id}'
+
+class FollowPlaylist(db.Model):
+    '''Playlist, User relationship, where user follows another user's playlist'''
+
+    __tablename__ = 'followplaylists'
+    follow_playlist_id = db.Column(db.Integer, autoincrement = True, primary_key = True)
+    playlist_id = db.Column(db.Integer, db.ForeignKey('playlists.playlist_id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+
+    playlist = db.relationship('Playlist', back_populates='followplaylists')
+    user = db.relationship('User', back_populates='followplaylists')
 
 def connect_to_db(flask_app, db_uri="postgresql:///kdrama-review-db", echo=True):
     flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri

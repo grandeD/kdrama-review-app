@@ -14,19 +14,18 @@ const KdramaCard = (props) => {
 
 const Playlist = (props) => {
 
-    const [playlistInfo, setInfo] = React.useState({title: '', content: '', amount: 0});
+    const [playlistInfo, setInfo] = React.useState({title: '', content: '', amount: 0, followers: 0, user_id:0, username:''});
     const [playlistEntries, setEntries] = React.useState([]);
     // var to control showing the delete buttons for entries
     const [showDelete, setDelete] = React.useState(false);
     const [modal, setModal] = React.useState(false);
     const [updateInfo, setUpdateInfo] = React.useState({title: '', content: ''});
-    const [publicView, setPublicView] = React.useState(false);
     const [edit, setEdit] = React.useState(false);
+    const [follow, setFollow] = React.useState({show: false, id: ''})
 
     React.useEffect(() => {
         // grabs playlist info and playlist entries 
-        let url = `/user_playlist.json/${props.playlist_id}`;
-        fetch(url)
+        fetch(`/user_playlist.json/${props.playlist_id}`)
         .then(response => response.json())
         .then(data => {
             console.log(data);
@@ -34,10 +33,25 @@ const Playlist = (props) => {
                 setInfo(data.info);
                 setUpdateInfo(data.info);
                 setEntries(data.entries);
-                setEdit(data.edit)
+                setEdit(data.edit);
+                if (!data.edit) { // current user is view another user's playlist
+                    checkFollow(); // check if they are following playlist and update state
+
+                }
             }
         });
     }, []);
+
+    const checkFollow = () => {
+        fetch(`/follow/${props.playlist_id}`)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            if (data.follow) {
+                setFollow({show: true, id:data.follow_playlist_id});
+            }
+        });
+    };
 
     const deleteEntry = (playlist_entry_id) => {
         // deletes playlist entry and updates state to show updated changes
@@ -85,8 +99,50 @@ const Playlist = (props) => {
 
             }
         });
+    };
 
+    const followPlaylist =() => {
+        // POST call to flask server to follow playlist
+        fetch('/follow-playlist.json', {
+            method: 'POST', 
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({'playlist_id': props.playlist_id})
+        }).then(response => response.json())
+        .then(res => {
+            console.log(res);
+            if(res.status === 'success') {
+                // update state values for playlistInfo
+                setInfo((playlistInfo) => ({
+                    ...playlistInfo,
+                    ['followers']: playlistInfo.followers + 1,
+                }));
+                setFollow({show: true, id:res.follow});
+            }
+        });
+    };
 
+    const unfollowPlaylist =() => {
+        // POST call to flask server to follow playlist
+        fetch('/unfollow-playlist.json', {
+            method: 'POST', 
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({'follow_playlist_id': follow.id})
+        }).then(response => response.json())
+        .then(res => {
+            console.log(res);
+            if(res.status === 'success') {
+                // update state values for playlistInfo
+                setInfo((playlistInfo) => ({
+                    ...playlistInfo,
+                    ['followers']: playlistInfo.followers - 1,
+                }));
+                setFollow({show: false, id:''});
+            }
+        });
     };
 
     // updates the state vars for input 
@@ -130,7 +186,8 @@ const Playlist = (props) => {
         <React.Fragment>
             <h1>{playlistInfo.title}</h1>
             {playlistInfo.content !== '' && <p>Description: {playlistInfo.content}</p>}
-
+            {!edit && <h2>Created by <a href={`/profile/${playlistInfo.user_id}`}>{playlistInfo.username}</a></h2>}
+            <h3>{playlistInfo.followers} follower(s)</h3>
             <h3>Total: {playlistInfo.amount} kdrama(s)</h3>
 
             { modal ? 
@@ -161,7 +218,9 @@ const Playlist = (props) => {
             {!showDelete && edit && <button onClick={() => setDelete(true)}>Edit Entries</button>}
             {showDelete && <button onClick={() => setDelete(false)}>Done</button>}
 
+            {!edit && !follow.show && <button onClick={followPlaylist}>Follow</button>}
 
+            {!edit && follow.show && <button onClick={unfollowPlaylist}>Following</button>}
 
             <h2>Playlist Entries</h2>
 

@@ -132,6 +132,7 @@ def show_user_profile(user_id):
     # set edit to false so user cannot edit public user profile
     return render_template('profile.html', user=user, edit=False, api_key=os.environ['TMDB_API_KEY'])
 
+
 # Account Page /account
 @app.route('/account')
 def show_user_account():
@@ -261,7 +262,8 @@ def get_playlists(user_id=None):
         playlists.append({'playlist_id': pl.playlist_id,
                         'title': pl.title,
                         'content': pl.content,
-                        'amount': len(pl.playlistentries)})
+                        'amount': len(pl.playlistentries),
+                        'followers': pl.followers})
     
     return jsonify({'status': 'success', 'playlists': playlists})
 
@@ -311,7 +313,10 @@ def get_playlist(playlist_id):
     info = {'playlist_id': playlist.playlist_id,
             'title': playlist.title, 
             'content': playlist.content, 
-            'amount': count}
+            'followers': playlist.followers,
+            'amount': count,
+            'user_id': playlist.user.user_id,
+            'username': playlist.user.username}
     
     # session user matches playlist user, then edit is True
     return jsonify({'status': 'success', 'info': info, 
@@ -329,7 +334,7 @@ def delete_playlist_entry():
 
 @app.route('/update-playlist.json', methods=['POST'])
 def update_playlist():
-    """Updates an existing review of kdrama for user and returns updated review"""
+    """Updates the title and content of an existing playlist"""
     title = request.get_json().get("title")
     content = request.get_json().get("content")
     playlist_id = request.get_json().get("playlist_id")
@@ -342,6 +347,53 @@ def update_playlist():
     print(playlist, pl_json)
 
     return jsonify({'status': 'success', 'playlist': pl_json})
+
+@app.route('/follow-playlist.json', methods=['POST'])
+def follow_playlist():
+    """The current user in session adds a follow to the specified playlist"""
+    user_id = session.get('user_id')
+    playlist_id = request.get_json().get("playlist_id")
+    if not user_id:
+        return jsonify({   'status': 'error', 
+                            'message': 'Please login to follow playlist'})
+
+    follow = crud.create_follow_playlist(user_id, playlist_id)
+
+    return jsonify({'status': 'success', 'follow': follow.follow_playlist_id})
+
+@app.route('/unfollow-playlist.json', methods=['POST'])
+def unfollow_playlist():
+    """The current user in session unfollows the specified playlist"""
+    follow_playlist_id = request.get_json().get("follow_playlist_id")
+    crud.delete_follow_playlist(follow_playlist_id)
+
+    return jsonify({'status': 'success', 'message': 'playlist unfollowed'})
+
+@app.route('/follow/<playlist_id>')
+def user_follows(playlist_id):
+    '''Returns json True or False if the user follows the specified playlist'''
+    user_id = session.get('user_id')
+    follow = crud.get_follow_playlist(user_id, playlist_id)
+    if follow:
+        return jsonify({'follow': True, 'follow_playlist_id': follow.follow_playlist_id})
+    return jsonify({'follow': False})
+
+
+@app.route('/followed_playlists.json/<user_id>')
+def get_followed_playlists(user_id):
+    ''' Get followed playlists by user '''
+    playlists = []
+
+    pls = crud.get_followed_playlists(user_id)
+    for pl in pls:
+        playlists.append({'playlist_id': pl.playlist_id,
+                        'title': pl.title,
+                        'content': pl.content,
+                        'amount': len(pl.playlistentries),
+                        'followers': pl.followers})
+    
+    return jsonify({'status': 'success', 'playlists': playlists})
+
 
 def shutdown_server():
     '''Stop current Flask app'''

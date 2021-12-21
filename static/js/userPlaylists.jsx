@@ -7,6 +7,7 @@ const PlaylistCard = (props) => {
         <div className='card'>
             <h3>{props.title}</h3>
             <p>{props.amount} items</p>
+            <p>{props.followers} follower(s)</p>
         </div>
         </a>
     );
@@ -18,7 +19,14 @@ const UserPlaylists = (props) => {
 
     React.useEffect(() => {
         // grabs all user playlists 
-        fetch(`/user_playlists.json/${props.user_id}`)
+        let url;
+        if (props.type === 'user')
+            url = `/user_playlists.json/${props.user_id}`;
+
+        else if (props.type === 'followed')
+            url = `/followed_playlists.json/${props.user_id}`;
+
+        fetch(url)
         .then(response => response.json())
         .then(data => {
             console.log(data);
@@ -35,6 +43,7 @@ const UserPlaylists = (props) => {
             playlist_id={pl.playlist_id}
             title={pl.title}
             amount={pl.amount}
+            followers={pl.followers}
             />
         );
     }
@@ -47,5 +56,8 @@ const UserPlaylists = (props) => {
     );
 };
 
+
+
 const user_id = document.querySelector('#data').dataset.user_id;
-ReactDOM.render(<UserPlaylists user_id={user_id}/>, document.querySelector('#user_playlists'));
+ReactDOM.render(<UserPlaylists user_id={user_id} type={'user'}/>, document.querySelector('#user_playlists'));
+ReactDOM.render(<UserPlaylists user_id={user_id} type={'followed'}/>, document.querySelector('#followed_playlists'));

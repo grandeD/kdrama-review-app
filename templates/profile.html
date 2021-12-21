@@ -35,6 +35,12 @@
       {%endif%}
       <div id='user_playlists' class='flex-container'></div>
 
+      {%if edit%}
+         <h3>Your Followed Lists</h3>
+      {% else %}
+         <h3>{{user.username}}'s Followed List</h3>
+      {%endif%}
+      <div id='followed_playlists' class='flex-container'></div>
 
       {%if edit%}
          <h3>Your Reviews</h3>
@@ -42,6 +48,9 @@
          <h3>{{user.username}}'s Reviews</h3>
       {%endif%}
       <div id='user_reviews'></div>
+
+
+
       
       {%for review in user.reviews%}
       <div>

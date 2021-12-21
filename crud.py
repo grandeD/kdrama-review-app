@@ -1,5 +1,5 @@
 """CRUD operations"""
-from model import db, User, Kdrama, Review, Playlist, PlaylistEntry, connect_to_db
+from model import db, User, Kdrama, Review, Playlist, PlaylistEntry, FollowPlaylist, connect_to_db
 
 def create_user(fname, lname, email, password, username):
     """Create and return a new user"""
@@ -136,6 +136,46 @@ def update_playlist(playlist_id, title, content):
 
     db.session.commit()
     return playlist
+
+
+def create_follow_playlist(user_id, playlist_id):
+    '''Creates a follow playlist relationship between a user and playist
+    and returns the relationship '''
+
+    follow = FollowPlaylist(user_id=user_id, playlist_id=playlist_id)
+    Playlist.query.get(playlist_id).add_follower()
+
+    db.session.add(follow)
+    db.session.commit()
+
+    return follow
+
+def get_follow_playlist(user_id, playlist_id):
+    '''Gets a follow playlist relationship between a user and playlist
+    if it exists '''
+    follow = FollowPlaylist.query.filter(   FollowPlaylist.user_id == user_id, 
+                            FollowPlaylist.playlist_id == playlist_id).first()
+    return follow
+
+def delete_follow_playlist(follow_playlist_id):
+    '''Deletes specified follow playlist relationship '''
+    follow = FollowPlaylist.query.get(follow_playlist_id)
+    Playlist.query.get(follow.playlist_id).subtract_follower()
+    db.session.delete(follow)
+    db.session.commit()
+
+def get_followed_playlists(user_id):
+    '''Gets all the playlists a user followed '''
+    user = get_user_by_id(user_id)
+    result = []
+    for follow in user.followplaylists:
+        result.append(Playlist.query.get(follow.playlist_id))
+    return result
+
+
+
+
+
 
 
 
