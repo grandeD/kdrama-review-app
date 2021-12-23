@@ -5,15 +5,27 @@ const KdramaCard = (props) => {
     return(
     <div className='card'>
         <a href={`/kdrama/${props.kdrama_id}`}>
-        <img style={{height: '200px'}} src={`https://image.tmdb.org/t/p/original/${props.poster_path}`} alt='Kdrama Poster' />
+        <img style={{height: '200px'}} 
+        src={props.poster_path} 
+        alt='Kdrama Poster' />
         </a>
         <p>{props.title}</p>
     </div>
     );
 }
 
-const Homepage = (props) =>  {
+const delay = 3000;
+const Slideshow = (props) => {
+    const [index, setIndex] = React.useState(0);
+    // to store current timeout id
+    const timeoutRef = React.useRef(null);
     const [topDramas, setTop] = React.useState([]);
+
+    function resetTimeout() {
+        if (timeoutRef.current) {
+          clearTimeout(timeoutRef.current);
+        }
+      }
 
     React.useEffect(() => {
  
@@ -28,30 +40,71 @@ const Homepage = (props) =>  {
           .then(response => response.json())
           .then(data => {
                 console.log(data['results']);
-                setTop(data['results']);
+                setTop(data['results'].slice(0,10));  // limit results to top 10
           });
     }, []);
 
-
-    // creates and stores top korean dramas as KdramaCards in kdramaCards
-    const kdramaCards = [];
-    for (const kdrama of topDramas) {
-        kdramaCards.push(
-            <KdramaCard
-            key={kdrama.id}
-            kdrama_id={kdrama.id} 
-            poster_path={kdrama.backdrop_path}
-            title={kdrama.name}
-            />
+    // occurs every time index is changed    
+      React.useEffect(() => {
+        resetTimeout();
+        // stores id to setTimeout so next reset has timeout id parameter
+        timeoutRef.current = setTimeout(
+          () =>
+            setIndex((prevIndex) => // increments index after each delay
+              prevIndex === topDramas.length - 1 ? 0 : prevIndex + 1
+            ),
+          delay
         );
+      }, [index]);
+
+
+    // Slideshow slides, contains a kdrama (image, link and title)
+    const slides = [];
+    for (const kdrama of topDramas) {
+        slides.push(
+            <a href={`/kdrama/${kdrama.id}`} key={kdrama.id} >
+            <div className='slide' >
+                <img style={{height: '100%'}} 
+                src={`https://image.tmdb.org/t/p/original/${kdrama.backdrop_path}`} alt='Kdrama Poster' /> 
+                <p>{kdrama.name}</p>
+            </div> 
+            </a>
+            );
     }
 
     return (
         <React.Fragment>
+
+            <div className='slideshow'>
             <h2>Top Korean Dramas</h2>
-            <div>{kdramaCards}</div>
+                <div className="slideshowSlider" // each -100% moves the slides, 1 slide div to left
+                    style={{ transform: `translate3d(${-index * 100}%, 0, 0)` }}
+                >
+                    {slides}
+                </div>
+
+                <div className="slideshowDots">
+                    {topDramas.map((_, idx) => (
+                    <div key={idx} 
+                    className={`slideshowDot${index === idx ? " active" : ""}`}
+                    onClick={() => setIndex(idx)}
+                    ></div>
+                    ))}
+                </div>
+            </div>
         </React.Fragment>
     );
+}
+
+const Homepage = (props) =>  {
+
+    return (
+        <React.Fragment>
+            <Slideshow api_key={props.api_key}/>
+        </React.Fragment>
+    );
+
+
 }
 
 const api_key = document.querySelector('#data').dataset.api_key;
