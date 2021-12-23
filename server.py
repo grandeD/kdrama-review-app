@@ -14,6 +14,25 @@ app = Flask(__name__)
 app.secret_key = 'thebestkoreandramareviewsiteever'
 app.jinja_env.undefined = StrictUndefined
 
+GENRES = { "16": "Animation",
+    "18": "Drama",
+    "35": "Comedy",
+    "37": "Western",
+    "80": "Crime",
+    "99": "Documentary",
+    "9648": "Mystery",
+    "10751": "Family",
+    "10759": "Action & Adventure",
+    "10762": "Kids",
+    "10763": "News",
+    "10764": "Reality",
+    "10765": "Sci-Fi & Fantasy",
+    "10766": "Soap",
+    "10767": "Talk",
+    "10768": "War & Politics"
+}
+
+
 @app.route('/')
 def hompage():
     ''' View Homepage '''
@@ -24,6 +43,12 @@ def hompage():
 def show_login():
     '''View Login/Create Account Page'''
     return render_template('login.html')
+
+# Signup page /signup
+@app.route('/signup')
+def show_signup():
+    '''View Create Account Page'''
+    return render_template('signup.html')
 
 @app.route('/logout')
 def logout():
@@ -86,7 +111,24 @@ def create_account():
     elif check_username:
         response = {'status': 'error', 'message': 'Username taken'}
     else:
-        crud.create_user(fname, lname, email, password, username)
+        user = crud.create_user(fname, lname, email, password, username)
+        response['user'] = {'user_id': user.user_id, 'username': user.username}
+
+    return jsonify(response)
+
+@app.route('/update-user.json', methods=['POST'])
+def update_account():
+    """updates a user"""
+    response = {'status': 'success', 'message': 'image and favorite genre saved'}
+
+    user_id = request.get_json().get("user_id")
+    image_path = request.get_json().get("image_path")
+    fav_genre = request.get_json().get("fav_genre")
+
+    user = crud.update_user(user_id, image_path, fav_genre)
+
+    if not user:
+        jsonify({'status': 'error', 'message': 'invalid user_id'})
 
     return jsonify(response)
 
@@ -116,13 +158,6 @@ def show_users():
     users = crud.get_users()
     return render_template('users.html', users=users)
 
-# Account Page /profile
-@app.route('/profile')
-def show_profile():
-    '''Shows the profile of the user that is currently in session'''
-    '''View Account Page'''
-    user = crud.get_user_by_id(session.get('user_id'))
-    return render_template('profile.html', user=user,  api_key=os.environ['TMDB_API_KEY'])
 
 # Public profile page of specified user /profile
 @app.route('/profile/<user_id>')
@@ -130,8 +165,7 @@ def show_user_profile(user_id):
     '''Shows the public profile of specified user'''
     user = crud.get_user_by_id(user_id)
     # set edit to false so user cannot edit public user profile
-    return render_template('profile.html', user=user, edit=False, api_key=os.environ['TMDB_API_KEY'])
-
+    return render_template('profile.html', user=user, edit=False, api_key=os.environ['TMDB_API_KEY'], genres=GENRES)
 
 # Account Page /account
 @app.route('/account')
@@ -140,7 +174,7 @@ def show_user_account():
     user_id = session.get('user_id')
     user = crud.get_user_by_id(user_id)
     # set edit to true so user can edit their profile
-    return render_template('profile.html', user=user, edit=True,  api_key=os.environ['TMDB_API_KEY'])
+    return render_template('profile.html', user=user, edit=True,  api_key=os.environ['TMDB_API_KEY'], genres=GENRES)
 
 
 # Search Results Page /search and /results

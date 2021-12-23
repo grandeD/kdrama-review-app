@@ -15,7 +15,8 @@ class User(db.Model):
     email = db.Column(db.String, unique=True, nullable=False)
     password = db.Column(db.String, nullable=False)
     username = db.Column(db.String(30), unique=True, nullable=False)
-    image_path = db.Column(db.String, unique=True, nullable=True)
+    image_path = db.Column(db.String, nullable=True)
+    fav_genre = db.Column(db.Integer, nullable=True)
 
     reviews = db.relationship('Review', back_populates='user')
     playlists = db.relationship('Playlist', back_populates='user')

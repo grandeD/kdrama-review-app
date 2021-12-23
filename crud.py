@@ -1,10 +1,10 @@
 """CRUD operations"""
 from model import db, User, Kdrama, Review, Playlist, PlaylistEntry, FollowPlaylist, connect_to_db
 
-def create_user(fname, lname, email, password, username):
+def create_user(fname, lname, email, password, username, image_path=''):
     """Create and return a new user"""
 
-    user = User(fname=fname, lname=lname, email=email, password=password, username=username)
+    user = User(fname=fname, lname=lname, email=email, password=password, username=username, image_path=image_path)
 
     db.session.add(user)
     db.session.commit()
@@ -31,6 +31,17 @@ def get_user_by_username(username):
     '''Return a user by username'''
 
     user = User.query.filter(User.username == username).first()
+    return user
+
+def update_user(user_id, image_path, fav_genre):
+    """Create and return a new user"""
+
+    user = get_user_by_id(user_id)
+    user.image_path = image_path
+    user.fav_genre = fav_genre
+    
+    db.session.commit()
+
     return user
 
 def create_kdrama(kdrama_id, title, overview, release_date, poster_path):

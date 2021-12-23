@@ -64,4 +64,5 @@ for n in range(10):
     email = f'user{n+1}@test.com' 
     password = 'test'
     username = f'user{n+1}'
-    new_user = crud.create_user(fname, lname, email, password, username)
+    image_path = f'/static/img/avatars/{randint(1,14)}.png'
+    new_user = crud.create_user(fname, lname, email, password, username, image_path)

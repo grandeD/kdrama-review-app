@@ -69,6 +69,7 @@ const Discover = (props) => {
                 // set genre object with values in the form genre_id : genre_name
                 const gens = data.genres.reduce((gens, gen) => {
                     return {...gens, [gen.id]: gen.name} }, {});
+                console.log(gens);
                 setGenres(gens);
                 // set genre_options object with values in the form genre_id : boolean
                 const gen_ops = Object.keys(gens).reduce((gen_ops, g_id) => {
