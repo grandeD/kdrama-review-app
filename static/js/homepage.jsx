@@ -14,6 +14,71 @@ const KdramaCard = (props) => {
     );
 }
 
+const CardView = (props) => {
+
+    const [dramas, setDramas] = React.useState([]);
+    const [fav_genre, setGenre] = React.useState('');
+
+    const get_sorted_results = (sort_by, with_genres, currentPage=1, amount) => {
+        // Gets korean dramas from TMDB API based on given page number, how to sort and 
+        // which genres the user wants - amount specifies how many results returned (out of 20)
+
+        fetch('https://api.themoviedb.org/3/discover/tv?' + new URLSearchParams(
+            {
+                'api_key': props.api_key,
+                'language': 'en-US',
+                'sort_by': sort_by,
+                'with_original_language': 'ko',
+                'with_genres': with_genres,
+                'page': currentPage
+            }))
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    setDramas(data['results'].slice(0, amount));
+                });
+    };
+
+    React.useEffect(() => {
+        fetch(`/user/${props.user_id}`).
+        then(response => response.json())
+        .then(res => {
+            console.log(res);
+            const fav_genre = res.user.fav_genre;
+            setGenre(fav_genre); 
+            get_sorted_results('popularity.desc', fav_genre, 1, 10); 
+        }); 
+    }, []);
+
+    // creates and stores filtered korean dramas as KdramaCards in kdramaCards
+    const kdramaCards = [];
+    for (const kdrama of dramas) {
+        let poster_path = '/static/img/placeholder-image.png';
+        // handles default poster if drama does not have image
+        if (kdrama.poster_path !== null)
+            poster_path = `https://image.tmdb.org/t/p/original/${kdrama.poster_path}`;
+        kdramaCards.push(
+            <KdramaCard
+            key={kdrama.id}
+            kdrama_id={kdrama.id} 
+            poster_path={poster_path}
+            title={kdrama.name}
+            />
+        );
+    }
+
+    return (
+        <React.Fragment>
+        <br></br>
+        <h3>Based off your favorite genre: {fav_genre}</h3>
+        <div className='flex-gap'>
+
+            {kdramaCards}
+        </div>
+        </React.Fragment>
+    )
+};
+
 const delay = 3000;
 const Slideshow = (props) => {
     const [index, setIndex] = React.useState(0);
@@ -96,11 +161,15 @@ const Slideshow = (props) => {
     );
 }
 
+
+
 const Homepage = (props) =>  {
 
     return (
         <React.Fragment>
             <Slideshow api_key={props.api_key}/>
+            {props.user_id !== 'None' &&
+            <CardView user_id={props.user_id} api_key={props.api_key} />}
         </React.Fragment>
     );
 
@@ -108,5 +177,6 @@ const Homepage = (props) =>  {
 }
 
 const api_key = document.querySelector('#data').dataset.api_key;
-ReactDOM.render(<Homepage api_key={api_key}/>, document.querySelector('.content'));
+const user_id = document.querySelector('#data').dataset.user_id;
+ReactDOM.render(<Homepage api_key={api_key} user_id={user_id}/>, document.querySelector('.content'));
 

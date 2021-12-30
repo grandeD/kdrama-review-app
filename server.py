@@ -151,12 +151,25 @@ def get_user_id():
         return jsonify({'status': 'error', 'message': 'No user with email/username'})
 
 
-# Account Page /profile
+# gets one specific user
+@app.route('/user/<user_id>')
+def show_user(user_id):
+    '''Returns a json of basic public info of user'''
+    user = crud.get_user_by_id(user_id)
+    user_js = {'username': user.username, 'user_id': user.user_id, 
+                'email': user.email, 'fav_genre': user.fav_genre, 
+                'image_path': user.image_path }
+
+    return jsonify ({'status': 'success', 'user': user_js})
+
+# users route
 @app.route('/users')
 def show_users():
     '''Shows the users of Koreview in list view'''
     users = crud.get_users()
     return render_template('users.html', users=users)
+
+
 
 
 # Public profile page of specified user /profile
@@ -300,6 +313,24 @@ def get_playlists(user_id=None):
                         'followers': pl.followers})
     
     return jsonify({'status': 'success', 'playlists': playlists})
+
+@app.route('/playlists/top')
+def get_top_playlists():
+    ''' Get top followed playlists created by all users '''
+    playlists = []
+
+    pls = crud.get_top_followed_playlists()
+    for pl in pls:
+        playlists.append({'playlist_id': pl.playlist_id,
+                        'title': pl.title,
+                        'content': pl.content,
+                        'amount': len(pl.playlistentries),
+                        'followers': pl.followers})
+    
+    return jsonify({'status': 'success', 'playlists': playlists})
+
+
+
 
 @app.route('/add-to-playlist.json', methods=['POST'])
 def add_to_playlist():

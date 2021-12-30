@@ -4,14 +4,19 @@
 
 {% block js %}
 <script src="/static/js/homepage.jsx" type="text/jsx"></script>
+<script src="/static/js/playlists.jsx" type="text/jsx"></script>
 {% endblock %}
 
 {% block data_attributes %}
-<meta id='data' data-api_key={{api_key}}>
+<meta id='data'   data-api_key={{api_key}}   data-user_id={{session.get('user_id')}}
+                  data-api_url='/playlists/top'>
+
 {% endblock %}
 
 {% block css %}
 <link href="/static/css/homepage.css" rel="stylesheet">
+<link href="/static/css/kdrama.css" rel="stylesheet">
+<link href="/static/css/playlists.css" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
@@ -19,6 +24,14 @@
 <div>
    <div class='content'>
    </div>
+   {%if session.get('user_id')%}
+   <h3>Top Followed Lists</h3>
+   <div class='playlists flex-container'>
+   </div>
+   {%else%}
+   <h2>Login in to see more</h2>
+   <button href='/login'>Login</button>
+   {%endif%}
 </div>
 
 {% endblock %}

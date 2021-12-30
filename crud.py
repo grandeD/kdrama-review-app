@@ -183,6 +183,12 @@ def get_followed_playlists(user_id):
         result.append(Playlist.query.get(follow.playlist_id))
     return result
 
+def get_top_followed_playlists():
+    ''' Get the top 10 playlists that users follow '''
+    pls = Playlist.query.order_by(Playlist.followers.desc()).all()
+    if (len(pls) > 10): return pls[:11]
+    return pls
+
 
 
 
