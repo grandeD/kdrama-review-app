@@ -48,4 +48,7 @@ const PlaylistsView = (props) => {
 };
 
 const api_url = document.querySelector('#data').dataset.api_url;
-ReactDOM.render(<PlaylistsView api_url={api_url} />, document.querySelector('.playlists'));
+if (document.querySelector('.playlists') !== null ){
+    ReactDOM.render(<PlaylistsView api_url={api_url} />, document.querySelector('.playlists'));
+}
+
