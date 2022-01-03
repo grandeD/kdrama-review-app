@@ -114,14 +114,14 @@ const KdramaInfo = (props) =>  {
         );
     }
 
-    const watch_logos = [];
-
+    let watch_logos = [];
     if (watchProviders.logos) {
-        for ( const logo of watchProviders.logos){
-            watch_logos.push(
-                <a href={watchProviders.link} target="_blank" rel="noopener noreferrer">
-                <img style={{height: '50px'}} src={`${TMDB_IMAGE_URL}${logo}`} /></a>
-            ); }
+        watch_logos = watchProviders.logos.map((logo, index) => {
+        return  (<a href={watchProviders.link} 
+                    target='_blank' 
+                    rel='noopener noreferrer'
+                    key={index}>
+                    <img style={{height: '50px'}} src={`${TMDB_IMAGE_URL}${logo}`} /></a> ); });
     }
 
 
