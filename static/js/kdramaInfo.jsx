@@ -132,15 +132,18 @@ const KdramaInfo = (props) =>  {
             {content}
             {castCards.length > 0 &&
                 <h3>Cast</h3>}
+            <div className='flex-gap'>
             {castCards}
+            </div>
             {recCards.length > 0 &&
                 <h3>Similar Korean Dramas</h3>}
+            <div className='flex-gap'>
             {recCards}
+            </div>
         </React.Fragment>
     );
 }
 
-// const kdrama_id = document.querySelector('#data').dataset.kdrama_id;
 const api_key = document.querySelector('#data').dataset.api_key;
 ReactDOM.render(<KdramaInfo kdrama_id={kdrama_id} api_key={api_key}/>, document.querySelector('.content'));
 
