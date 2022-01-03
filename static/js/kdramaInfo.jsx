@@ -27,23 +27,6 @@ const CastCard = (props) => {
     );
 }
 
-// Takes in basic info a korean drama and displays
-const HeadContent = (props) => {
-    return(
-    <div className='top'>
-        <img style={{height: '400px'}} src={`${TMDB_IMAGE_URL}${props.backdrop_path}`} alt='Kdrama Backdrop' />
-        <img style={{height: '200px'}} src={`${TMDB_IMAGE_URL}${props.poster_path}`} alt='Kdrama Poster' />
-
-        <h2>{props.title}</h2>
-        <p>First Air Date: {props.first_air_date}</p>
-
-        <h3>Overview</h3>
-        <p>{props.overview}</p>
-
-    </div>
-    );
-}
-
 
 // Displays basic kdrama info, cast members and similar kdramas if any
 const KdramaInfo = (props) =>  {
@@ -51,6 +34,7 @@ const KdramaInfo = (props) =>  {
     const [kdramaData, setData] = React.useState({});
     const [cast, setCast] = React.useState([]);
     const [recommendations, setRecommend] = React.useState([]);
+    const [watchProviders, setWatch] = React.useState([]);
 
     React.useEffect(() => {
         // Gets basic kdrama data from TMDB API -> kdramaData
@@ -72,6 +56,21 @@ const KdramaInfo = (props) =>  {
                 
             });
 
+        // Gets watch provider of kdrama if there is one
+        fetch(`https://api.themoviedb.org/3/tv/${props.kdrama_id}/watch/providers?api_key=${props.api_key}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if (data.results.US.flatrate){
+                    const logos = data.results.US.flatrate.map((watch_provider) => {
+                        return watch_provider.logo_path;  
+                    });
+
+                    setWatch({  'link': data.results.US.link, 
+                                'logos': logos} );
+                }
+            });
+
         // Gets recommended dramas from TMDB API and filters specifically korean tv shows if any -> recommendations
         fetch(`https://api.themoviedb.org/3/tv/${props.kdrama_id}/recommendations?language=en-US&api_key=${props.api_key}`)
             .then(response => response.json())
@@ -83,11 +82,9 @@ const KdramaInfo = (props) =>  {
                             kdrama_results.push(result);
                     }
                     console.log(kdrama_results);
-                    setRecommend(kdrama_results);
+                    setRecommend(kdrama_results.slice(0, 10));
                 }
             });
-
-
     }, []);
 
     // creates and stores recommendations as KdramaCards in recCards
@@ -117,29 +114,50 @@ const KdramaInfo = (props) =>  {
         );
     }
 
-    const content = [];
-    if (kdramaData !== {}) {
-        content.push(<HeadContent title={kdramaData.name} 
-            first_air_date={kdramaData.first_air_date}
-            overview={kdramaData.overview} 
-            backdrop_path={kdramaData.backdrop_path}
-            poster_path={kdramaData.poster_path}
-            key={props.kdrama_id}/>);
+    const watch_logos = [];
+
+    if (watchProviders.logos) {
+        for ( const logo of watchProviders.logos){
+            watch_logos.push(
+                <a href={watchProviders.link} target="_blank" rel="noopener noreferrer">
+                <img style={{height: '50px'}} src={`${TMDB_IMAGE_URL}${logo}`} /></a>
+            ); }
     }
+
 
     return (
         <React.Fragment>
-            {content}
+            {kdramaData &&
+                <div>
+                    <img style={{height: '400px'}} src={`${TMDB_IMAGE_URL}${kdramaData.backdrop_path}`} alt='Kdrama Backdrop' />
+                    <img style={{height: '200px'}} src={`${TMDB_IMAGE_URL}${kdramaData.poster_path}`} alt='Kdrama Poster' />
+
+                    <div id='add_to_playlist'></div>
+                    <div id='play_trailer'> </div>
+                    {watch_logos && 
+                    <div>
+                        <p>Stream on: </p>
+                        {watch_logos}
+                    </div>
+                    }
+
+                    <h2>{kdramaData.name}</h2>
+                    <p>First Air Date: {kdramaData.first_air_date}</p>
+
+                    <h3>Overview</h3>
+                    <p>{kdramaData.overview}</p>
+                </div>                          
+            }
             {castCards.length > 0 &&
                 <h3>Cast</h3>}
-            <div className='flex-gap'>
-            {castCards}
-            </div>
+                <div className='flex-gap'>
+                    {castCards}
+                </div>
             {recCards.length > 0 &&
                 <h3>Similar Korean Dramas</h3>}
-            <div className='flex-gap'>
-            {recCards}
-            </div>
+                <div className='flex-gap'>
+                    {recCards}
+                </div>
         </React.Fragment>
     );
 }
