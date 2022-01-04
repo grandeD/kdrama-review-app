@@ -1,0 +1,40 @@
+ <Rule '/discover' (GET, OPTIONS, HEAD) -> show_discover>,
+ <Rule '/shutdown' (GET, OPTIONS, HEAD) -> shutdown>,
+ <Rule '/signup' (GET, OPTIONS, HEAD) -> show_signup>,
+ <Rule '/logout' (GET, OPTIONS, HEAD) -> logout>,
+ <Rule '/search' (GET, OPTIONS, HEAD) -> show_results>,
+ <Rule '/login' (GET, OPTIONS, HEAD) -> show_login>,
+ <Rule '/' (GET, OPTIONS, HEAD) -> hompage>,
+ <Rule '/kdrama/<kdrama_id>' (GET, OPTIONS, HEAD) -> show_kdrama>,
+ <Rule '/static/<filename>' (GET, OPTIONS, HEAD) -> static>,
+
+user
+ <Rule '/users' (GET, OPTIONS, HEAD) -> show_users>,
+ <Rule '/create-user.json' (OPTIONS, POST) -> create_account>,
+ <Rule '/update-user.json' (OPTIONS, POST) -> update_account>,
+ <Rule '/get-user-id.json' (GET, OPTIONS, HEAD) -> get_user_id>,
+ <Rule '/login.json' (OPTIONS, POST) -> login_user>,
+ <Rule '/profile/<user_id>' (GET, OPTIONS, HEAD) -> show_user_profile>,
+ <Rule '/user/<user_id>' (GET, OPTIONS, HEAD) -> show_user>]
+ <Rule '/account' (GET, OPTIONS, HEAD) -> show_user_account>,
+
+reviews
+ <Rule '/create-review.json' (OPTIONS, POST) -> create_review>,
+ <Rule '/update-review.json' (OPTIONS, POST) -> update_review>,
+ <Rule '/reviews.json/<kdrama_id>' (GET, OPTIONS, HEAD) -> get_reviews>,
+
+playlist
+<Rule '/followed_playlists.json/<user_id>' (GET, OPTIONS, HEAD) -> get_followed_playlists>,
+<Rule '/follow/<playlist_id>' (GET, OPTIONS, HEAD) -> user_follows>,
+<Rule '/playlist/<playlist_id>' (GET, OPTIONS, HEAD) -> show_playlist>,
+<Rule '/playlists/top' (GET, OPTIONS, HEAD) -> get_top_playlists>,
+<Rule '/unfollow-playlist.json' (OPTIONS, POST) -> unfollow_playlist>,
+<Rule '/create-playlist.json' (OPTIONS, POST) -> create_playlist>,
+<Rule '/add-to-playlist.json' (OPTIONS, POST) -> add_to_playlist>,
+<Rule '/update-playlist.json' (OPTIONS, POST) -> update_playlist>,
+<Rule '/follow-playlist.json' (OPTIONS, POST) -> follow_playlist>,
+<Rule '/user_playlists.json' (GET, OPTIONS, HEAD) -> get_playlists>,
+<Rule '/user_playlists.json/<user_id>' (GET, OPTIONS, HEAD) -> get_playlists>,
+<Rule '/user_playlist.json/<playlist_id>' (GET, OPTIONS, HEAD) -> get_playlist>,
+<Rule '/user-review.json/<kdrama_id>' (GET, OPTIONS, HEAD) -> get_user_review>,
+<Rule '/delete-entry.json' (OPTIONS, POST) -> delete_playlist_entry>,
