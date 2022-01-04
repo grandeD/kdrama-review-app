@@ -1,19 +1,29 @@
- <Rule '/discover' (GET, OPTIONS, HEAD) -> show_discover>,
+
  <Rule '/shutdown' (GET, OPTIONS, HEAD) -> shutdown>,
- <Rule '/signup' (GET, OPTIONS, HEAD) -> show_signup>,
- <Rule '/logout' (GET, OPTIONS, HEAD) -> logout>,
- <Rule '/search' (GET, OPTIONS, HEAD) -> show_results>,
- <Rule '/login' (GET, OPTIONS, HEAD) -> show_login>,
  <Rule '/' (GET, OPTIONS, HEAD) -> hompage>,
- <Rule '/kdrama/<kdrama_id>' (GET, OPTIONS, HEAD) -> show_kdrama>,
- <Rule '/static/<filename>' (GET, OPTIONS, HEAD) -> static>,
+
+<Rule '/login' (GET, OPTIONS, HEAD) -> show_login>,
+<Rule '/login.json' (OPTIONS, POST) -> login_user>,
+<Rule '/signup' (GET, OPTIONS, HEAD) -> show_signup>,
+<Rule '/logout' (GET, OPTIONS, HEAD) -> logout>,
+
+<Rule '/kdrama/<kdrama_id>' (GET, OPTIONS, HEAD) -> show_kdrama>,
+<Rule '/discover' (GET, OPTIONS, HEAD) -> show_discover>,
+<Rule '/search' (GET, OPTIONS, HEAD) -> show_results>,
+<Rule '/static/<filename>' (GET, OPTIONS, HEAD) -> static>,
 
 user
  <Rule '/users' (GET, OPTIONS, HEAD) -> show_users>,
+
+ /user              POST
  <Rule '/create-user.json' (OPTIONS, POST) -> create_account>,
+
+ /user/<user_id>    PUT
  <Rule '/update-user.json' (OPTIONS, POST) -> update_account>,
+
+/user               GET   
  <Rule '/get-user-id.json' (GET, OPTIONS, HEAD) -> get_user_id>,
- <Rule '/login.json' (OPTIONS, POST) -> login_user>,
+
  <Rule '/profile/<user_id>' (GET, OPTIONS, HEAD) -> show_user_profile>,
  <Rule '/user/<user_id>' (GET, OPTIONS, HEAD) -> show_user>]
  <Rule '/account' (GET, OPTIONS, HEAD) -> show_user_account>,

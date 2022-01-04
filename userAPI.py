@@ -6,7 +6,8 @@ from datetime import datetime
 
 user_api = Blueprint('user_api', __name__)
 
-@user_api.route('/create-user.json', methods=['POST'])
+# /create-user.json
+@user_api.route('/user', methods=['POST'])
 def create_account():
     """Creates an account"""
     response = {'status': 'success', 'message': 'Account successfully created'}
@@ -30,12 +31,13 @@ def create_account():
 
     return jsonify(response)
 
-@user_api.route('/update-user.json', methods=['POST'])
-def update_account():
+# /update-user.json
+@user_api.route('/user/<user_id>', methods=['PUT'])
+def update_account(user_id):
     """updates a user"""
     response = {'status': 'success', 'message': 'image and favorite genre saved'}
 
-    user_id = request.get_json().get("user_id")
+    # user_id = request.get_json().get("user_id")
     image_path = request.get_json().get("image_path")
     fav_genre = request.get_json().get("fav_genre")
 
@@ -46,7 +48,8 @@ def update_account():
 
     return jsonify(response)
 
-@user_api.route('/get-user-id.json')
+# /get-user-id.json
+@user_api.route('/user', methods=['GET'])
 def get_user_id():
     ''' Gets user_id by email or username '''
     email = request.args.get("email")
@@ -66,7 +69,7 @@ def get_user_id():
 
 
 # gets one specific user
-@user_api.route('/user/<user_id>')
+@user_api.route('/user/<user_id>', methods=['GET'])
 def show_user(user_id):
     '''Returns a json of basic public info of user'''
     user = crud.get_user_by_id(user_id)

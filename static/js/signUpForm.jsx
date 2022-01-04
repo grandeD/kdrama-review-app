@@ -52,7 +52,7 @@ const SignUpForm = () => {
 
         if (values[event.target.name])
         {
-            fetch(`get-user-id.json?${event.target.name}=${event.target.value}`, {
+            fetch(`user?${event.target.name}=${event.target.value}`, {
                 method: 'GET',
                 headers: {
                 'Content-Type': 'application/json',
@@ -79,7 +79,7 @@ const SignUpForm = () => {
         event.preventDefault();
         setSubmitted(true);
         if (values.fname && values.lname && values.email && values.username && values.password) {
-            fetch('/create-user.json', {
+            fetch('/user', {
                 method: 'POST',
                 headers: {
                 'Content-Type': 'application/json',
@@ -103,12 +103,12 @@ const SignUpForm = () => {
 
     const handleStep2 = () => {
         // updates user stored in userId from step 1, with image_path and fav_genre
-        fetch('/update-user.json', {
-            method: 'POST',
+        fetch(`/user/${userId}`, {
+            method: 'PUT',
             headers: {
             'Content-Type': 'application/json',
             },
-            body: JSON.stringify({user_id: userId, image_path: avatarImg, fav_genre: favGenre}),
+            body: JSON.stringify({image_path: avatarImg, fav_genre: favGenre}),
         }).then(response => {
             response.json().then(jsonResponse => {
                 console.log(jsonResponse)

@@ -16,7 +16,7 @@ const LoginForm = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        fetch('/login.json', {
+        fetch('/login', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
