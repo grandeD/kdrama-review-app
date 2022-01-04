@@ -25,7 +25,7 @@ const Playlist = (props) => {
 
     React.useEffect(() => {
         // grabs playlist info and playlist entries 
-        fetch(`/user_playlist.json/${props.playlist_id}`)
+        fetch(`/playlist?playlist_id=${props.playlist_id}`)
         .then(response => response.json())
         .then(data => {
             console.log(data);
@@ -43,7 +43,7 @@ const Playlist = (props) => {
     }, []);
 
     const checkFollow = () => {
-        fetch(`/follow/${props.playlist_id}`)
+        fetch(`/playlist/${props.playlist_id}/follow`)
         .then(response => response.json())
         .then(data => {
             console.log(data);
@@ -55,12 +55,11 @@ const Playlist = (props) => {
 
     const deleteEntry = (playlist_entry_id) => {
         // deletes playlist entry and updates state to show updated changes
-        fetch('/delete-entry.json', {
-            method: 'POST',
+        fetch(`/playlist/entry/${playlist_entry_id}`, {
+            method: 'DELETE',
             headers: {
             'Content-Type': 'application/json',
             },
-            body: JSON.stringify({'playlist_entry_id': playlist_entry_id}),
         }).then(response => {
             response.json().then(res=> {
                 console.log(res);
@@ -78,13 +77,13 @@ const Playlist = (props) => {
     const updatePlaylistInfo = (e) => {
         // updates playlist info from user input modal to db
         e.preventDefault();
-        // POST call to flask server to update playlist
-        fetch('/update-playlist.json', {
-            method: 'POST', 
+        // PUT call to flask server to update playlist
+        fetch(`/playlist/${props.playlist_id}`, {
+            method: 'PUT', 
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({...updateInfo, ['playlist_id']: props.playlist_id})
+            body: JSON.stringify(updateInfo)
         }).then(response => response.json())
         .then(res => {
             console.log(res);
@@ -103,12 +102,11 @@ const Playlist = (props) => {
 
     const followPlaylist =() => {
         // POST call to flask server to follow playlist
-        fetch('/follow-playlist.json', {
+        fetch(`/playlist/${props.playlist_id}/follow`, {
             method: 'POST', 
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({'playlist_id': props.playlist_id})
         }).then(response => response.json())
         .then(res => {
             console.log(res);
@@ -124,13 +122,12 @@ const Playlist = (props) => {
     };
 
     const unfollowPlaylist =() => {
-        // POST call to flask server to follow playlist
-        fetch('/unfollow-playlist.json', {
-            method: 'POST', 
+        // POST call to flask server to unfollow playlist
+        fetch(`/playlist/follow/${follow.id}`, {
+            method: 'DELETE', 
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({'follow_playlist_id': follow.id})
         }).then(response => response.json())
         .then(res => {
             console.log(res);

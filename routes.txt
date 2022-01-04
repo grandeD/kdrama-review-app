@@ -44,16 +44,45 @@ request params kdrama_id
 <Rule '/user-review.json/<kdrama_id>' (GET, OPTIONS, HEAD) -> get_user_review>,
 
 playlist
-<Rule '/followed_playlists.json/<user_id>' (GET, OPTIONS, HEAD) -> get_followed_playlists>,
-<Rule '/follow/<playlist_id>' (GET, OPTIONS, HEAD) -> user_follows>,
-<Rule '/playlist/<playlist_id>' (GET, OPTIONS, HEAD) -> show_playlist>,
-<Rule '/playlists/top' (GET, OPTIONS, HEAD) -> get_top_playlists>,
-<Rule '/unfollow-playlist.json' (OPTIONS, POST) -> unfollow_playlist>,
-<Rule '/create-playlist.json' (OPTIONS, POST) -> create_playlist>,
-<Rule '/add-to-playlist.json' (OPTIONS, POST) -> add_to_playlist>,
-<Rule '/update-playlist.json' (OPTIONS, POST) -> update_playlist>,
-<Rule '/follow-playlist.json' (OPTIONS, POST) -> follow_playlist>,
-<Rule '/user_playlists.json' (GET, OPTIONS, HEAD) -> get_playlists>,
-<Rule '/user_playlists.json/<user_id>' (GET, OPTIONS, HEAD) -> get_playlists>,
-<Rule '/user_playlist.json/<playlist_id>' (GET, OPTIONS, HEAD) -> get_playlist>,
-<Rule '/delete-entry.json' (OPTIONS, POST) -> delete_playlist_entry>,
+
+PLAYLIST
+- <Rule '/playlist/<playlist_id>' (GET, OPTIONS, HEAD) -> show_playlist>,
+
+/playlist?id=<playlist_id>  GET
+- <Rule '/user_playlist.json/<playlist_id>' (GET, OPTIONS, HEAD) -> get_playlist>,
+
+/playlist       POST
+- <Rule '/create-playlist.json' (OPTIONS, POST) -> create_playlist>,
+
+/playlist/<playlist_id>     PUT
+- <Rule '/update-playlist.json' (OPTIONS, POST) -> update_playlist>,
+
+/playlist/<playlist_id>/entry   POST
+- <Rule '/add-to-playlist.json' (OPTIONS, POST) -> add_to_playlist>,
+
+/playlist/entry/<entry_id>    DELETE
+- <Rule '/delete-entry.json' (OPTIONS, POST) -> delete_playlist_entry>,
+
+/playlist/<playlist_id>/follow     GET
+- <Rule '/follow/<playlist_id>' (GET, OPTIONS, HEAD) -> user_follows>,
+
+/playlist/follow/<follow_id>     DELETE
+- <Rule '/unfollow-playlist.json' (OPTIONS, POST) -> unfollow_playlist>,
+
+/playlist/<playlist_id>/follow     POST
+- <Rule '/follow-playlist.json' (OPTIONS, POST) -> follow_playlist>,
+
+PLAYLISTS
+
+/playlists/followed?user_id=<user_id>
+- <Rule '/followed_playlists.json/<user_id>' (GET, OPTIONS, HEAD) -> get_followed_playlists>,
+
+- <Rule '/playlists/top' (GET, OPTIONS, HEAD) -> get_top_playlists>,
+
+/playlists/<user_id>
+- <Rule '/user_playlists.json/<user_id>' (GET, OPTIONS, HEAD) -> get_playlists>,
+
+/playlists
+- <Rule '/user_playlists.json' (GET, OPTIONS, HEAD) -> get_playlists>,
+
+

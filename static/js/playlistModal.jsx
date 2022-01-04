@@ -9,7 +9,7 @@ const PlaylistModal = (props) => {
 
     React.useEffect(() => {
         // grabs all user playlists and assigns to state
-        fetch(`/user_playlists.json`)
+        fetch('/playlists')
         .then(response => response.json())
         .then(data => {
             console.log(data);
@@ -28,7 +28,7 @@ const PlaylistModal = (props) => {
         e.preventDefault();
         // checks if there is an existing title
         if (e.target.title.value !== '') {
-            fetch('/create-playlist.json', {
+            fetch('/playlist', {
                 method: 'POST',
                 headers: {
                 'Content-Type': 'application/json',
@@ -50,12 +50,12 @@ const PlaylistModal = (props) => {
     // Attempts to add the current kdrama to passed in playlist id
     // sets state message of successful or unsuccessful add
     const addToPlaylist = (playlist_id) => {
-        fetch('/add-to-playlist.json', {
+        fetch(`/playlist/${playlist_id}/entry`, {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',
             },
-            body: JSON.stringify({'kdrama_id': props.kdrama_id, 'playlist_id': playlist_id}),
+            body: JSON.stringify({'kdrama_id': props.kdrama_id}),
         }).then(response => {
             response.json().then(res=> {
                 console.log(res);

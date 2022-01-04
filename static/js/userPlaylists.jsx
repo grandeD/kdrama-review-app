@@ -21,10 +21,10 @@ const UserPlaylists = (props) => {
         // grabs all user playlists 
         let url;
         if (props.type === 'user')
-            url = `/user_playlists.json/${props.user_id}`;
+            url = `/playlists/${props.user_id}`;
 
         else if (props.type === 'followed')
-            url = `/followed_playlists.json/${props.user_id}`;
+            url = `/playlists/followed?user_id=${props.user_id}`;
 
         fetch(url)
         .then(response => response.json())
