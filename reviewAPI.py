@@ -6,9 +6,11 @@ from datetime import datetime
 
 review_api = Blueprint('review_api', __name__)
 
-@review_api.route('/reviews.json/<kdrama_id>')
-def get_reviews(kdrama_id):
+# '/reviews.json/<kdrama_id>'
+@review_api.route('/reviews')
+def get_reviews():
     ''' Get reviews for Kdrama '''
+    kdrama_id = request.args.get("kdrama_id")
     reviews = []
     revs = crud.get_reviews(kdrama_id)
     for rev in revs:
@@ -20,9 +22,11 @@ def get_reviews(kdrama_id):
     
     return jsonify({'status': 'success', 'reviews': reviews})
 
-@review_api.route('/user-review.json/<kdrama_id>')
-def get_user_review(kdrama_id):
+# /user-review.json/<kdrama_id>
+@review_api.route('/review')
+def get_user_review():
     ''' Get a review for a Kdrama for a specific user'''
+    kdrama_id = request.args.get("kdrama_id")
     user_id = session.get('user_id')
     if not user_id:
         return jsonify({   'status': 'login', 
@@ -39,15 +43,14 @@ def get_user_review(kdrama_id):
     
     return jsonify({'status': 'none', 'message': 'no review for user from this drama'})
 
-
-@review_api.route('/create-review.json', methods=['POST'])
+# /create-review.json
+@review_api.route('/review', methods=['POST'])
 def create_review():
     """Create an review of kdrama for user and return that review"""
     user_id = session.get('user_id')
     if not user_id:
         return jsonify({   'status': 'error', 
                             'message': 'Please login to create review'})
-
 
     rating = request.get_json().get("rating")
     content = request.get_json().get("content")
@@ -62,8 +65,8 @@ def create_review():
 
     return jsonify({'status': 'success', 'review': rev_json})
 
-
-@review_api.route('/update-review.json', methods=['POST'])
+# update-review.json
+@review_api.route('/review', methods=['PUT'])
 def update_review():
     """Updates an existing review of kdrama for user and returns updated review"""
     rating = request.get_json().get("rating")

@@ -17,14 +17,15 @@ const KdramaReviews = () => {
 
     React.useEffect(() => {
         // grabs all user reviews for this kdrama page
-        fetch(`/reviews.json/${kdrama_id}`)
+        fetch(`/reviews?kdrama_id=${kdrama_id}`)
         .then(response => response.json())
         .then(data => {
             console.log(data);
             if (data.status === 'success') setReviews(data.reviews);
         });
+
         // gets review of user if it already exists
-        fetch(`/user-review.json/${kdrama_id}`)
+        fetch(`/review?kdrama_id=${kdrama_id}`)
         .then(response => response.json())
         .then(data => {
             console.log(data);
@@ -43,8 +44,8 @@ const KdramaReviews = () => {
 
         // if a user review exists, updates the existing review in the db
         if (userReview.review_id) {
-            fetch('/update-review.json', {
-                method: 'POST',
+            fetch('/review', {
+                method: 'PUT',
                 headers: {
                 'Content-Type': 'application/json',
                 },
@@ -60,7 +61,7 @@ const KdramaReviews = () => {
         }
         // Create review and submit to db
         else if(rating > 0) {
-            fetch('/create-review.json', {
+            fetch('/review', {
                 method: 'POST',
                 headers: {
                 'Content-Type': 'application/json',

@@ -29,9 +29,19 @@ user
  <Rule '/account' (GET, OPTIONS, HEAD) -> show_user_account>,
 
 reviews
+/review     POST
  <Rule '/create-review.json' (OPTIONS, POST) -> create_review>,
+
+/review/<review_id>     PUT
  <Rule '/update-review.json' (OPTIONS, POST) -> update_review>,
+
+/reviews   GET
+request params kdrama_id
  <Rule '/reviews.json/<kdrama_id>' (GET, OPTIONS, HEAD) -> get_reviews>,
+
+/review    GET
+request params kdrama_id
+<Rule '/user-review.json/<kdrama_id>' (GET, OPTIONS, HEAD) -> get_user_review>,
 
 playlist
 <Rule '/followed_playlists.json/<user_id>' (GET, OPTIONS, HEAD) -> get_followed_playlists>,
@@ -46,5 +56,4 @@ playlist
 <Rule '/user_playlists.json' (GET, OPTIONS, HEAD) -> get_playlists>,
 <Rule '/user_playlists.json/<user_id>' (GET, OPTIONS, HEAD) -> get_playlists>,
 <Rule '/user_playlist.json/<playlist_id>' (GET, OPTIONS, HEAD) -> get_playlist>,
-<Rule '/user-review.json/<kdrama_id>' (GET, OPTIONS, HEAD) -> get_user_review>,
 <Rule '/delete-entry.json' (OPTIONS, POST) -> delete_playlist_entry>,
