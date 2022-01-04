@@ -23,7 +23,7 @@ app.register_blueprint(review_api)
 app.register_blueprint(playlist_api)
 
 @app.route('/')
-def hompage():
+def homepage():
     ''' View Homepage '''
     return render_template('homepage.html', api_key=os.environ['TMDB_API_KEY'])
 

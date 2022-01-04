@@ -1,88 +1,55 @@
+SERVER.PY
 
- <Rule '/shutdown' (GET, OPTIONS, HEAD) -> shutdown>,
- <Rule '/' (GET, OPTIONS, HEAD) -> hompage>,
+<Rule '/' (HEAD, OPTIONS, GET) -> homepage>,
+<Rule '/signup' (HEAD, OPTIONS, GET) -> show_signup>,
+<Rule '/login' (HEAD, OPTIONS, GET) -> show_login>,
+<Rule '/login' (OPTIONS, POST) -> login_user>,
+<Rule '/logout' (HEAD, OPTIONS, GET) -> logout>,
+<Rule '/search' (HEAD, OPTIONS, GET) -> show_results>,
+<Rule '/kdrama/<kdrama_id>' (HEAD, OPTIONS, GET) -> show_kdrama>,
+<Rule '/discover' (HEAD, OPTIONS, GET) -> show_discover>,
+<Rule '/shutdown' (HEAD, OPTIONS, GET) -> shutdown>,
 
-<Rule '/login' (GET, OPTIONS, HEAD) -> show_login>,
-<Rule '/login.json' (OPTIONS, POST) -> login_user>,
-<Rule '/signup' (GET, OPTIONS, HEAD) -> show_signup>,
-<Rule '/logout' (GET, OPTIONS, HEAD) -> logout>,
 
-<Rule '/kdrama/<kdrama_id>' (GET, OPTIONS, HEAD) -> show_kdrama>,
-<Rule '/discover' (GET, OPTIONS, HEAD) -> show_discover>,
-<Rule '/search' (GET, OPTIONS, HEAD) -> show_results>,
-<Rule '/static/<filename>' (GET, OPTIONS, HEAD) -> static>,
+USER API
 
-user
- <Rule '/users' (GET, OPTIONS, HEAD) -> show_users>,
+<Rule '/user' (OPTIONS, POST) -> user_api.create_account>,
+<Rule '/user' (HEAD, OPTIONS, GET) -> user_api.get_user_id>,
+<Rule '/user/<user_id>' (PUT, OPTIONS) -> user_api.update_account>,
+<Rule '/user/<user_id>' (HEAD, OPTIONS, GET) -> user_api.show_user>
 
- /user              POST
- <Rule '/create-user.json' (OPTIONS, POST) -> create_account>,
+<Rule '/users' (HEAD, OPTIONS, GET) -> user_api.show_users>,
 
- /user/<user_id>    PUT
- <Rule '/update-user.json' (OPTIONS, POST) -> update_account>,
+<Rule '/profile/<user_id>' (HEAD, OPTIONS, GET) -> user_api.show_user_profile>,
+<Rule '/account' (HEAD, OPTIONS, GET) -> user_api.show_user_account>,
 
-/user               GET   
- <Rule '/get-user-id.json' (GET, OPTIONS, HEAD) -> get_user_id>,
 
- <Rule '/profile/<user_id>' (GET, OPTIONS, HEAD) -> show_user_profile>,
- <Rule '/user/<user_id>' (GET, OPTIONS, HEAD) -> show_user>]
- <Rule '/account' (GET, OPTIONS, HEAD) -> show_user_account>,
+REVIEW API
 
-reviews
-/review     POST
- <Rule '/create-review.json' (OPTIONS, POST) -> create_review>,
+<Rule '/review' (HEAD, OPTIONS, GET) -> review_api.get_user_review>,
+<Rule '/review' (OPTIONS, POST) -> review_api.create_review>,
+<Rule '/review' (PUT, OPTIONS) -> review_api.update_review>,
+<Rule '/reviews' (HEAD, OPTIONS, GET) -> review_api.get_reviews>,
 
-/review/<review_id>     PUT
- <Rule '/update-review.json' (OPTIONS, POST) -> update_review>,
+PLAYLIST API
 
-/reviews   GET
-request params kdrama_id
- <Rule '/reviews.json/<kdrama_id>' (GET, OPTIONS, HEAD) -> get_reviews>,
+/playlist
 
-/review    GET
-request params kdrama_id
-<Rule '/user-review.json/<kdrama_id>' (GET, OPTIONS, HEAD) -> get_user_review>,
+<Rule '/playlist/<playlist_id>' (HEAD, OPTIONS, GET) -> playlist_api.show_playlist>,
+<Rule '/playlist/<playlist_id>' (PUT, OPTIONS) -> playlist_api.update_playlist>,
+<Rule '/playlist' (HEAD, OPTIONS, GET) -> playlist_api.get_playlist>,
+<Rule '/playlist' (OPTIONS, POST) -> playlist_api.create_playlist>,
 
-playlist
+<Rule '/playlist/follow/<follow_id>' (DELETE, OPTIONS) -> playlist_api.unfollow_playlist>,
+<Rule '/playlist/<playlist_id>/follow' (OPTIONS, POST) -> playlist_api.follow_playlist>,
+<Rule '/playlist/<playlist_id>/follow' (HEAD, OPTIONS, GET) -> playlist_api.user_follows>,
 
-PLAYLIST
-- <Rule '/playlist/<playlist_id>' (GET, OPTIONS, HEAD) -> show_playlist>,
-
-/playlist?id=<playlist_id>  GET
-- <Rule '/user_playlist.json/<playlist_id>' (GET, OPTIONS, HEAD) -> get_playlist>,
-
-/playlist       POST
-- <Rule '/create-playlist.json' (OPTIONS, POST) -> create_playlist>,
-
-/playlist/<playlist_id>     PUT
-- <Rule '/update-playlist.json' (OPTIONS, POST) -> update_playlist>,
-
-/playlist/<playlist_id>/entry   POST
-- <Rule '/add-to-playlist.json' (OPTIONS, POST) -> add_to_playlist>,
-
-/playlist/entry/<entry_id>    DELETE
-- <Rule '/delete-entry.json' (OPTIONS, POST) -> delete_playlist_entry>,
-
-/playlist/<playlist_id>/follow     GET
-- <Rule '/follow/<playlist_id>' (GET, OPTIONS, HEAD) -> user_follows>,
-
-/playlist/follow/<follow_id>     DELETE
-- <Rule '/unfollow-playlist.json' (OPTIONS, POST) -> unfollow_playlist>,
-
-/playlist/<playlist_id>/follow     POST
-- <Rule '/follow-playlist.json' (OPTIONS, POST) -> follow_playlist>,
-
-PLAYLISTS
-
-/playlists/followed?user_id=<user_id>
-- <Rule '/followed_playlists.json/<user_id>' (GET, OPTIONS, HEAD) -> get_followed_playlists>,
-
-- <Rule '/playlists/top' (GET, OPTIONS, HEAD) -> get_top_playlists>,
-
-/playlists/<user_id>
-- <Rule '/user_playlists.json/<user_id>' (GET, OPTIONS, HEAD) -> get_playlists>,
+<Rule '/playlist/<playlist_id>/entry' (OPTIONS, POST) -> playlist_api.add_to_playlist>,
+<Rule '/playlist/entry/<entry_id>' (DELETE, OPTIONS) -> playlist_api.delete_playlist_entry>,
 
 /playlists
-- <Rule '/user_playlists.json' (GET, OPTIONS, HEAD) -> get_playlists>,
 
-
+<Rule '/playlists/followed' (HEAD, OPTIONS, GET) -> playlist_api.get_followed_playlists>,
+<Rule '/playlists/top' (HEAD, OPTIONS, GET) -> playlist_api.get_top_playlists>,
+<Rule '/playlists' (HEAD, OPTIONS, GET) -> playlist_api.get_playlists>,
+<Rule '/playlists/<user_id>' (HEAD, OPTIONS, GET) -> playlist_api.get_playlists>,
