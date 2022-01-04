@@ -7,6 +7,7 @@ SERVER.PY
 <Rule '/logout' (HEAD, OPTIONS, GET) -> logout>,
 <Rule '/search' (HEAD, OPTIONS, GET) -> show_results>,
 <Rule '/kdrama/<kdrama_id>' (HEAD, OPTIONS, GET) -> show_kdrama>,
+<Rule '/person/<person_id>' (HEAD, OPTIONS, GET) -> show_person>,
 <Rule '/discover' (HEAD, OPTIONS, GET) -> show_discover>,
 <Rule '/shutdown' (HEAD, OPTIONS, GET) -> shutdown>,
 

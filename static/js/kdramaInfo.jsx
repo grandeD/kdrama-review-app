@@ -18,7 +18,7 @@ const KdramaCard = (props) => {
 const CastCard = (props) => {
     return(
     <div className='card'>
-        <a href={`/cast/${props.cast_id}`}>
+        <a href={`/person/${props.cast_id}`}>
         <img style={{height: '150px'}} src={`${TMDB_IMAGE_URL}${props.profile_path}`} alt={props.name} />
         </a>
         <p>{props.name}</p>
@@ -61,7 +61,7 @@ const KdramaInfo = (props) =>  {
             .then(response => response.json())
             .then(data => {
                 console.log(data);
-                if (data.results.US.flatrate){
+                if (data.results.US && data.results.US.flatrate){
                     const logos = data.results.US.flatrate.map((watch_provider) => {
                         return watch_provider.logo_path;  
                     });
@@ -114,6 +114,22 @@ const KdramaInfo = (props) =>  {
         );
     }
 
+    // creates and stores creators/crew in creators
+    const creators = [];
+    if (kdramaData.created_by) {
+        for (const creator of kdramaData.created_by) {
+            creators.push(
+                <div key={creator.id}>
+                    <a href={`/person/${creator.id}`}>
+                    <img style={{height: '150px'}} src={`${TMDB_IMAGE_URL}${creator.profile_path}`} alt={creator.name} />
+                    </a>
+                    <p>{creator.name}</p>
+                </div>
+            );
+        }
+    }
+
+
     let watch_logos = [];
     if (watchProviders.logos) {
         watch_logos = watchProviders.logos.map((logo, index) => {
@@ -134,7 +150,7 @@ const KdramaInfo = (props) =>  {
 
                     <div id='add_to_playlist'></div>
                     <div id='play_trailer'> </div>
-                    {watch_logos && 
+                    {watch_logos.length > 0 && 
                     <div>
                         <p>Stream on: </p>
                         {watch_logos}
@@ -153,6 +169,12 @@ const KdramaInfo = (props) =>  {
                 <div className='flex-gap'>
                     {castCards}
                 </div>
+            {creators.length > 0 &&
+                <h3>Created by</h3>}
+                <div className='flex-gap'>
+                    {creators}
+                </div>
+
             {recCards.length > 0 &&
                 <h3>Similar Korean Dramas</h3>}
                 <div className='flex-gap'>
