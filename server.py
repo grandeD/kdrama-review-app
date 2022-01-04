@@ -9,10 +9,13 @@ from jinja2 import StrictUndefined
 import os
 
 from datetime import datetime
+from testAPI import test_api
 
 app = Flask(__name__)
 app.secret_key = 'thebestkoreandramareviewsiteever'
 app.jinja_env.undefined = StrictUndefined
+
+# app.register_blueprint(test_api)
 
 GENRES = { "16": "Animation",
     "18": "Drama",
@@ -168,8 +171,6 @@ def show_users():
     '''Shows the users of Koreview in list view'''
     users = crud.get_users()
     return render_template('users.html', users=users)
-
-
 
 
 # Public profile page of specified user /profile
