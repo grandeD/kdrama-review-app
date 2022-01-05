@@ -51,12 +51,12 @@
          <h3>{{user.username}}'s Reviews</h3>
       {%endif%}
       <div id='user_reviews'></div>
-
-
-
       
       {%for review in user.reviews%}
       <div>
+         <a href='/kdrama/{{review.kdrama.kdrama_id}}'>
+         <img style="height:200px;" src='https://image.tmdb.org/t/p/original{{review.kdrama.poster_path}}' alt='Kdrama Poster' />
+         </a>
          <h4>{{review.kdrama.title}}</h4>
          <p>Rating: {{review.rating}}</p>
          {% if review.content != '0' and review.content != ''%}

@@ -32,6 +32,12 @@ REVIEW API
 <Rule '/review' (PUT, OPTIONS) -> review_api.update_review>,
 <Rule '/reviews' (HEAD, OPTIONS, GET) -> review_api.get_reviews>,
 
+/review
+- if user likes other users review
+- count of like
+/review/<review_id>/like
+/review/<review_id>/dislike
+
 PLAYLIST API
 
 /playlist

@@ -88,17 +88,20 @@ const KdramaReviews = () => {
         setContent(userReview.content);
     };
 
-
     const revCards = [];
     // Review cards of Kdrama reviews by all users
     for (const ndx in reviews) {
         if (userReview.review_id !== reviews[ndx].review_id)
         revCards.push(
             <div key={ndx}>
-                <a>username: <span>{reviews[ndx].username}</span></a>
-                <p>rating: <span>{reviews[ndx].rating}</span></p>
-                <p>content: <span>{reviews[ndx].content}</span></p>
-                <p>review_date: <span>{reviews[ndx].review_date}</span></p>
+                <div style={{display: 'flex', alignItems: 'center', gap: '1em'}}>
+                    <a href={`/profile/${reviews[ndx].user_id}`} className='avatar sm' >
+                        <img id='avatar-img' src={reviews[ndx].image_path}/> </a>
+                    <span >{reviews[ndx].username}</span> 
+                    <p>{reviews[ndx].rating}/10 <span className="star">&#9733;</span></p>
+                </div> 
+                <p>{reviews[ndx].content}</p>
+                <p>{reviews[ndx].review_date}</p>
             </div>
         );
     }
@@ -106,7 +109,10 @@ const KdramaReviews = () => {
     return (
         <div>
             <h2>Reviews</h2>
-            {revCards}
+            <div style={{display: 'flex', flexDirection: 'column', width: '50%', gap: '1em', margin: '1.5em'}}>
+                {revCards}
+            </div>
+
         {showInput ? 
         <form onSubmit={handleSubmit} style={{display: 'flex', flexDirection: 'column', width: '50%', gap: '1em'}}>
             {/* Rating out of 10 in stars  */}

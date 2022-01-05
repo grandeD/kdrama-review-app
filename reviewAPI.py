@@ -16,9 +16,10 @@ def get_reviews():
     for rev in revs:
         reviews.append({'review_id': rev.review_id,
                         'username': rev.user.username,
+                        'image_path': rev.user.image_path,
                         'user_id': rev.user.user_id,
                         'rating': rev.rating, 'content': rev.content,
-                        'review_date': rev.review_date.strftime('%m/%d/%Y - %H:%M')})
+                        'review_date': rev.review_date.strftime('%B %-d, %Y')})
     
     return jsonify({'status': 'success', 'reviews': reviews})
 

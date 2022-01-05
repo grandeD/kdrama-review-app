@@ -83,6 +83,11 @@ nav .search-container button {
     height: 100px;
     width: 100px;
   }
+
+  .sm {
+    height: 50px;
+    width: 50px;
+  }
   
 
 
