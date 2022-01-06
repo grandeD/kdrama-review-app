@@ -21,6 +21,7 @@ class User(db.Model):
     reviews = db.relationship('Review', back_populates='user')
     playlists = db.relationship('Playlist', back_populates='user')
     followplaylists = db.relationship('FollowPlaylist', back_populates='user')
+    likereviews = db.relationship('LikeReview', back_populates='user')
 
     def __repr__(self):
         return f'<User user_id={self.user_id} email={self.email} name={self.fname} {self.lname}>'
@@ -53,14 +54,14 @@ class Review(db.Model):
 
     kdrama = db.relationship('Kdrama', back_populates='reviews')
     user = db.relationship('User', back_populates='reviews')
+    likereviews = db.relationship('LikeReview', back_populates='review')
 
     rating = db.Column(db.Integer, nullable=False)
     edited = db.Column(db.Boolean, nullable=False, default=False)
     review_date = db.Column(db.DateTime, nullable=False, default=datetime.now())
     content = db.Column(db.String, nullable=True)
 
-    upvotes = db.Column(db.Integer, nullable=False, default=0)
-    downvotes = db.Column(db.Integer, nullable=False, default=0)
+    likes = db.Column(db.Integer, nullable=False, default=0)
 
     def __repr__(self):
         return f'<Review review_id={self.review_id} rating={self.rating}'
@@ -70,11 +71,11 @@ class Review(db.Model):
         self.rating = rating
         self.content = content
     
-    def upvote(self, amount):
-        self.upvotes += amount
+    def like(self):
+        self.likes += 1
     
-    def downvote(self, amount):
-        self.downvotes += amount
+    def unlike(self):
+        self.likes -= 1
 
 class Playlist(db.Model):
     """A Kdrama Playlist """
@@ -124,6 +125,17 @@ class FollowPlaylist(db.Model):
 
     playlist = db.relationship('Playlist', back_populates='followplaylists')
     user = db.relationship('User', back_populates='followplaylists')
+
+class LikeReview(db.Model):
+    '''Review, User relationship, where user likes another user's review'''
+
+    __tablename__ = 'likereviews'
+    like_review_id = db.Column(db.Integer, autoincrement = True, primary_key = True)
+    review_id = db.Column(db.Integer, db.ForeignKey('reviews.review_id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+
+    review = db.relationship('Review', back_populates='likereviews')
+    user = db.relationship('User', back_populates='likereviews')
 
 def connect_to_db(flask_app, db_uri="postgresql:///kdrama-review-db", echo=True):
     flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri

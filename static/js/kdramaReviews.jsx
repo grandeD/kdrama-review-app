@@ -88,6 +88,31 @@ const KdramaReviews = () => {
         setContent(userReview.content);
     };
 
+
+    const handleLike = (review, index) => {
+        console.log(review);
+        // default values are for unlike review
+        let method = 'DELETE'; let user_like = false; let like = -1
+        if (!review.user_like)  {
+            method = 'POST';       user_like = true;      like = 1;
+        }
+
+        // POST call to flask server to like a review
+        fetch(`/review/${review.review_id}/like`, {
+            method: method,  headers: {'Content-Type': 'application/json'},})
+        .then(response => response.json())
+        .then(res => {
+            console.log(res);
+            if(res.status === 'success') {
+                // update state values for reviews
+                let newReviews = [...reviews];
+                newReviews[index].likes += like;
+                newReviews[index].user_like = user_like;
+                setReviews(newReviews);
+            }
+        });
+    };
+
     const revCards = [];
     // Review cards of Kdrama reviews by all users
     for (const ndx in reviews) {
@@ -102,6 +127,10 @@ const KdramaReviews = () => {
                 </div> 
                 <p>{reviews[ndx].content}</p>
                 <p>{reviews[ndx].review_date}</p>
+                <button onClick={() => handleLike(reviews[ndx], ndx)}>
+                    <span>{reviews[ndx].likes} </span> 
+                    {(reviews[ndx].user_like ? 'Unlike' : 'Like')}
+                </button>
             </div>
         );
     }

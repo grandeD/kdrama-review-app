@@ -13,18 +13,25 @@ def get_reviews():
     kdrama_id = request.args.get("kdrama_id")
     reviews = []
     revs = crud.get_reviews(kdrama_id)
+    user_id = session.get('user_id')
     for rev in revs:
-        reviews.append({'review_id': rev.review_id,
-                        'username': rev.user.username,
-                        'image_path': rev.user.image_path,
-                        'user_id': rev.user.user_id,
-                        'rating': rev.rating, 'content': rev.content,
-                        'review_date': rev.review_date.strftime('%B %-d, %Y')})
+        if rev.user_id != user_id:
+            user_like = None
+            if user_id:
+                user_like = crud.get_like_review(user_id, rev.review_id)
+            reviews.append({'review_id': rev.review_id,
+                            'username': rev.user.username,
+                            'image_path': rev.user.image_path,
+                            'user_id': rev.user.user_id,
+                            'rating': rev.rating, 'content': rev.content,
+                            'review_date': rev.review_date.strftime('%B %-d, %Y'),
+                            'likes': rev.likes,
+                            'user_like': user_like is not None })
     
     return jsonify({'status': 'success', 'reviews': reviews})
 
 # /user-review.json/<kdrama_id>
-@review_api.route('/review')
+@review_api.route('/review', methods=['GET'])
 def get_user_review():
     ''' Get a review for a Kdrama for a specific user'''
     kdrama_id = request.args.get("kdrama_id")
@@ -39,7 +46,8 @@ def get_user_review():
                 'username': review.user.username,
                 'user_id': review.user.user_id,
                 'rating': review.rating, 'content': review.content,
-                'review_date': review.review_date.strftime('%m/%d/%Y - %H:%M')}
+                'likes': review.likes,
+                'review_date': review.review_date.strftime('%B %-d, %Y')}
         return jsonify({'status': 'success', 'review': result})
     
     return jsonify({'status': 'none', 'message': 'no review for user from this drama'})
@@ -60,8 +68,8 @@ def create_review():
     review = crud.create_review(rating, content, user_id, kdrama_id)
     rev_json = {'review_id': review.review_id, 'username': review.user.username,
                         'user_id': review.user.user_id,
-                        'rating': review.rating, 'content': review.content,
-                        'review_date': review.review_date.strftime('%m/%d/%Y - %H:%M')
+                        'rating': review.rating, 'content': review.content,'likes': review.likes,
+                        'review_date': review.review_date.strftime('%B %-d, %Y')
                         }
 
     return jsonify({'status': 'success', 'review': rev_json})
@@ -77,7 +85,31 @@ def update_review():
     review = crud.update_review(rating, content, review_id)
     rev_json = {'review_id': review.review_id, 'username': review.user.username,
                         'user_id': review.user.user_id,
-                        'rating': review.rating, 'content': review.content,
-                        'review_date': review.review_date.strftime('%m/%d/%Y - %H:%M')}
+                        'rating': review.rating, 'content': review.content,'likes': review.likes,
+                        'review_date': review.review_date.strftime('%B %-d, %Y')}
 
     return jsonify({'status': 'success', 'review': rev_json})
+
+
+# /review/<review_id>/like  POST
+@review_api.route('/review/<review_id>/like', methods=['POST'])
+def like_review(review_id):
+    """The current user in session adds a like to the specified review"""
+    user_id = session.get('user_id')
+
+    if not user_id:
+        return jsonify({   'status': 'error', 
+                            'message': 'Please login to like review'})
+
+    like = crud.create_like_review(user_id, review_id)
+
+    return jsonify({'status': 'success', 'like': like.like_review_id})
+
+# /review/<review_id>/like  DELETE
+@review_api.route('/review/<review_id>/like', methods=['DELETE'])
+def unlike_review(review_id):
+    """The current user in session unlikes the specified review"""
+    user_id = session.get('user_id')
+    crud.delete_like_review(user_id, review_id)
+
+    return jsonify({'status': 'success', 'message': 'review unliked'})

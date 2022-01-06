@@ -1,5 +1,5 @@
 """CRUD operations"""
-from model import db, User, Kdrama, Review, Playlist, PlaylistEntry, FollowPlaylist, connect_to_db
+from model import db, User, Kdrama, Review, Playlist, PlaylistEntry, FollowPlaylist, LikeReview, connect_to_db
 
 def create_user(fname, lname, email, password, username, image_path=''):
     """Create and return a new user"""
@@ -154,10 +154,13 @@ def create_follow_playlist(user_id, playlist_id):
     and returns the relationship '''
 
     follow = FollowPlaylist(user_id=user_id, playlist_id=playlist_id)
-    Playlist.query.get(playlist_id).add_follower()
-
     db.session.add(follow)
     db.session.commit()
+
+    follow.playlist.add_follower()
+
+    db.session.commit()
+
 
     return follow
 
@@ -171,7 +174,7 @@ def get_follow_playlist(user_id, playlist_id):
 def delete_follow_playlist(follow_playlist_id):
     '''Deletes specified follow playlist relationship '''
     follow = FollowPlaylist.query.get(follow_playlist_id)
-    Playlist.query.get(follow.playlist_id).subtract_follower()
+    follow.playlist.subtract_follower()
     db.session.delete(follow)
     db.session.commit()
 
@@ -180,7 +183,7 @@ def get_followed_playlists(user_id):
     user = get_user_by_id(user_id)
     result = []
     for follow in user.followplaylists:
-        result.append(Playlist.query.get(follow.playlist_id))
+        result.append(follow.playlist)
     return result
 
 def get_top_followed_playlists():
@@ -188,6 +191,42 @@ def get_top_followed_playlists():
     pls = Playlist.query.order_by(Playlist.followers.desc()).all()
     if (len(pls) > 10): return pls[:11]
     return pls
+   
+def create_like_review(user_id, review_id):
+    '''Creates a like review relationship between a user and review
+    and returns the relationship '''
+
+    like = LikeReview(user_id=user_id, review_id=review_id)
+    db.session.add(like)
+    db.session.commit()
+
+    like.review.like()
+    db.session.commit()
+
+    return like
+
+def get_like_review(user_id, review_id):
+    '''Gets a like review relationship between a user and review
+    if it exists '''
+    like = LikeReview.query.filter(   LikeReview.user_id == user_id, 
+                            LikeReview.review_id == review_id).first()
+    return like
+
+def delete_like_review(user_id, review_id):
+    '''Deletes specified like review relationship '''
+    like = get_like_review(user_id, review_id)
+    like.review.unlike()
+    db.session.delete(like)
+    db.session.commit()
+
+def get_like_reviews(user_id):
+    '''Gets all the reviews a user like '''
+    user = get_user_by_id(user_id)
+    result = []
+    for like in user.likereviews:
+        result.append(like.review)
+    return result
+
 
 
 
