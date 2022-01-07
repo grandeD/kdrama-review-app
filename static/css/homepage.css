@@ -1,5 +1,10 @@
 /* Slideshow */
 
+.rounded {
+  border-radius: 30px;
+  box-shadow: 1px 14px 17px -8px rgba(0,0,0,0.19);
+}
+
 .slideshow {
     margin: 0 auto;
     overflow: hidden;
@@ -17,6 +22,16 @@
     height: 400px;
     width: 100%;
     border-radius: 40px;
+    position: relative;
+}
+
+.slide a {
+  color: var(--light);
+  text-decoration: none;
+  line-height: 0.5em;
+  position: absolute;
+  bottom: 3em;
+  left: 3em
 }
 
 /* Buttons */
@@ -26,8 +41,8 @@
   }
 .slideshowDot {
     display: inline-block;
-    height: 1em;
-    width: 1em;
+    height: 0.5em;
+    width: 0.5em;
     border-radius: 50%;
     cursor: pointer;
     margin: 15px 7px 0px;
@@ -35,5 +50,5 @@
 }
 
 .slideshowDot.active {
-    background-color: #6a0dad;
+    background-color: var(--accent);
   }

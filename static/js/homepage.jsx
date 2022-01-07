@@ -127,13 +127,23 @@ const Slideshow = (props) => {
     const slides = [];
     for (const kdrama of topDramas) {
         slides.push(
-            <a href={`/kdrama/${kdrama.id}`} key={kdrama.id} >
-            <div className='slide' >
-                <img style={{height: '100%'}} 
-                src={`https://image.tmdb.org/t/p/original/${kdrama.backdrop_path}`} alt='Kdrama Poster' /> 
-                <p>{kdrama.name}</p>
+            <div key={kdrama.id} className='slide' style={{
+                background: `linear-gradient(
+                    to bottom,
+                    rgba(0, 0, 0, 0),
+                    rgba(0, 0, 0, 0.6)
+                  ),
+                url('https://image.tmdb.org/t/p/original/${kdrama.backdrop_path}') no-repeat center center / cover`,
+                backgroundSize: 'cover'
+            }}>
+
+                <a href={`/kdrama/${kdrama.id}`}  >
+                    <h3>{kdrama.name}</h3> 
+                    <span>{kdrama.first_air_date.slice(0,4)}</span>             
+                </a>
+
             </div> 
-            </a>
+
             );
     }
 

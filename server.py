@@ -25,6 +25,7 @@ app.register_blueprint(playlist_api)
 @app.route('/')
 def homepage():
     ''' View Homepage '''
+    # flash('hello')
     return render_template('homepage.html', api_key=os.environ['TMDB_API_KEY'])
 
 # Login page /login

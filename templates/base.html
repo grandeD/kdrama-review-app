@@ -12,7 +12,11 @@
     {% block js %}
     {% endblock %}
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="/static/css/base.css" rel="stylesheet">
+
 
     <!-- Include any page-specific CSS using this block. -->
     {% block css %}
@@ -27,36 +31,57 @@
     <script src="https://kit.fontawesome.com/def9ea2d86.js" crossorigin="anonymous"></script>
 </head>
 <body>
+    {% for msg in get_flashed_messages() %}
+    <div id="alert"> <p class="alert">{{msg}}</p> </div>
+    {% endfor %}
+
+    {% set active_page = active_page|default('') -%}
     <!-- Navbar -->
-    <nav>
-        <a href="/">Koreview</a>
-        <a href="/discover">Discover</a>
-        {% if session.get('user_id')%}
-            <a href="/account" >Account</a>
-            <a href="/logout" >Logout</a>
-            <a href="/users">Users</a>
-        {%endif%}
-        {% if not session.get('user_id')%}
-            <a href="/login" >Login</a>
-        {%endif%}
+    <div class="sidenav">
+        <h2>Koreview<span id='accent'>.</span></h2>
+        <div class='nav-section'>
+            <span id='nav-title'>Menu</span>
+            <a href="/" {% if active_page == 'home' %} class="active"{% endif%}>
+                <i class="fas fa-home nav-icon"></i> Home</a>
+            <a href="/discover" {% if active_page == 'discover' %} class="active"{% endif%}>
+                <i class="fas fa-compass nav-icon"></i> Discover</a>
+            <a href="/users" {% if active_page == 'users' %} class="active"{% endif%}>
+                <i class="fas fa-user-friends nav-icon"></i> Users</a>
+        </div>
+
+        <div class='nav-section'>
+            <span id='nav-title'>General</span>
+            {% if session.get('user_id')%}
+    
+            <a href="/account" {% if active_page == 'account' %} class="active"{% endif%}>
+                <i class="fas fa-user-circle nav-icon"></i> Account</a>
+            <a href="/logout" ><i class="fas fa-sign-out-alt nav-icon"></i> Logout</a>
+    
+            {%endif%}
+            {% if not session.get('user_id')%}
+            <a href="/login" {% if active_page == 'login' %} class="active"{% endif%}>
+                <i class="fas fa-sign-in-alt nav-icon"></i>Login</a>
+            </a>
+            {% endif %}
+        </div>
+
+    </div>
+
+
+
+    <!-- Include the page's content with this block. -->
+    <div class='main'>
         <div class="search-container">
             <form action="/search">
                 <input type="text" placeholder="Search.." name="search-query">
                 <button type="submit"><i class="fa fa-search"></i></button>
             </form>
         </div>
-    </nav>
-
-    {% for msg in get_flashed_messages() %}
-    <p class="flash-msg">
-      {{ msg }}
-    </p>
-    {% endfor %}
+        
+        {% block body %}
+        {% endblock %}
+    </div>
 
 
-    <!-- Include the page's content with this block. -->
-
-    {% block body %}
-    {% endblock %}
 </body>
 </html>

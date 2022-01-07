@@ -19,6 +19,9 @@
                 data-user_id={{user.user_id}}>
 {% endblock %}
 
+{% if session.get('user_id') == user.user_id %}
+{% set active_page = 'account' -%}
+{% endif %}
 
 {% block body %}
 
