@@ -54,6 +54,10 @@ def show_discover():
 def check_password(user, password):
     if user.password == password:
         session['user_id'] = user.user_id
+        session['user_image_path'] = user.image_path
+        session['name'] = f'{user.fname} {user.lname}'
+        session['username'] = user.username
+
         return {'status': 'success', 'message': 'Successfully logged in', 'user_id': user.user_id}
     else:
         return {'status': 'error', 'message': 'Password is incorrect'}

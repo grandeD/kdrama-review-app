@@ -40,42 +40,52 @@
     <div class="sidenav">
         <h2>Koreview<span id='accent'>.</span></h2>
         <div class='nav-section'>
-            <span id='nav-title'>Menu</span>
+            <span class='sm-title'>Menu</span>
             <a href="/" {% if active_page == 'home' %} class="active"{% endif%}>
-                <i class="fas fa-home nav-icon"></i> Home</a>
+                <i class="fas fa-home nav-icon"></i> <span class='nav-title'> Home</span></a>
             <a href="/discover" {% if active_page == 'discover' %} class="active"{% endif%}>
-                <i class="fas fa-compass nav-icon"></i> Discover</a>
+                <i class="fas fa-compass nav-icon"></i> <span class='nav-title'> Discover</span></a>
             <a href="/users" {% if active_page == 'users' %} class="active"{% endif%}>
-                <i class="fas fa-user-friends nav-icon"></i> Users</a>
+                <i class="fas fa-user-friends nav-icon"></i> <span class='nav-title'> Users</span></a>
         </div>
 
         <div class='nav-section'>
-            <span id='nav-title'>General</span>
+            <span class='sm-title'>General</span>
             {% if session.get('user_id')%}
     
             <a href="/account" {% if active_page == 'account' %} class="active"{% endif%}>
-                <i class="fas fa-user-circle nav-icon"></i> Account</a>
-            <a href="/logout" ><i class="fas fa-sign-out-alt nav-icon"></i> Logout</a>
+                <i class="fas fa-user-circle nav-icon"></i> <span class='nav-title'> Account</span></a>
+            <a href="/logout" ><i class="fas fa-sign-out-alt nav-icon"></i> <span class='nav-title'> Logout</span></a>
     
             {%endif%}
             {% if not session.get('user_id')%}
             <a href="/login" {% if active_page == 'login' %} class="active"{% endif%}>
-                <i class="fas fa-sign-in-alt nav-icon"></i>Login</a>
+                <i class="fas fa-sign-in-alt nav-icon"></i><span class='nav-title'> Logout</span></a>
             </a>
             {% endif %}
         </div>
 
     </div>
 
-
-
     <!-- Include the page's content with this block. -->
     <div class='main'>
+        <div class='header'>
         <div class="search-container">
             <form action="/search">
-                <input type="text" placeholder="Search.." name="search-query">
+                <input type="text" placeholder="Search for a Korean Drama.." name="search-query">
                 <button type="submit"><i class="fa fa-search"></i></button>
             </form>
+        </div>
+
+        {% if session.get('user_id')%}
+        <a href='/account'>
+            <div style='display: flex; align-items: center; gap: 1em;'>
+                <div class='avatar sm' >
+                    <img id='avatar-img' src={{session.get('user_image_path')}}/> </div>
+                <span >{{session.get('username')}}</span> 
+        </div></a> 
+        {% endif %}
+
         </div>
         
         {% block body %}

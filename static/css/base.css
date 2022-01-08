@@ -20,7 +20,19 @@ body {
   color: var(--accent);
 }
 
-#nav-title {
+a {
+  text-decoration: none;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1em;
+  margin-bottom: 1.5em;
+}
+
+.sm-title {
   font-size: 14px;
   color: var(--grey-100);
   font-weight: 400;
@@ -49,6 +61,20 @@ body {
   box-sizing: border-box;      
 }
 
+/* The navigation menu links */
+.sidenav a {
+  font-size: 16px;
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  color: var(--grey-100);
+  display: block;
+}
+
+.sidenav a.active {
+  color: var(--accent);
+  border-right: 5px solid var(--accent);
+}
+
 .nav-section {
   display: flex;
   flex-direction: column;
@@ -60,25 +86,7 @@ body {
   padding-right: 1em;
 }
 
-/* The navigation menu links */
-.sidenav a {
-  font-size: 16px;
-  padding: 6px 8px 6px 16px;
-  text-decoration: none;
-  color: var(--grey-100);
-  display: block;
 
-}
-
-a.active {
-  color: var(--accent);
-  border-right: 5px solid var(--accent);
-}
-
-/* When you mouse over the navigation links, change their color */
-.sidenav a:hover {
-  color: var(--accent);
-}
 
 /* Style page content */
 .main {
@@ -86,44 +94,11 @@ a.active {
   padding: 0px 40px;
 }
 
-/* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
-@media screen and (max-height: 450px) {
-  .sidenav {padding-top: 15px;}
-  .sidenav a {font-size: 18px;}
-}
-
-  /* Style the search box inside the navigation bar */
-nav input[type=text] {
-    float: right;
-    padding: 6px;
-    border: none;
-    margin-top: 8px;
-    margin-right: 16px;
-    font-size: 17px;
-  }
-  
-nav .search-container button {
-    float: right;
-    padding: 6px 10px;
-    margin-top: 8px;
-    margin-right: 16px;
-    background: #ddd;
-    font-size: 17px;
-    border: none;
-    cursor: pointer;
-  }
-
-input[type=text], input[type=password]{
-
-  padding: 0.75em 1em;
-  margin: 0.5em 0;
-  margin-right: 1em;
-  box-sizing: border-box;
-}
+/* User Avatar IMG */
 
 #avatar-img {
   padding-top: 10%;
-  height: 85%;
+  height: 80%;
 }
 
 .avatar {
@@ -132,6 +107,10 @@ input[type=text], input[type=password]{
   align-items: center;
   background-color: grey;
   border-radius: 50%;
+}
+
+a:hover {
+  color: var(--accent);
 }
 
 .lg {
@@ -149,10 +128,44 @@ input[type=text], input[type=password]{
   width: 50px;
 }
 
-/* #alert {
-display: block; 
-position: absolute; 
-} */
+/* Search Bar */
+
+.search-container {
+  display: inline-flex;
+  flex-wrap: wrap;
+}
+
+.search-container input[type=text] {
+  margin: 0;
+  padding: 0.7em;
+  padding-right: 3em;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+}
+
+.search-container input[type=text]::placeholder {
+  font-size: 12px;
+}
+
+.search-container button {
+  /* margin-left: -0.5em; */
+  padding: 0.7em;
+  background: var(--grey-100);
+  color: var(--light);
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.search-container button:hover {
+  background: var(--accent);
+  color: var(--light);
+}
+
+
+/* Flash Message Alert */
 
 #alert {
   z-index: 1;
@@ -177,6 +190,7 @@ position: absolute;
   99% { opacity: 0; transform: translateY(-30px);}
   100% { opacity: 0;}
 }
+
 
 
 
