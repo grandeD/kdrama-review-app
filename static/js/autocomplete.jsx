@@ -30,10 +30,6 @@ const Autocomplete = () => {
         setShowSuggestions(false);
       };
 
-    const onClick = (key) => {
-        console.log(key);
-      };
-
       const onKeyDown = (e) => {
 
         if (e.keyCode === 13) // enter key, user selects input
