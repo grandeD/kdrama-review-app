@@ -11,6 +11,7 @@
     <!-- Include any page-specific JavaScript using this block. -->
     {% block js %}
     {% endblock %}
+    <script src="/static/js/autocomplete.jsx" type="text/jsx"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -71,10 +72,6 @@
     <div class='main'>
         <div class='header'>
         <div class="search-container">
-            <form action="/search">
-                <input type="text" placeholder="Search for a Korean Drama.." name="search-query">
-                <button type="submit"><i class="fa fa-search"></i></button>
-            </form>
         </div>
 
         {% if session.get('user_id')%}

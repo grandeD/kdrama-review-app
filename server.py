@@ -92,6 +92,16 @@ def show_results():
     kdrama_results = crud.get_kdrama_by_title(search_query)
     return render_template('results.html', search_query=search_query, kdrama_results=kdrama_results)
 
+@app.route('/search/autocomplete')
+def autocomplete_results():
+    '''Take search_input and returns at most, 10 autocomplete suggestions'''
+    search_query = request.args.get('search-query')
+    kdrama_results = crud.kdrama_autocomplete(search_query)
+    kdrama_json = []
+    for kdrama in kdrama_results:
+        kdrama_json.append(kdrama.title)
+    return jsonify({'status':'success', 'results':kdrama_json})
+
 # Kdrama Page
 @app.route('/kdrama/<kdrama_id>')
 def show_kdrama(kdrama_id):
