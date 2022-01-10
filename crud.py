@@ -45,10 +45,11 @@ def update_user(user_id, image_path, fav_genre):
 
     return user
 
-def create_kdrama(kdrama_id, title, overview, release_date, poster_path):
+def create_kdrama(kdrama_id, title, overview, release_date, poster_path, backdrop_path):
     """Create and return a new kdrama."""
 
-    kdrama = Kdrama(kdrama_id = kdrama_id, title=title, overview=overview, release_date=release_date, poster_path=poster_path)
+    kdrama = Kdrama(kdrama_id = kdrama_id, title=title, overview=overview, release_date=release_date, 
+    poster_path=poster_path, backdrop_path=backdrop_path)
 
     db.session.add(kdrama)
     db.session.commit()
@@ -231,6 +232,12 @@ def get_like_reviews(user_id):
     for like in user.likereviews:
         result.append(like.review)
     return result
+
+def get_top_reviews():
+    ''' Get the top 5 reviews that users like '''
+    revs = Review.query.order_by(Review.likes.desc()).all()
+    if (len(revs) > 5): return revs[:6]
+    return revs
 
 
 

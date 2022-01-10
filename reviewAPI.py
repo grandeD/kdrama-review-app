@@ -11,14 +11,28 @@ review_api = Blueprint('review_api', __name__)
 def get_reviews():
     ''' Get reviews for Kdrama '''
     kdrama_id = request.args.get("kdrama_id")
+    user_id = request.args.get("user_id")
     reviews = []
-    revs = crud.get_reviews(kdrama_id)
-    user_id = session.get('user_id')
-    for rev in revs:
-        if rev.user_id != user_id:
-            user_like = None
-            if user_id:
-                user_like = crud.get_like_review(user_id, rev.review_id)
+    if kdrama_id:
+        revs = crud.get_reviews(kdrama_id)
+        user_id = session.get('user_id')
+        for rev in revs:
+            if rev.user_id != user_id:
+                user_like = None
+                if user_id:
+                    user_like = crud.get_like_review(user_id, rev.review_id)
+                reviews.append({'review_id': rev.review_id,
+                                'username': rev.user.username,
+                                'image_path': rev.user.image_path,
+                                'user_id': rev.user.user_id,
+                                'rating': rev.rating, 'content': rev.content,
+                                'review_date': rev.review_date.strftime('%B %-d, %Y'),
+                                'likes': rev.likes,
+                                'user_like': user_like is not None })
+    elif user_id:
+        # get reviews of user in session
+        user = crud.get_user_by_id(user_id)
+        for rev in user.reviews:
             reviews.append({'review_id': rev.review_id,
                             'username': rev.user.username,
                             'image_path': rev.user.image_path,
@@ -26,9 +40,32 @@ def get_reviews():
                             'rating': rev.rating, 'content': rev.content,
                             'review_date': rev.review_date.strftime('%B %-d, %Y'),
                             'likes': rev.likes,
-                            'user_like': user_like is not None })
+                            'poster_path': rev.kdrama.poster_path,
+                            'kdrama_id': rev.kdrama.kdrama_id,
+                            'title': rev.kdrama.title})
     
     return jsonify({'status': 'success', 'reviews': reviews})
+
+@review_api.route('/reviews/top')
+def get_top_reviews():
+    ''' Get top liked reviews '''
+    reviews = []
+    revs = crud.get_top_reviews()
+
+    for rev in revs:
+        reviews.append({'review_id': rev.review_id,
+                        'username': rev.user.username,
+                        'image_path': rev.user.image_path,
+                        'user_id': rev.user.user_id,
+                        'rating': rev.rating, 'content': rev.content,
+                        'review_date': rev.review_date.strftime('%B %-d, %Y'),
+                        'likes': rev.likes,
+                        'poster_path': rev.kdrama.poster_path,
+                        'kdrama_id': rev.kdrama.kdrama_id,
+                        'title': rev.kdrama.title})
+    
+    return jsonify({'status': 'success', 'reviews': reviews})
+
 
 # /user-review.json/<kdrama_id>
 @review_api.route('/review', methods=['GET'])

@@ -37,6 +37,7 @@ class Kdrama(db.Model):
     overview = db.Column(db.Text, nullable=True)
     release_date = db.Column(db.DateTime, nullable=True)
     poster_path = db.Column(db.String, nullable=True)
+    backdrop_path = db.Column(db.String, nullable=True)
 
     reviews = db.relationship('Review', back_populates='kdrama')
     playlistentries = db.relationship('PlaylistEntry', back_populates='kdrama')
@@ -86,7 +87,7 @@ class Playlist(db.Model):
     title = db.Column(db.String, nullable=False)
     content = db.Column(db.String, nullable=True)
     followers = db.Column(db.Integer, nullable=False, default=0)
-    image_url = db.Column(db.String, nullable=True)
+    image_path = db.Column(db.String, nullable=True)
 
     user = db.relationship('User', back_populates='playlists')
     playlistentries = db.relationship('PlaylistEntry', back_populates='playlist')

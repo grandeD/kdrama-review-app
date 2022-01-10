@@ -16,18 +16,19 @@ def add_kdramas(kdrama_list):
     '''Given a list of kdrama dictionary items, extract
     data and store db using crud'''
     for kdrama in kdrama_list:
-        title, overview, poster_path, kdrama_id = (
+        title, overview, poster_path, backdrop_path, kdrama_id = (
             kdrama["name"],
             kdrama["overview"],
             kdrama["poster_path"],
-            kdrama['id']
+            kdrama['backdrop_path'],
+            kdrama['id'], 
         )
         release_date = kdrama.get("first_air_date", None)
         if not release_date: release_date = None
         if  release_date:
             release_date = datetime.strptime(release_date, "%Y-%m-%d")
         try:
-            crud.create_kdrama(kdrama_id, title, overview, release_date, poster_path)
+            crud.create_kdrama(kdrama_id, title, overview, release_date, poster_path, backdrop_path)
         except:
             print(f'problem with INSERT for {kdrama_id}: {title}')
 

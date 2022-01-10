@@ -5,11 +5,13 @@
 {% block js %}
 <script src="/static/js/homepage.jsx" type="text/jsx"></script>
 <script src="/static/js/playlists.jsx" type="text/jsx"></script>
+<script src="/static/js/reviews.jsx" type="text/jsx"></script>
 {% endblock %}
 
 {% block data_attributes %}
 <meta id='data'   data-api_key={{api_key}}   data-user_id={{session.get('user_id')}}
-                  data-api_url='/playlists/top'>
+                  data-api_url='/playlists/top'
+                  data-review_api_url='/reviews/top'>
 
 {% endblock %}
 
@@ -29,6 +31,9 @@
    {%if session.get('user_id')%}
    <h3>Top Followed Lists</h3>
    <div class='playlists flex-container'>
+   </div>
+   <h3>Top Liked Reviews</h3>
+   <div class='reviews flex-container'>
    </div>
    {%else%}
    <h2>Login in to see more</h2>

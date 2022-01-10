@@ -11,12 +11,14 @@
 
 {% block js %}
 <script src="/static/js/userPlaylists.jsx" type="text/jsx"></script>
-<!-- <script src="/static/js/userReviews.jsx" type="text/jsx"></script> -->
+<script src="/static/js/reviews.jsx" type="text/jsx"></script>
 {% endblock %}
 
 {% block data_attributes %}
 <meta id='data' data-api_key={{api_key}}
-                data-user_id={{user.user_id}}>
+                data-user={{user.user_id}}
+                data-user_id={{user.user_id}}
+                data-review_api_url='/reviews?user_id={{user.user_id}}'>
 {% endblock %}
 
 {% if session.get('user_id') == user.user_id %}
@@ -32,7 +34,6 @@
       <h3>{{user.username}}</h3>
       <h3>{{user.email}}</h3>
       <h3>Favorite genre: {{fav_genre}}</h3>
-
 
       {%if edit%}
          <h3>Your Playlists</h3>
@@ -53,9 +54,10 @@
       {% else %}
          <h3>{{user.username}}'s Reviews</h3>
       {%endif%}
-      <div id='user_reviews'></div>
-      
-      {%for review in user.reviews%}
+      <div class='reviews flex-container'>
+      </div>
+  
+      <!-- {%for review in user.reviews%}
       <div>
          <a href='/kdrama/{{review.kdrama.kdrama_id}}'>
          <img style="height:200px;" src='https://image.tmdb.org/t/p/original{{review.kdrama.poster_path}}' alt='Kdrama Poster' />
@@ -66,7 +68,8 @@
          <p>Content: {{review.content}}</p>
          {% endif %}
       </div>
-      {%endfor%}
+      {%endfor%} -->
+
    {% endif %}
 </div>
 
