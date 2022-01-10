@@ -23,21 +23,27 @@ const Reviews = () => {
     // Review cards populated from API call
     for (const ndx in reviews) {
         revCards.push(
-            <div key={ndx}>
+            <div key={ndx} className='flex-gap'>
                 <a href={`/kdrama/${reviews[ndx].kdrama_id}`}>
-                <img style={{height: '200px'}} src={`${TMDB_IMAGE_URL}${reviews[ndx].poster_path}`} alt='Kdrama Poster' />
-                <div>{reviews[ndx].title}</div>
+                    <img style={{height: '200px'}} 
+                    src={`${TMDB_IMAGE_URL}${reviews[ndx].poster_path}`} alt='Kdrama Poster' />
+                    <div>{reviews[ndx].title}</div>
                 </a>
-                {user ? <div><p>{reviews[ndx].rating}/10 <span className="star">&#9733;</span></p></div> 
-                : <div style={{display: 'flex', alignItems: 'center', gap: '1em'}}>
-                    <a href={`/profile/${reviews[ndx].user_id}`} className='avatar sm' >
-                        <img id='avatar-img' src={reviews[ndx].image_path}/> </a>
-                    <span >{reviews[ndx].username}</span> 
-                    <p>{reviews[ndx].rating}/10 <span className="star">&#9733;</span></p>
-                </div> }
-                <p>{reviews[ndx].content}</p>
-                <p>{reviews[ndx].review_date}</p>
-                <span>{reviews[ndx].likes} Likes</span> 
+                <div>
+                    {user ? <div><p>{reviews[ndx].rating}/10 <span className="star">&#9733;</span></p></div> 
+                    : <div className='flex-gap-1em'>
+                        <a href={`/profile/${reviews[ndx].user_id}`} className='flex-gap-1em' >
+                            <div className='avatar sm'>
+                            <img id='avatar-img' src={reviews[ndx].image_path}/> 
+                            </div>    
+                        <span >{reviews[ndx].username}</span> 
+                        </a>
+                        <p>{reviews[ndx].rating}/10 <span className="star">&#9733;</span></p>
+                    </div> }
+                    <p>{reviews[ndx].content}</p>
+                    <p>{reviews[ndx].review_date}</p>
+                    <span>{reviews[ndx].likes} Likes</span> 
+                </div>
             </div>
         );
     }

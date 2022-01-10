@@ -233,6 +233,12 @@ a:hover {
   gap: 1.5em;
 }
 
+.flex-gap-1em{
+  display: flex;
+  align-items: center;
+  gap: 1em
+}
+
 
 
 
