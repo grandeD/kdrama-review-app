@@ -44,9 +44,10 @@ const CardView = (props) => {
         then(response => response.json())
         .then(res => {
             console.log(res);
+            const fav_genre_id = res.user.fav_genre_id;
             const fav_genre = res.user.fav_genre;
             setGenre(fav_genre); 
-            get_sorted_results('popularity.desc', fav_genre, 1, 10); 
+            get_sorted_results('popularity.desc', fav_genre_id, 1, 10); 
         }); 
     }, []);
 

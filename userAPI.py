@@ -67,25 +67,6 @@ def get_user_id():
     else:
         return jsonify({'status': 'error', 'message': 'No user with email/username'})
 
-
-# gets one specific user
-@user_api.route('/user/<user_id>', methods=['GET'])
-def show_user(user_id):
-    '''Returns a json of basic public info of user'''
-    user = crud.get_user_by_id(user_id)
-    user_js = {'username': user.username, 'user_id': user.user_id, 
-                'email': user.email, 'fav_genre': user.fav_genre, 
-                'image_path': user.image_path }
-
-    return jsonify ({'status': 'success', 'user': user_js})
-
-# users route
-@user_api.route('/users')
-def show_users():
-    '''Shows the users of Koreview in list view'''
-    users = crud.get_users()
-    return render_template('users.html', users=users)
-
 GENRES = { "16": "Animation",
     "18": "Drama",
     "35": "Comedy",
@@ -104,13 +85,44 @@ GENRES = { "16": "Animation",
     "10768": "War & Politics"
 }
 
+# gets one specific user
+@user_api.route('/user/<user_id>', methods=['GET'])
+def show_user(user_id):
+    '''Returns a json of basic public info of user'''
+    user = crud.get_user_by_id(user_id)
+    
+    user_js = {'username': user.username, 'user_id': user.user_id, 
+                'email': user.email, 'fav_genre_id': user.fav_genre, 
+                'fav_genre': GENRES.get(str(user.fav_genre)), 
+                'image_path': user.image_path }
+
+    return jsonify ({'status': 'success', 'user': user_js})
+
+# users route
+@user_api.route('/users')
+def show_users():
+    '''Shows the users of Koreview in list view'''
+    users = crud.get_users()
+    current_user = crud.get_user_by_id(session.get('user_id'))
+    all_users = []
+    similar_users = []
+    for user in users:
+        if user.user_id != current_user.user_id:
+            if current_user.fav_genre == user.fav_genre:
+                similar_users.append(user)
+            all_users.append(user)
+    return render_template('users.html', similar_users=similar_users, all_users=all_users)
+
+
+
 # Public profile page of specified user /profile
 @user_api.route('/profile/<user_id>')
 def show_user_profile(user_id):
     '''Shows the public profile of specified user'''
     user = crud.get_user_by_id(user_id)
     # set edit to false so user cannot edit public user profile
-    return render_template('profile.html', user=user, edit=False, api_key=os.environ['TMDB_API_KEY'], genres=GENRES)
+    fav_genre=GENRES.get(str(user.fav_genre))
+    return render_template('profile.html', user=user, edit=False, api_key=os.environ['TMDB_API_KEY'], fav_genre=fav_genre)
 
 # Account Page /account
 @user_api.route('/account')
@@ -118,6 +130,7 @@ def show_user_account():
     '''Shows the private account profile of specified user'''
     user_id = session.get('user_id')
     user = crud.get_user_by_id(user_id)
+    fav_genre=GENRES.get(str(user.fav_genre))
     # set edit to true so user can edit their profile
-    return render_template('profile.html', user=user, edit=True,  api_key=os.environ['TMDB_API_KEY'], genres=GENRES)
+    return render_template('profile.html', user=user, edit=True,  api_key=os.environ['TMDB_API_KEY'], fav_genre=fav_genre)
 

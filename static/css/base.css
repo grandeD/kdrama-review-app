@@ -227,6 +227,11 @@ a:hover {
   100% { opacity: 0;}
 }
 
+.flex-gap {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 1.5em;
+}
 
 
 

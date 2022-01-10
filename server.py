@@ -44,6 +44,7 @@ def show_signup():
 def logout():
     '''Clear user session and redirect user to homepage'''
     session.clear()
+    print(session)
     return redirect('/')
 
 @app.route('/discover')

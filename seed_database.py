@@ -58,6 +58,25 @@ for page in range(1, pages):
 
 
 ''' Creates 10 test users '''
+
+GENRES = { "16": "Animation",
+    "18": "Drama",
+    "35": "Comedy",
+    "37": "Western",
+    "80": "Crime",
+    "99": "Documentary",
+    "9648": "Mystery",
+    "10751": "Family",
+    "10759": "Action & Adventure",
+    "10762": "Kids",
+    "10763": "News",
+    "10764": "Reality",
+    "10765": "Sci-Fi & Fantasy",
+    "10766": "Soap",
+    "10767": "Talk",
+    "10768": "War & Politics"
+}
+
 for n in range(10):
     fname = f'User{n+1}'
     lname = 'Tester'
@@ -65,4 +84,5 @@ for n in range(10):
     password = 'test'
     username = f'user{n+1}'
     image_path = f'/static/img/avatars/{randint(1,14)}.png'
-    new_user = crud.create_user(fname, lname, email, password, username, image_path)
+    fav_genre= choice(list(GENRES))
+    new_user = crud.create_user(fname, lname, email, password, username, image_path, fav_genre)

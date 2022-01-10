@@ -1,10 +1,11 @@
 """CRUD operations"""
 from model import db, User, Kdrama, Review, Playlist, PlaylistEntry, FollowPlaylist, LikeReview, connect_to_db
 
-def create_user(fname, lname, email, password, username, image_path=''):
+def create_user(fname, lname, email, password, username, image_path='', fav_genre=''):
     """Create and return a new user"""
 
-    user = User(fname=fname, lname=lname, email=email, password=password, username=username, image_path=image_path)
+    user = User(fname=fname, lname=lname, email=email, password=password, username=username, 
+    image_path=image_path, fav_genre=fav_genre)
 
     db.session.add(user)
     db.session.commit()
