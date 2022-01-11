@@ -3,7 +3,6 @@ const api_url = document.querySelector('#data').dataset.review_api_url;
 const user = document.querySelector('#data').dataset.user;
 const TMDB_IMAGE_URL = 'https://image.tmdb.org/t/p/original/';
 
-
 // component to allow user to see kdrama reviews and input their own
 const Reviews = () => {
     const [reviews, setReviews] = React.useState([]);

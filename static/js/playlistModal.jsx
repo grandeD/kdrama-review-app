@@ -104,8 +104,9 @@ const PlaylistModal = (props) => {
         </div>
         :
         <div> 
-            <button onClick={() => setModal(true)}>Add to List</button>
-            <p>{message}</p>
+            <button className='icon-button'
+            onClick={() => setModal(true)}><i className="fas fa-plus"></i> <p>Add to List</p></button>
+            {/* <p>{message}</p> */}
         </div>
 
         }

@@ -30,6 +30,7 @@ a {
   align-items: center;
   margin-top: 1em;
   margin-bottom: 1.5em;
+  padding: 0px 40px;
 }
 
 .sm-title {
@@ -91,7 +92,7 @@ a {
 /* Style page content */
 .main {
   margin-left: 250px; /* Same as the width of the sidebar */
-  padding: 0px 40px;
+  /* padding: 0px 40px; */
 }
 
 /* User Avatar IMG */
@@ -239,6 +240,10 @@ a:hover {
   gap: 1em
 }
 
+.rounded {
+  border-radius: 30px;
+  box-shadow: 1px 14px 17px -8px rgba(0,0,0,0.19);
+}
 
 
 

@@ -30,7 +30,8 @@ const TrailerModal = (props) => {
         </div> }
         <div> 
             { trailerURL !== '' &&
-            <button onClick={() => setModal(true)}>Play Trailer</button> }
+            <button className='icon-button'
+            onClick={() => setModal(true)}><i className="fas fa-play"></i> <p>Play Trailer</p></button> }
         </div>
         
     </div>

@@ -120,10 +120,9 @@ const KdramaInfo = (props) =>  {
         for (const creator of kdramaData.created_by) {
             creators.push(
                 <div key={creator.id}>
-                    <a href={`/person/${creator.id}`}>
-                    <img style={{height: '150px'}} src={`${TMDB_IMAGE_URL}${creator.profile_path}`} alt={creator.name} />
+                    <a className='light' href={`/person/${creator.id}`}>
+                    {creator.name}
                     </a>
-                    <p>{creator.name}</p>
                 </div>
             );
         }
@@ -140,28 +139,55 @@ const KdramaInfo = (props) =>  {
                     <img style={{height: '50px'}} src={`${TMDB_IMAGE_URL}${logo}`} /></a> ); });
     }
 
+    const genre_string = (kdramaData.genres ? 
+                            kdramaData.genres.map((genre) => genre.name).join(', '): '');
+    const eps = kdramaData.number_of_episodes;
+    const episode_string = ( eps > 1 ? `${eps} episodes`: `${eps} episode`);
+
 
     return (
         <React.Fragment>
             {kdramaData &&
-                <div>
-                    <img style={{height: '400px'}} src={`${TMDB_IMAGE_URL}${kdramaData.backdrop_path}`} alt='Kdrama Backdrop' />
-                    <img style={{height: '200px'}} src={`${TMDB_IMAGE_URL}${kdramaData.poster_path}`} alt='Kdrama Poster' />
+                <div className='data rounded'
+                style={{
+                    background: `linear-gradient(to right, rgba(11.76%, 10.98%, 9.02%, 1.00) 150px, rgba(11.76%, 10.98%, 9.02%, 0.84) 100%),
+                    url('https://image.tmdb.org/t/p/original/${kdramaData.backdrop_path}') no-repeat center center / cover` }}>
 
-                    <div id='add_to_playlist'></div>
-                    <div id='play_trailer'> </div>
-                    {watch_logos.length > 0 && 
-                    <div>
-                        <p>Stream on: </p>
-                        {watch_logos}
+                    <div className='data-item'>
+                        <img className='poster-img rounded' src={`${TMDB_IMAGE_URL}${kdramaData.poster_path}`} alt='Kdrama Poster' />
+
+                        {watch_logos.length > 0 && 
+                        <div>
+                            <p>Stream on: </p>
+                            <div className='flex-gap-1em'>{watch_logos}</div>
+                        </div>
+                        }
                     </div>
-                    }
+                    <div className='data-item'>
+                        <h1>{kdramaData.name}</h1>
+                        {kdramaData.first_air_date && 
+                            <h2 >{kdramaData.first_air_date.slice(0,4)}&emsp;
+                            <span className='thin grey-100'>{kdramaData.original_name}</span>
+                            </h2>
+                        }
+                        <p><span className='thin grey-100'>Genres</span>&emsp;{genre_string}</p>
+                        <p><span>{episode_string}</span></p>
+                        
 
-                    <h2>{kdramaData.name}</h2>
-                    <p>First Air Date: {kdramaData.first_air_date}</p>
+                        <div className='flex-gap-1em'>
+                            <div id='add_to_playlist'></div>
+                            <div id='play_trailer'></div>
+                        </div>
 
-                    <h3>Overview</h3>
-                    <p>{kdramaData.overview}</p>
+                        <h2>Overview</h2>
+                        <p className='thin'>{kdramaData.overview}</p>
+
+                        {creators.length > 0 &&
+                        <h3>Created by</h3>}
+                        <div className='flex-gap'>
+                            {creators}
+                        </div>
+                    </div>
                 </div>                          
             }
             {castCards.length > 0 &&

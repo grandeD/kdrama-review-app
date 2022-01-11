@@ -13,10 +13,8 @@
 
 
 #genre {
-    /* background-color: transparent; */
     border: none;
     outline: none;
-    /* cursor: pointer; */
     color: black;
     padding: 0.5em;
   }
@@ -85,4 +83,60 @@
   flex-direction: column;
   gap: 1em;
 }
+
+.data{
+  margin: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3em;
+  padding-inline: 10%;
+  padding-block: 2em;
+}
+
+.data-item {
+  color: var(--light);
+}
+
+.poster-img {
+  height: 25em;
+}
+
+.thin {
+  font-weight: 100;
+}
+a {
+  text-decoration: none;
+}
+.light {
+  color: var(--light);
+}
+.grey-100 {
+  color: var(--grey-100);
+}
+
+.icon-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border: none;
+  border-radius: 5px;
+
+  padding-inline: 2em;
+  padding-block: .25em;
+  gap: 1em;
+
+  line-height: 0;
+  font-size: 17px;
+  font-weight: 200;
+  background: var(--light);
+  color: var(--grey-400);
+}
+
+.icon-button:hover {
+  background: var(--accent);
+  color: var(--light);
+}
+
 
