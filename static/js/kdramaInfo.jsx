@@ -8,8 +8,8 @@ const KdramaCard = (props) => {
     <div className='card'>
         <a href={`/kdrama/${props.kdrama_id}`}>
         <img style={{height: '200px'}} src={`${TMDB_IMAGE_URL}${props.poster_path}`} alt='Kdrama Poster' />
-        </a>
         <p>{props.title}</p>
+        </a>
     </div>
     );
 }
@@ -19,10 +19,13 @@ const CastCard = (props) => {
     return(
     <div className='card'>
         <a href={`/person/${props.cast_id}`}>
-        <img style={{height: '150px'}} src={`${TMDB_IMAGE_URL}${props.profile_path}`} alt={props.name} />
+        <div className='cast-img'>
+            <img style={{width: '100%'}} src={`${TMDB_IMAGE_URL}${props.profile_path}`} alt={props.name} />
+        </div>
+
+        <p className='card-text'>{props.name}</p>
         </a>
-        <p>{props.name}</p>
-        <p>Character: {props.character}</p>
+        <p className='card-text thin grey-400'>{props.character}</p>
     </div>
     );
 }
@@ -190,22 +193,20 @@ const KdramaInfo = (props) =>  {
                     </div>
                 </div>                          
             }
+            <div style={{margin: '2em',}}>
             {castCards.length > 0 &&
                 <h3>Cast</h3>}
-                <div className='flex-gap'>
+                <div className='flex-gap center'>
                     {castCards}
-                </div>
-            {creators.length > 0 &&
-                <h3>Created by</h3>}
-                <div className='flex-gap'>
-                    {creators}
                 </div>
 
             {recCards.length > 0 &&
                 <h3>Similar Korean Dramas</h3>}
-                <div className='flex-gap'>
+                <div className='flex-gap center'>
                     {recCards}
                 </div>
+            </div>
+
         </React.Fragment>
     );
 }

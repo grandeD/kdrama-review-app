@@ -137,12 +137,10 @@ const Slideshow = (props) => {
                 url('https://image.tmdb.org/t/p/original/${kdrama.backdrop_path}') no-repeat center center / cover`,
                 backgroundSize: 'cover'
             }}>
-
                 <a href={`/kdrama/${kdrama.id}`}  >
-                    <h3>{kdrama.name}</h3> 
-                    <span>{kdrama.first_air_date.slice(0,4)}</span>             
+                    <h2>{kdrama.name}</h2> 
+                    <h3 className='thin'>{kdrama.first_air_date.slice(0,4)}</h3>             
                 </a>
-
             </div> 
 
             );

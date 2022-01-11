@@ -139,4 +139,45 @@ a {
   color: var(--light);
 }
 
+.card {
+  border-radius: 10px;
+  box-shadow: 1px 14px 17px -8px rgba(0,0,0,0.19);
+  /* border: 0.01px solid var(--grey-100); */
+  background-color: var(--lighter);
+  overflow: hidden;
+  transition: all .2s ease-in-out;
+  text-align: center;
+}
+
+.card a {
+  color: var(--dark);
+}
+
+.card a:hover {
+  color: var(--accent);
+}
+
+.card:hover {
+  transform: scale(1.08); 
+}
+
+.cast-img {
+  overflow: hidden;
+  width: 10em;
+  height: 13em;
+}
+
+.card-text {
+  /* padding-left: 1.5em;  */
+  line-height: 0.5em;
+}
+
+.center {
+  margin: auto;
+}
+
+
+
+
+
 

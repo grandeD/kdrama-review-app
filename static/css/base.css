@@ -245,5 +245,24 @@ a:hover {
   box-shadow: 1px 14px 17px -8px rgba(0,0,0,0.19);
 }
 
+.thin {
+  font-weight: 100;
+}
+.light {
+  color: var(--light);
+}
+.grey-100 {
+  color: var(--grey-100);
+}
+.grey-400 {
+  color: var(--grey-400);
+}
 
+button {
+  transition: all .2s ease-in-out;
+}
+
+button:hover {
+  transform: scale(1.05); 
+}
 
