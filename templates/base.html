@@ -17,6 +17,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="/static/css/base.css" rel="stylesheet">
+    <link href="/static/css/searchbar.css" rel="stylesheet">
 
 
     <!-- Include any page-specific CSS using this block. -->
@@ -39,7 +40,7 @@
     {% set active_page = active_page|default('') -%}
     <!-- Navbar -->
     <div class="sidenav">
-        <h2>Koreview<span id='accent'>.</span></h2>
+        <h2 id='brand'>Koreview<span id='accent'>.</span></h2>
         <div class='nav-section'>
             <span class='sm-title'>Menu</span>
             <a href="/" {% if active_page == 'home' %} class="active"{% endif%}>
@@ -75,8 +76,8 @@
         </div>
 
         {% if session.get('user_id')%}
-        <a href='/account'>
-            <div style='display: flex; align-items: center; gap: 1em;'>
+        <a href='/account' id='account-link'>
+            <div style='display: flex; align-items: center; gap: 1em;' >
                 <div class='avatar sm' >
                     <img id='avatar-img' src={{session.get('user_image_path')}}/> </div>
                 <span >{{session.get('username')}}</span> 
