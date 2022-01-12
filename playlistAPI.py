@@ -157,11 +157,16 @@ def get_playlists(user_id=None):
     if not user_id: user_id = session.get('user_id')
 
     pls = crud.get_user_playlists(user_id)
+    
+
     for pl in pls:
+        amount = len(pl.playlistentries)
+        if amount > 0: cover_img = pl.playlistentries[0].kdrama.backdrop_path
         playlists.append({'playlist_id': pl.playlist_id,
                         'title': pl.title,
                         'content': pl.content,
-                        'amount': len(pl.playlistentries),
+                        'amount': amount,
+                        'cover_img': cover_img,
                         'followers': pl.followers})
     
     return jsonify({'status': 'success', 'playlists': playlists})
@@ -173,10 +178,13 @@ def get_top_playlists():
 
     pls = crud.get_top_followed_playlists()
     for pl in pls:
+        amount = len(pl.playlistentries)
+        if amount > 0: cover_img = pl.playlistentries[0].kdrama.backdrop_path
         playlists.append({'playlist_id': pl.playlist_id,
                         'title': pl.title,
                         'content': pl.content,
-                        'amount': len(pl.playlistentries),
+                        'amount': amount,
+                        'cover_img': cover_img,
                         'followers': pl.followers})
     
     return jsonify({'status': 'success', 'playlists': playlists})
@@ -190,10 +198,13 @@ def get_followed_playlists():
 
     pls = crud.get_followed_playlists(user_id)
     for pl in pls:
+        amount = len(pl.playlistentries)
+        if amount > 0: cover_img = pl.playlistentries[0].kdrama.backdrop_path
         playlists.append({'playlist_id': pl.playlist_id,
                         'title': pl.title,
                         'content': pl.content,
-                        'amount': len(pl.playlistentries),
+                        'amount': amount,
+                        'cover_img': cover_img,
                         'followers': pl.followers})
     
     return jsonify({'status': 'success', 'playlists': playlists})

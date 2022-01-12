@@ -1,11 +1,11 @@
 const PlaylistCard = (props) => {
 
     return (
-        <a id='card' href={`/playlist/${props.playlist_id}`}>
-        <div className='card'>
+        <a id='pl-card' href={`/playlist/${props.playlist_id}`}>
+        <div>
             <h3>{props.title}</h3>
-            <p>{props.amount} items</p>
-            <p>{props.followers} follower(s)</p>
+            <p>{props.amount} {props.amount === 1 ? 'item' : 'items'}</p>
+            <p>{props.followers} {props.followers === 1 ? 'follower' : 'followers'}</p>
         </div>
         </a>
     );

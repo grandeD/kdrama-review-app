@@ -2,6 +2,10 @@
 
 {% block title %}Koreview{% endblock %}
 
+{% block css %}
+<link href="/static/css/user.css" rel="stylesheet">
+{% endblock %}
+
 {% block js %}
 {% endblock %}
 
@@ -11,7 +15,7 @@
 {% set active_page = 'users' -%}
 
 {% block body %}
-
+<div class='container'>
 {%if similar_users%}
 <h2>Users with same favorite genre</h2>
 <div class='flex-gap'>
@@ -26,7 +30,6 @@
    {%endfor%}
 </div>
 {%endif%}
-
 
 {%if all_users%}
 <h2>All Users</h2>
@@ -44,5 +47,7 @@
 {%else%}
 <div><h2>No users :(</h2></div>
 {%endif%}
+
+</div>
 
 {% endblock %}

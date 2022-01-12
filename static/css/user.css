@@ -1,0 +1,20 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    padding-inline: 2em;
+}
+
+.user_card {
+    overflow: hidden;
+    align-self: center;
+    align-items: center;
+
+    padding: 2em;
+    line-height: 0.5em;
+    height: 100%;
+    width: max(300px, 50%);
+
+    background: linear-gradient(180deg, var(--accent-lt) 10%, var(--lighter) 50%);
+    border-radius: 10px;
+    box-shadow: 1px 14px 17px -8px rgba(0,0,0,0.19);
+}

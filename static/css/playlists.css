@@ -1,10 +1,18 @@
-a#card {
+#pl-card {
+    display: flex;
+    flex-direction: column;
     background-color: navy;
     text-decoration: none;
-    text-align: center;
-    color:white;
-    padding: 2em;
+    padding-inline: 1em;
+    padding-top: 5em;
     width: 20%;  
+    border-radius: 10px;
+    line-height: 1em;
+    gap: 0;
+}
+
+#pl-card a{
+    color: var(--light);
 }
 
 .flex-container {

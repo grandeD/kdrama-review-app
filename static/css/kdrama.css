@@ -142,11 +142,12 @@ a {
 .card {
   border-radius: 10px;
   box-shadow: 1px 14px 17px -8px rgba(0,0,0,0.19);
-  /* border: 0.01px solid var(--grey-100); */
   background-color: var(--lighter);
   overflow: hidden;
   transition: all .2s ease-in-out;
   text-align: center;
+  width: 10em;
+  /* overflow-wrap: break-word;  */
 }
 
 .card a {
@@ -169,7 +170,9 @@ a {
 
 .card-text {
   /* padding-left: 1.5em;  */
-  line-height: 0.5em;
+  padding-inline: 1em;
+  line-height: 1.25em;
+  font-size: 14px;
 }
 
 .center {

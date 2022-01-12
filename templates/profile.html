@@ -6,6 +6,7 @@
 
 {% block css %}
 <link href="/static/css/playlists.css" rel="stylesheet">
+<link href="/static/css/user.css" rel="stylesheet">
 {% endblock %}
 
 
@@ -27,14 +28,15 @@
 
 {% block body %}
 
-<div>
+<div class='container'>
    {% if user %}
+   <div class='user_card container'>
       <div class='avatar lg'><img id='avatar-img' src={{user.image_path}}/></div>
-      <h2>{{user.fname}} {{user.lname}}</h2>
-      <h3>{{user.username}}</h3>
-      <h3>{{user.email}}</h3>
-      <h3>Favorite genre: {{fav_genre}}</h3>
-
+      <h1>{{user.username}}</h1>
+      <h3 class='grey-400 thin'>{{user.fname}} {{user.lname}}</h3>
+      <p class='thin'>{{user.email}}</p>
+      <p class='thin'>Favorite genre: {{fav_genre}}</p>
+   </div>
       {%if edit%}
          <h3>Your Playlists</h3>
       {% else %}
@@ -56,19 +58,6 @@
       {%endif%}
       <div class='reviews flex-container'>
       </div>
-  
-      <!-- {%for review in user.reviews%}
-      <div>
-         <a href='/kdrama/{{review.kdrama.kdrama_id}}'>
-         <img style="height:200px;" src='https://image.tmdb.org/t/p/original{{review.kdrama.poster_path}}' alt='Kdrama Poster' />
-         </a>
-         <h4>{{review.kdrama.title}}</h4>
-         <p>Rating: {{review.rating}}</p>
-         {% if review.content != '0' and review.content != ''%}
-         <p>Content: {{review.content}}</p>
-         {% endif %}
-      </div>
-      {%endfor%} -->
 
    {% endif %}
 </div>
