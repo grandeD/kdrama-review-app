@@ -10,7 +10,6 @@ const PlaylistCard = (props) => {
           ),
         url('https://image.tmdb.org/t/p/original/${props.cover_img}') no-repeat center center / cover` }}>
         <a href={`/playlist/${props.playlist_id}`}>
-            
             {/* <p className='thin'>{props.amount} {props.amount === 1 ? 'item' : 'items'}  {props.followers} {props.followers === 1 ? 'follower' : 'followers'}</p> */}
             <h3>{props.title} </h3>
             <p className='thin'>{props.amount} {props.amount === 1 ? 'item' : 'items'}</p>

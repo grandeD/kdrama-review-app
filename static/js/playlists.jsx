@@ -1,13 +1,19 @@
 const PlaylistCard = (props) => {
 
     return (
-        <a id='pl-card' href={`/playlist/${props.playlist_id}`}>
-        <div>
-            <h3>{props.title}</h3>
-            <p>{props.amount} {props.amount === 1 ? 'item' : 'items'}</p>
-            <p>{props.followers} {props.followers === 1 ? 'follower' : 'followers'}</p>
-        </div>
+        <div id='pl-card' style={{ background: `linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0),
+            rgba(0, 0, 0, 0.6)
+          ),
+        url('https://image.tmdb.org/t/p/original/${props.cover_img}') no-repeat center center / cover` }}>
+        <a href={`/playlist/${props.playlist_id}`}>
+            
+            {/* <p className='thin'>{props.amount} {props.amount === 1 ? 'item' : 'items'}  {props.followers} {props.followers === 1 ? 'follower' : 'followers'}</p> */}
+            <h3>{props.title} </h3>
+            <p className='thin'>{props.amount} {props.amount === 1 ? 'item' : 'items'}</p>
         </a>
+        </div>
     );
 };
 
@@ -35,6 +41,7 @@ const PlaylistsView = (props) => {
             title={pl.title}
             amount={pl.amount}
             followers={pl.followers}
+            cover_img={pl.cover_img}
             />
         );
     }
