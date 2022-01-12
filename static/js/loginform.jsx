@@ -36,22 +36,22 @@ const LoginForm = () => {
     };
     
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className='form'>
             {submitted && <p>{message}</p>}
             <h2>Login</h2>
-            <p> 
-                <input placeholder='Username' type="text" name="username" value={values.username} onChange={handleInputChange}/>
-            </p>
-            <span>or</span>
-            <p> 
-                <input placeholder='Email' type="text" name="email" value={values.email} onChange={handleInputChange}/>
-            </p>
-            <p>
-                <input placeholder='Password' type="password" name="password" value={values.password} onChange={handleInputChange}/>
-            </p>
-            <p>
-                <input type="submit"/>
-            </p>
+
+            <label className='input-label'>Username</label>
+            <input placeholder='Username' type="text" name="username" value={values.username} onChange={handleInputChange}/>
+
+            <label className='input-label'>Email</label>
+            <input placeholder='Email' type="text" name="email" value={values.email} onChange={handleInputChange}/>
+ 
+            <label className='input-label'>Password</label>
+            <input placeholder='Password' type="password" name="password" value={values.password} onChange={handleInputChange}/>
+   
+            <input id='submit-btn' type="submit"/>
+
+            <p>Don't have an Account? <a href='/signup'>Sign Up</a></p>
         </form>
     )
 };
