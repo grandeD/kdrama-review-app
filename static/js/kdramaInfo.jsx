@@ -7,7 +7,9 @@ const KdramaCard = (props) => {
     return(
     <div className='card'>
         <a href={`/kdrama/${props.kdrama_id}`}>
-        <img style={{height: '200px'}} src={`${TMDB_IMAGE_URL}${props.poster_path}`} alt='Kdrama Poster' />
+        <div className='kdrama-img'>
+            <img style={{width: '100%'}} src={props.poster_path} alt='Kdrama Poster' />
+        </div>
         <p>{props.title}</p>
         </a>
     </div>
@@ -20,7 +22,7 @@ const CastCard = (props) => {
     <div className='card'>
         <a href={`/person/${props.cast_id}`}>
         <div className='cast-img'>
-            <img style={{width: '100%'}} src={`${TMDB_IMAGE_URL}${props.profile_path}`} alt={props.name} />
+            <img style={{width: '100%'}} src={props.profile_path} alt={props.name} />
         </div>
 
         <p className='card-text'>{props.name}</p>
@@ -93,11 +95,14 @@ const KdramaInfo = (props) =>  {
     // creates and stores recommendations as KdramaCards in recCards
     const recCards = [];
     for (const rec of recommendations) {
+        const poster_path = (rec.poster_path !== '' ? 
+        `${TMDB_IMAGE_URL}${rec.poster_path}`:
+        '/static/img/placeholder-image.png');
         recCards.push(
             <KdramaCard
             key={rec.id}
             kdrama_id={rec.id} 
-            poster_path={rec.backdrop_path}
+            poster_path={poster_path}
             title={rec.name}
             />
         );
@@ -106,13 +111,16 @@ const KdramaInfo = (props) =>  {
     // creates and stores cast as CastCards in castCards
     const castCards = [];
     for (const currentCard of cast) {
+        const profile_path = ((currentCard.profile_path !== '' && currentCard.profile_path !== null) ? 
+                                `${TMDB_IMAGE_URL}${currentCard.profile_path}`:
+                                '/static/img/default-person.jpeg');
         castCards.push(
             <CastCard
             key={currentCard.id}
             character={currentCard.character}
             name={currentCard.name}
             cast_id={currentCard.id} 
-            profile_path={currentCard.profile_path}
+            profile_path={profile_path}
             />
         );
     }
@@ -154,7 +162,7 @@ const KdramaInfo = (props) =>  {
                 <div className='data rounded'
                 style={{
                     background: `linear-gradient(to right, rgba(11.76%, 10.98%, 9.02%, 1.00) 150px, rgba(11.76%, 10.98%, 9.02%, 0.84) 100%),
-                    url('https://image.tmdb.org/t/p/original/${kdramaData.backdrop_path}') no-repeat center center / cover` }}>
+                    url(${TMDB_IMAGE_URL}${kdramaData.backdrop_path}) no-repeat center center / cover` }}>
 
                     <div className='data-item'>
                         <img className='poster-img rounded' src={`${TMDB_IMAGE_URL}${kdramaData.poster_path}`} alt='Kdrama Poster' />
@@ -177,7 +185,7 @@ const KdramaInfo = (props) =>  {
                         <p><span>{episode_string}</span></p>
                         
 
-                        <div className='flex-gap-1em'>
+                        <div className='flex-gap-1em buttons'>
                             <div id='add_to_playlist'></div>
                             <div id='play_trailer'></div>
                         </div>

@@ -89,16 +89,16 @@ const PlaylistModal = (props) => {
                 {createPlaylist ? <div>
                     <form onSubmit={submitPlaylist}>
                         <input type="text" placeholder="Playlist Title" name="title" />
-                        <button type="submit"><i className="fas fa-plus-square"></i></button>
+                        <button type="submit" className='modal-button'><i className="fas fa-plus-square"></i></button>
                     </form>
                     </div>
                     :
-                    <button onClick={() => setCreatePlaylist(true)}>Create Playlist</button>    
+                    <button className='modal-button' onClick={() => setCreatePlaylist(true)}>Create Playlist</button>    
                 }
                 {plCards}
 
 
-                <button onClick={closeModal}><i className="fas fa-times"></i></button>
+                <button className='modal-button' onClick={closeModal}><i className="fas fa-times"></i></button>
 
             </section>
         </div>

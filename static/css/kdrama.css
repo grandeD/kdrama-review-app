@@ -54,30 +54,6 @@
 .pagination button:hover:not(.active):enabled {background-color: #ddd;}
 
 
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width:100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6);
-  display: block;
-}
-
-.modal-main {
-  position:fixed;
-  background: white;
-  width: 50%;
-  height: auto;
-  top:50%;
-  left:50%;
-  transform: translate(-50%,-50%);
-  display:flex;
-  flex-direction: column;
-  padding: 2em;
-  gap: 1em;
-}
-
 #pl-info-form {
   display: flex;
   flex-direction: column;
@@ -99,7 +75,8 @@
 }
 
 .poster-img {
-  height: 25em;
+  height: 20em;
+  border-radius: 10px;
 }
 
 .thin {
@@ -168,6 +145,12 @@ a {
   height: 13em;
 }
 
+.kdrama-img {
+  overflow: hidden;
+  width: 10em;
+  height: 14em;
+}
+
 .card-text {
   /* padding-left: 1.5em;  */
   padding-inline: 1em;
@@ -177,6 +160,20 @@ a {
 
 .center {
   margin: auto;
+}
+
+@media only screen and (max-width: 1000px) {
+  .data {
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 1em;
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  .buttons {
+    flex-direction: column;
+  }
 }
 
 

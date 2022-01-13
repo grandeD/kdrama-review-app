@@ -161,6 +161,7 @@ def get_playlists(user_id=None):
 
     for pl in pls:
         amount = len(pl.playlistentries)
+        cover_img = ''
         if amount > 0: cover_img = pl.playlistentries[0].kdrama.backdrop_path
         playlists.append({'playlist_id': pl.playlist_id,
                         'title': pl.title,
@@ -178,6 +179,7 @@ def get_top_playlists():
 
     pls = crud.get_top_followed_playlists()
     for pl in pls:
+        cover_img = ''
         amount = len(pl.playlistentries)
         if amount > 0: cover_img = pl.playlistentries[0].kdrama.backdrop_path
         playlists.append({'playlist_id': pl.playlist_id,
@@ -199,6 +201,7 @@ def get_followed_playlists():
     pls = crud.get_followed_playlists(user_id)
     for pl in pls:
         amount = len(pl.playlistentries)
+        cover_img = ''
         if amount > 0: cover_img = pl.playlistentries[0].kdrama.backdrop_path
         playlists.append({'playlist_id': pl.playlist_id,
                         'title': pl.title,

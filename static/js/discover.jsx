@@ -7,11 +7,13 @@ const KdramaCard = (props) => {
     return(
     <div className='card'>
         <a href={`/kdrama/${props.kdrama_id}`}>
-        <img style={{height: '200px'}} 
+        <div className='kdrama-img'>
+            <img style={{width: '100%'}}
         src={props.poster_path} 
         alt='Kdrama Poster' />
-        </a>
+        </div>
         <p>{props.title}</p>
+        </a>
     </div>
     );
 }
