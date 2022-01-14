@@ -80,29 +80,37 @@ const PersonInfo = (props) =>  {
     return (
         <React.Fragment>
             {personData &&
-                <div>
-                    <img style={{height: '300px'}} src={`${TMDB_IMAGE_URL}${personData.profile_path}`} alt='Person Profile' />
-                    <h2>{personData.name}</h2>
-
-                    <h3>Biography</h3>
+                <div className='data rounded' >
+                    <div className='data-item'>
+                    <img    className='poster-img rounded'
+                            src={((personData.profile_path !== '' && personData.profile_path !== null) ? 
+                                `${TMDB_IMAGE_URL}${personData.profile_path}`:
+                                '/static/img/default-person.jpeg')} alt='Person Profile' />
+                    </div>
+                    <div className='dark'>
+                    <h1>{personData.name}</h1>
+                    
+                    <h2>Biography</h2>
                     <p>{personData.biography}</p>
 
-                    <h4>Known For</h4>
+                    <h3>Known For</h3>
                     <p>{personData.known_for_department}</p>
 
-                    <h4>Birthday</h4>
+                    <h3>Birthday</h3>
                     <p>{dateString(personData.birthday)}</p>
 
-                    <h4>Place of Birth</h4>
+                    <h3>Place of Birth</h3>
                     <p>{personData.place_of_birth}</p>
+                    </div>
                 </div>                          
             }
 
+            <div  style={{padding: '1em 2em 4em'}}>
             {/* Year    Title   role     genre */}
             {credits.cast.length > 0 &&
             <React.Fragment>
                 <h3>Casted in:</h3>
-                <table>
+                <table id='table'>
                 <thead>
                 <tr>
                     <th>Year</th>
@@ -119,7 +127,7 @@ const PersonInfo = (props) =>  {
             {credits.crew.length > 0 &&
             <React.Fragment>
                 <h3>Crew of:</h3>
-                <table>
+                <table id='table'>
                 <thead>
                 <tr>
                     <th>Year</th>
@@ -132,6 +140,7 @@ const PersonInfo = (props) =>  {
                 </tbody>
                 </table> 
             </React.Fragment>}
+            </div>
 
         </React.Fragment>
     );

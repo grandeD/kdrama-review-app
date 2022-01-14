@@ -63,6 +63,7 @@
   gap: 3em;
   padding: 2em 10%;
   padding-bottom: 3em;
+  background-color: var(--lighter);
 }
 
 .data-item {
@@ -166,6 +167,10 @@ a {
   .buttons {
     flex-direction: column;
   }
+}
+
+#table th, #table td {
+  padding: 1em;
 }
 
 
