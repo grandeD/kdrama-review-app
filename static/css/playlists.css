@@ -22,3 +22,32 @@
     gap: 1em;
 }
 
+#text-review {
+    padding: 1em;
+    height: 6em;
+    font-size: 1em;
+
+    color: var(--dark);
+    font-family: 'Be Vietnam Pro', sans-serif;
+
+    border: 1px solid var(--grey-100);
+    border-radius: 5px;
+}
+
+.edit-btn {
+    align-self: center;
+    border: none;
+    border-radius: 5px;
+    padding: 0.5em 1em;
+
+    font-size: 0.8em;
+    font-weight: 200;
+    background-color: var(--accent);
+    color: var(--lighter);
+}
+
+.done {
+    background-color: var(--accent-lt);
+}
+
+

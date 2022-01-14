@@ -5,9 +5,13 @@ const KdramaCard = (props) => {
     return(
     <div className='card'>
         <a href={`/kdrama/${props.kdrama_id}`}>
-        <img style={{height: '200px'}} src={props.poster_path} alt='Kdrama Poster' />
-        </a>
+        <div className='kdrama-img'>
+            <img style={{width: '100%'}}
+        src={props.poster_path} 
+        alt='Kdrama Poster' />
+        </div>
         <p>{props.title}</p>
+        </a>
     </div>
     );
 }
@@ -164,7 +168,7 @@ const Playlist = (props) => {
 
         let poster_path = '/static/img/placeholder-image.png';
         // handles default poster if drama does not have image
-        if (entry.poster_path !== null)
+        if (entry.poster_path !== null && entry.poster_path !== '')
             poster_path = `https://image.tmdb.org/t/p/original/${entry.poster_path}`;
         pleCards.push(
             <div key={entry.kdrama_id}>
@@ -180,49 +184,72 @@ const Playlist = (props) => {
         )
     }
     return(
-        <React.Fragment>
-            <h1>{playlistInfo.title}</h1>
-            {playlistInfo.content !== '' && <p>Description: {playlistInfo.content}</p>}
-            {!edit && <h2>Created by <a href={`/profile/${playlistInfo.user_id}`}>{playlistInfo.username}</a></h2>}
-            <h3>{playlistInfo.followers} follower(s)</h3>
-            <h3>Total: {playlistInfo.amount} kdrama(s)</h3>
+        <div style={{padding: '0 2em 4em', display: "flex", flexDirection:'column'}}>
+            <div className='flex-gap'>
+                <h1>{playlistInfo.title}</h1>
+                {!modal && edit && 
+                <button onClick={() => setModal(true)}
+                        className='edit-btn'>Edit Info</button>}
+            </div>
 
-            { modal ? 
+            <div className='flex-gap'>
+
+                {!edit && !follow.show && <button onClick={followPlaylist}
+                                                    className='edit-btn'>Follow</button>}
+
+                {!edit && follow.show && <button onClick={unfollowPlaylist}
+                                                className='edit-btn'>Following</button>}
+
+                <h3>{playlistInfo.followers} {playlistInfo.followers === 1 ? ' follower' : ' followers'}</h3>
+
+            </div>
+
+            <h3>Total: {playlistInfo.amount} {playlistInfo.amount === 1 ? ' kdrama' : ' kdramas'}</h3>
+  
+            {playlistInfo.content !== '' && <p><strong>Description:</strong> {playlistInfo.content}</p>}
+
+            {!edit && <div>
+                <h3>Created by </h3>
+                <a className='flex-gap-1em' href={`/profile/${playlistInfo.user_id}`}>
+                    <div  className='avatar sm' >
+                        <img id='avatar-img' src={playlistInfo.image_path}/> </div>
+                    <p className='dark'>{playlistInfo.username}</p> 
+                </a> 
+            </div>}
+
+            
+
+            { modal &&
             <div className='modal'>
                 <section className='modal-main'>
-
+                <div className='modal-close'>
+                <button onClick={closeModal}><i className="fas fa-times"></i></button>
+                </div>
                 <form onSubmit={updatePlaylistInfo} id='pl-info-form'>
-                        
-                    <button onClick={closeModal}><i className="fas fa-times"></i></button>
                     <label>Playlist Title:</label>
                     <input type='text' value={updateInfo.title} name='title' onChange={handleInputChange}/>
 
                     <label htmlFor='text-review'>Enter a description (optional): </label>
                     <textarea id='text-review' name='content' value={updateInfo.content} onChange={handleInputChange}> </textarea>
                     
-                    <button type="submit">Update</button>
+                    <button type="submit"   className='edit-btn'
+                                            style={{alignSelf: 'flex-end'}}>Update</button>
                 </form>
                 </section>
+            </div> }
+
+            <div className='flex-gap'>
+                <h2>Playlist Entries</h2>
+                {!showDelete && edit && <button onClick={() => setDelete(true)}
+                                                className='edit-btn'>Edit</button>}
+                {showDelete && <button onClick={() => setDelete(false)}
+                                                className='edit-btn done'>Done</button>}
             </div>
-            :
-            <div> 
-                {edit && 
-                <button onClick={() => setModal(true)}>Edit Info</button>}
+
+            <div className='flex-gap' style={{margin: '1em 0 2em'}}>
+                {pleCards}
             </div>
-
-            }
-            <br></br><br></br>
-            {!showDelete && edit && <button onClick={() => setDelete(true)}>Edit Entries</button>}
-            {showDelete && <button onClick={() => setDelete(false)}>Done</button>}
-
-            {!edit && !follow.show && <button onClick={followPlaylist}>Follow</button>}
-
-            {!edit && follow.show && <button onClick={unfollowPlaylist}>Following</button>}
-
-            <h2>Playlist Entries</h2>
-
-            {pleCards}
-        </React.Fragment>
+        </div>
     )
 
 };

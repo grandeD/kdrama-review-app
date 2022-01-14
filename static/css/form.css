@@ -31,8 +31,7 @@
 
 .form input {
     font-size: 17px;
-    padding-inline: 1em;
-    padding-block: 0.5em;
+    padding: 0.5em 1em;
     color: var(--darker);
     border: 1px solid var(--grey-100);
     border-radius: 5px;

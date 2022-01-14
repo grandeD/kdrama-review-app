@@ -195,7 +195,7 @@ def get_followed_playlists(user_id):
 def get_top_followed_playlists():
     ''' Get the top 10 playlists that users follow '''
     pls = Playlist.query.order_by(Playlist.followers.desc()).all()
-    if (len(pls) > 10): return pls[:11]
+    if (len(pls) > 10): return pls[:10]
     return pls
    
 def create_like_review(user_id, review_id):
@@ -236,7 +236,7 @@ def get_like_reviews(user_id):
 def get_top_reviews():
     ''' Get the top 5 reviews that users like '''
     revs = Review.query.order_by(Review.likes.desc()).all()
-    if (len(revs) > 5): return revs[:6]
+    if (len(revs) > 5): return revs[:5]
     return revs
 
 

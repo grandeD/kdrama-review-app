@@ -37,6 +37,7 @@ def get_playlist():
             'followers': playlist.followers,
             'amount': count,
             'user_id': playlist.user.user_id,
+            'image_path': playlist.user.image_path,
             'username': playlist.user.username}
     
     # session user matches playlist user, then edit is True

@@ -30,6 +30,16 @@
     gap: 2em;
   }
 
+.modal-main input {
+    font-size: 17px;
+    padding: 0.5em 1em;
+    color: var(--darker);
+    border: 1px solid var(--grey-100);
+    border-radius: 5px;
+    background-color: white;
+    margin-bottom: 1em;
+}
+
 
   .modal-button {
     display: flex;
@@ -67,11 +77,11 @@
     font-size: 20px;
   }
 
-  .dark {
+  .dark-bg {
     background-color: var(--dark);
   }
 
-  .dark button {
+  .dark-bg button {
     background: none;
     color: var(--light);
   }

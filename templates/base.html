@@ -58,14 +58,14 @@
                 <i class="fas fa-home nav-icon"></i> <span class='nav-title'> Home</span></a>
             <a href="/discover" {% if active_page == 'discover' %} class="active"{% endif%}>
                 <i class="fas fa-compass nav-icon"></i> <span class='nav-title'> Discover</span></a>
-            <a href="/users" {% if active_page == 'users' %} class="active"{% endif%}>
-                <i class="fas fa-user-friends nav-icon"></i> <span class='nav-title'> Users</span></a>
+
         </div>
 
         <div class='nav-section'>
             <span class='sm-title'>General</span>
             {% if session.get('user_id')%}
-    
+            <a href="/users" {% if active_page == 'users' %} class="active"{% endif%}>
+                <i class="fas fa-user-friends nav-icon"></i> <span class='nav-title'> Users</span></a>
             <a href="/account" {% if active_page == 'account' %} class="active"{% endif%}>
                 <i class="fas fa-user-circle nav-icon"></i> <span class='nav-title'> Account</span></a>
             <a href="/logout" ><i class="fas fa-sign-out-alt nav-icon"></i> <span class='nav-title'> Logout</span></a>

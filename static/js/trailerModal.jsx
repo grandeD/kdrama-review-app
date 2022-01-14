@@ -21,7 +21,7 @@ const TrailerModal = (props) => {
     <div>
         { modal && 
         <div className='modal'>
-            <section className='modal-main dark'>
+            <section className='modal-main dark-bg'>
                 <div className='modal-close'>
                 <button onClick={() => setModal(false)}><i className="fas fa-times"></i></button>
                 </div>
