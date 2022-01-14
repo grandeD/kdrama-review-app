@@ -2,24 +2,34 @@
 
 {% block title %}Kdrama Review App{% endblock %}
 
+{% block css %}
+<link href="/static/css/kdrama.css" rel="stylesheet">
+{% endblock %}
+
 {% block body %}
 
 {% set active_page = 'discover' -%}
-
-<div>
+<div style='padding: 0 2em 4em;'>
    <h1>Search Results for '{{search_query}}' </h1>
-   {% for kdrama in kdrama_results %}
-   
-   <div className='card'>
-      <a href="/kdrama/{{kdrama['kdrama_id']}}">
-      <img style='height: 200px;' src="https://image.tmdb.org/t/p/original/{{kdrama['poster_path']}}"" alt='Kdrama Poster' />
-      </a>
-      <p>{{kdrama['title']}}</p>
+   <div class='flex-gap'>
+
+      {% for kdrama in kdrama_results %}
+      <div class='card'>
+         <a href="/kdrama/{{kdrama['kdrama_id']}}">
+            <div class='kdrama-img'>
+               <img  style='width: 100%;'
+               {%if kdrama['poster_path']%}
+                     src="https://image.tmdb.org/t/p/original/{{kdrama['poster_path']}}"" 
+               {% else %}
+                  src="/static/img/placeholder-image.png" 
+               {% endif %}
+                     alt='Kdrama Poster' />
+            </div>
+            <p>{{kdrama['title']}}</p>
+         </a>
+      </div>
+      {%endfor%}
+
    </div>
-   
-   {%endfor%}
- 
-
 </div>
-
 {% endblock %}

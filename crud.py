@@ -65,8 +65,8 @@ def get_kdrama_by_id(kdrama_id):
     return Kdrama.query.get(kdrama_id)
 
 def get_kdrama_by_title(title):
-    ''' Return a kdrama based off title '''
-    return Kdrama.query.filter(Kdrama.title.ilike(f'%{title}%')).all()
+    ''' Return a kdrama based off title - top 10 results'''
+    return Kdrama.query.filter(Kdrama.title.ilike(f'%{title}%')).all()[:10]
 
 def kdrama_autocomplete(title):
     ''' Return a kdrama based off title '''
