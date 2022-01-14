@@ -1,12 +1,14 @@
 :root {
     --lighter: #f0f1f7;
-    /* --lighter: #eff0f9; */
     --light: #EBEDFB;
+
     --grey-50: #c1c6cb;
     --grey-100: #9AA2A9;
     --grey-300: #707A85;
     --grey-400: #5E686D;
+
     --dark: #1A2022;
+
     --accent: #D0071E;
     --accent-lt: #a4a4cd;
 
@@ -46,9 +48,10 @@ a {
   height: 100%; /* Full-height: remove this if you want "auto" height */
   width: 250px; /* Set the width of the sidebar */
   position: fixed; /* Fixed Sidebar (stay in place on scroll) */
-  z-index: 2; /* Stay on top */
-  top: 0; /* Stay at the top */
+  z-index: 10; /* Stay on top */
+   top: 0; /* Stay at the top */
   left: 0;
+  margin: 0;
   overflow-x: hidden; /* Disable horizontal scroll */
 
   padding-top: 2em;
@@ -137,20 +140,29 @@ a:hover {
 /* Flash Message Alert */
 
 #alert {
-  z-index: 1;
+  z-index: 100;
   animation: fadeOut 5s linear forwards;
 
-  background: rgb(249, 247, 247);
+  background: var(--lighter);
 
   box-shadow: 3px 6px 12px 4px rgba(0,0,0,0.14);
   border-radius: 10px;
 
-  color: rgb(48, 48, 48);
   display: block; 
   position: absolute; 
-  height: 10%; 
-  width: 30%; 
+
+  padding-block: 1em;
+  padding-inline: 2em;
+  width: max(300px, 30%); 
+  margin-left: 0.5em;
 } 
+.error {
+  color: red;
+}
+
+.success {
+  color: rgb(0, 152, 0);
+}
 
 @keyframes fadeOut {
   0% 	{ opacity: 0; }

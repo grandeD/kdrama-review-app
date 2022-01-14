@@ -4,7 +4,7 @@ const LoginForm = () => {
     });
 
     const [submitted, setSubmitted] = React.useState(false);
-    const [message, setMessage] = React.useState('');
+    const [message, setMessage] = React.useState({status: '', text: ''});
 
     const handleInputChange = (event) => {
         event.persist();
@@ -26,7 +26,7 @@ const LoginForm = () => {
             response.json().then(jsonResponse => {
                 console.log(jsonResponse)
                 setSubmitted(true);
-                setMessage(`${jsonResponse.status}: ${jsonResponse.message}`)
+                setMessage({status: jsonResponse.status, text: jsonResponse.message })
                 if (jsonResponse.status === 'success'){
                     window.location = '/';
                 }
@@ -37,7 +37,7 @@ const LoginForm = () => {
     
     return (
         <form onSubmit={handleSubmit} className='form'>
-            {submitted && <p>{message}</p>}
+            {submitted && <p className={message.status}><strong>{message.status}: </strong>{message.text}</p>}
             <h2>Login</h2>
 
             <label className='input-label'>Username</label>

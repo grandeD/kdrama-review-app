@@ -25,7 +25,6 @@ app.register_blueprint(playlist_api)
 @app.route('/')
 def homepage():
     ''' View Homepage '''
-    # flash('hello')
     return render_template('homepage.html', api_key=os.environ['TMDB_API_KEY'])
 
 # Login page /login
@@ -45,6 +44,7 @@ def logout():
     '''Clear user session and redirect user to homepage'''
     session.clear()
     print(session)
+    flash('User has logged out. Login or sign up to access all features.', 'success')
     return redirect('/')
 
 @app.route('/discover')
@@ -58,7 +58,7 @@ def check_password(user, password):
         session['user_image_path'] = user.image_path
         session['name'] = f'{user.fname} {user.lname}'
         session['username'] = user.username
-
+        flash('User has logged in.', 'success')
         return {'status': 'success', 'message': 'Successfully logged in', 'user_id': user.user_id}
     else:
         return {'status': 'error', 'message': 'Password is incorrect'}
@@ -66,7 +66,7 @@ def check_password(user, password):
 @app.route('/login', methods=['POST'])
 def login_user():
     '''Log in user'''
-    response = {'status': 'success', 'message': 'User logged in'}
+    response = {'status': 'error', 'message': 'Enter required fields'}
     email = request.get_json().get("email")
     username = request.get_json().get("username")
     password = request.get_json().get("password")

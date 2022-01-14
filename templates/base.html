@@ -39,8 +39,13 @@
     <script src="https://kit.fontawesome.com/def9ea2d86.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    {% for msg in get_flashed_messages() %}
-    <div id="alert"> <p class="alert">{{msg}}</p> </div>
+    {% for type, msg in get_flashed_messages(with_categories=true) %}
+    <div id="alert"> 
+        {% if type == 'error' %} <strong class={{type}}><i class="fas fa-exclamation-triangle"></i>&nbsp; Error </strong>
+        {% elif type == 'success' %} <strong class={{type}}><i class="far fa-check-circle"></i>&nbsp; Success </strong>
+        {% endif %}
+        <p class="alert">{{msg}}</p> 
+    </div>
     {% endfor %}
 
     {% set active_page = active_page|default('') -%}

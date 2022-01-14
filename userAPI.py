@@ -45,6 +45,8 @@ def update_account(user_id):
 
     if not user:
         jsonify({'status': 'error', 'message': 'invalid user_id'})
+    else:
+        flash('Account successfully created.', 'success')
 
     return jsonify(response)
 

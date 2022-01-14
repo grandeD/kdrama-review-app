@@ -21,7 +21,6 @@ const genres =
 const SignUpForm = () => {
     // 2 steps to sign up, 1: required info  2: profile image and fav genre
     const [step, setStep] = React.useState(1);
-    const [message, setMessage] = React.useState(''); // message updates to user
 
     // true if step1 has been submitted
     const [submitted, setSubmitted] = React.useState(false);
@@ -88,7 +87,6 @@ const SignUpForm = () => {
             }).then(response => {
                 response.json().then(res => {
                     console.log(res)
-                    setMessage(`${res.status}: ${res.message}`)
                     if (res.status == 'success') { // step1 successful, set step to 2
                         // store user_id for step2 POST call to update user
                         setId(res.user.user_id)
@@ -112,7 +110,6 @@ const SignUpForm = () => {
         }).then(response => {
             response.json().then(jsonResponse => {
                 console.log(jsonResponse)
-                setMessage(`${jsonResponse.status}: ${jsonResponse.message}`)
                 if (jsonResponse.status == 'success') {
                     // create account is complete, redirect to login form
                     window.location.replace('/login');
@@ -145,8 +142,6 @@ const SignUpForm = () => {
         
         {step === 1 && 
         <form onSubmit={handleSubmit} className='form'>
-           
-            {submitted && <p>{message}</p>}
             <h2>Create an Account</h2>
 
             <label className='input-label'>First Name</label>
