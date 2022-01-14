@@ -21,11 +21,13 @@ const TrailerModal = (props) => {
     <div>
         { modal && 
         <div className='modal'>
-            <section className='modal-main'>
-                <iframe height='400px'
+            <section className='modal-main dark'>
+                <div className='modal-close'>
+                <button onClick={() => setModal(false)}><i className="fas fa-times"></i></button>
+                </div>
+                <iframe height='400px' style={{border: 'none'}}
                 src={trailerURL}>
                 </iframe>
-                <button onClick={() => setModal(false)}><i className="fas fa-times"></i></button>
             </section>
         </div> }
         <div> 

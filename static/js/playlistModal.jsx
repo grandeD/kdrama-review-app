@@ -4,8 +4,6 @@ const PlaylistModal = (props) => {
     const [modal, setModal] = React.useState(false);
     const [createPlaylist, setCreatePlaylist] = React.useState(false);
     const [userPlaylists, setUserPlaylists] = React.useState([]);
-    const [message, setMessage] = React.useState('');
-
 
     React.useEffect(() => {
         // grabs all user playlists and assigns to state
@@ -48,7 +46,6 @@ const PlaylistModal = (props) => {
     }
 
     // Attempts to add the current kdrama to passed in playlist id
-    // sets state message of successful or unsuccessful add
     const addToPlaylist = (playlist_id) => {
         fetch(`/playlist/${playlist_id}/entry`, {
             method: 'POST',
@@ -59,8 +56,15 @@ const PlaylistModal = (props) => {
         }).then(response => {
             response.json().then(res=> {
                 console.log(res);
-                setMessage(res.message);
+                let p = document.querySelector('#pl-message');
+                p.innerHTML = res.message;
+                p.classList.add(res.status);
+
                 closeModal();
+                setTimeout(() => {
+                    p.innerHTML = '';
+                    p.classList.remove(res.status);
+                }, 3000);
             });
         });
 
@@ -71,11 +75,11 @@ const PlaylistModal = (props) => {
 
     for (const playlist of userPlaylists) {
         plCards.push(
-            <div key={playlist.playlist_id}>
-                <button onClick={() => addToPlaylist(playlist.playlist_id)}>
-                    <i className="fas fa-plus-square"></i>
-                </button>
+            <div key={playlist.playlist_id} className='pl-card'>
                 <p>{playlist.title}</p>
+                <button onClick={() => addToPlaylist(playlist.playlist_id)}>
+                    <i className="fas fa-plus"></i>
+                </button>
             </div>
         );
     }
@@ -85,20 +89,23 @@ const PlaylistModal = (props) => {
         { modal ? 
         <div className='modal'>
             <section className='modal-main'>
-                
-                {createPlaylist ? <div>
+                <div className='modal-close'>
+                <button onClick={closeModal}><i className="fas fa-times"></i></button>
+                </div>
+                {createPlaylist ? <div className='search-container' style={{margin: 'auto'}}>
                     <form onSubmit={submitPlaylist}>
                         <input type="text" placeholder="Playlist Title" name="title" />
-                        <button type="submit" className='modal-button'><i className="fas fa-plus-square"></i></button>
+                        <button type="submit"><i className="fas fa-plus"></i></button>
                     </form>
                     </div>
                     :
-                    <button className='modal-button' onClick={() => setCreatePlaylist(true)}>Create Playlist</button>    
+                    <button className='modal-button'
+                            onClick={() => setCreatePlaylist(true)}>
+                        <i className="fas fa-plus"></i> <p>Create</p></button> 
                 }
-                {plCards}
-
-
-                <button className='modal-button' onClick={closeModal}><i className="fas fa-times"></i></button>
+                <div id='pl-cards'>
+                    {plCards}
+                </div>
 
             </section>
         </div>
@@ -106,9 +113,7 @@ const PlaylistModal = (props) => {
         <div> 
             <button className='icon-button'
             onClick={() => setModal(true)}><i className="fas fa-plus"></i> <p>Add to List</p></button>
-            {/* <p>{message}</p> */}
         </div>
-
         }
         
     </div>

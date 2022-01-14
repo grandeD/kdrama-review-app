@@ -184,7 +184,7 @@ const KdramaInfo = (props) =>  {
                         <p><span className='thin grey-100'>Genres</span>&emsp;{genre_string}</p>
                         <p><span>{episode_string}</span></p>
                         
-
+                        <p id='pl-message'></p>
                         <div className='flex-gap-1em buttons'>
                             <div id='add_to_playlist'></div>
                             <div id='play_trailer'></div>

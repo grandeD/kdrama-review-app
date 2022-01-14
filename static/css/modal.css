@@ -1,4 +1,5 @@
 .modal {
+    z-index: 100;
     position: fixed;
     top: 0;
     left: 0;
@@ -9,6 +10,7 @@
   }
   
   .modal-main {
+    z-index: 200;
     display:flex;
     flex-direction: column;
 
@@ -21,35 +23,80 @@
     left:50%;
     transform: translate(-50%,-50%);
 
-    padding: 2em;
-    gap: 1em;
-
     color: var(--dark);
+    padding: 1em;
+    padding-bottom: 2em;
+
+    gap: 2em;
   }
 
 
   .modal-button {
-    /* display: flex;
+    display: flex;
     justify-content: center;
-    align-items: center; */
-
-    text-align: center;
+    align-items: center;
   
     border: none;
     border-radius: 5px;
   
     padding-inline: 2em;
     padding-block: .25em;
-    margin-inline: 10%;
+    margin-inline: 20%;
     gap: 1em;
   
+    line-height: 0;
     font-size: 17px;
     font-weight: 200;
-    background-color: var(--grey-400);
-    color: var(--lighter);
-  }
-  
-  .modal-button:hover {
     background: var(--accent);
     color: var(--light);
   }
+  
+  .modal-button:hover {
+    background-color: var(--grey-400);
+    color: var(--lighter);
+  }
+
+  .modal-close {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .modal-close button {
+    border: none;
+    background: none;
+    color: var(--grey-400);
+    font-size: 20px;
+  }
+
+  .dark {
+    background-color: var(--dark);
+  }
+
+  .dark button {
+    background: none;
+    color: var(--light);
+  }
+
+  #pl-cards {
+    width: 60%;
+    margin-inline: 20%;
+  }
+
+  .pl-card {
+    position: relative;
+    
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--grey-300)
+  }
+
+  .pl-card button {
+    border: none;
+    background: none;
+  }
+
+
+
+
+
