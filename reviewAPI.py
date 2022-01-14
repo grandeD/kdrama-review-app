@@ -82,6 +82,7 @@ def get_user_review():
         result = {'review_id': review.review_id,
                 'username': review.user.username,
                 'user_id': review.user.user_id,
+                'image_path': review.user.image_path,
                 'rating': review.rating, 'content': review.content,
                 'likes': review.likes,
                 'review_date': review.review_date.strftime('%B %-d, %Y')}
@@ -105,6 +106,7 @@ def create_review():
     review = crud.create_review(rating, content, user_id, kdrama_id)
     rev_json = {'review_id': review.review_id, 'username': review.user.username,
                         'user_id': review.user.user_id,
+                        'image_path': review.user.image_path,
                         'rating': review.rating, 'content': review.content,'likes': review.likes,
                         'review_date': review.review_date.strftime('%B %-d, %Y')
                         }
@@ -122,6 +124,7 @@ def update_review():
     review = crud.update_review(rating, content, review_id)
     rev_json = {'review_id': review.review_id, 'username': review.user.username,
                         'user_id': review.user.user_id,
+                        'image_path': review.user.image_path,
                         'rating': review.rating, 'content': review.content,'likes': review.likes,
                         'review_date': review.review_date.strftime('%B %-d, %Y')}
 

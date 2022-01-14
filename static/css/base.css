@@ -192,16 +192,30 @@ a:hover {
 .thin {
   font-weight: 100;
 }
+.lighter {
+  color: var(--lighter);
+}
 .light {
   color: var(--light);
+}
+.accent {
+  color: var(--accent);
+}
+.grey-50 {
+  color: var(--grey-50);
 }
 .grey-100 {
   color: var(--grey-100);
 }
+.grey-300 {
+  color: var(--grey-300);
+}
 .grey-400 {
   color: var(--grey-400);
 }
-
+.dark{
+  color: var(--dark);
+}
 button {
   transition: all .2s ease-in-out;
 }

@@ -38,10 +38,8 @@
   
     border: none;
     border-radius: 5px;
-  
-    padding-inline: 2em;
-    padding-block: .25em;
-    margin-inline: 20%;
+    padding: 0.25em 2em;
+    margin: 0 20%;
     gap: 1em;
   
     line-height: 0;
@@ -80,7 +78,7 @@
 
   #pl-cards {
     width: 60%;
-    margin-inline: 20%;
+    margin: 0 20%;
   }
 
   .pl-card {

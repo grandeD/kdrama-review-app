@@ -118,34 +118,38 @@ const KdramaReviews = () => {
     for (const ndx in reviews) {
         if (userReview.review_id !== reviews[ndx].review_id)
         revCards.push(
-            <div key={ndx}>
-                <div style={{display: 'flex', alignItems: 'center', gap: '1em'}}>
+            <div key={ndx} className='review-card'>
+                <div className='flex-gap-1em'>
                     <a href={`/profile/${reviews[ndx].user_id}`} className='avatar sm' >
                         <img id='avatar-img' src={reviews[ndx].image_path}/> </a>
-                    <span >{reviews[ndx].username}</span> 
-                    <p>{reviews[ndx].rating}/10 <span className="star">&#9733;</span></p>
+                    <strong >{reviews[ndx].username}</strong> 
+                    <p className='grey-400'>{reviews[ndx].rating}/10 <span className="star">&#9733;</span></p>
                 </div> 
                 <p>{reviews[ndx].content}</p>
-                <p>{reviews[ndx].review_date}</p>
-                <button onClick={() => handleLike(reviews[ndx], ndx)}>
-                    <span>{reviews[ndx].likes} </span> 
-                    {(reviews[ndx].user_like ? 'Unlike' : 'Like')}
-                </button>
+                <p className='grey-400 thin'>{reviews[ndx].review_date}</p>
+                <div className='review-like'>
+                    <button onClick={() => handleLike(reviews[ndx], ndx)}>
+                        {(reviews[ndx].user_like ? <i className="fas fa-heart accent"></i>
+                                                : <i className="far fa-heart grey-300"></i>)}
+                    </button> 
+                    <span className='grey-300'>{reviews[ndx].likes} {(reviews[ndx].likes === 1 ? 'like' : 'likes')}</span> 
+                </div>
             </div>
         );
     }
 
     return (
-        <div>
+        <div style={{margin: '2em'}}>
             <h2>Reviews</h2>
-            <div style={{display: 'flex', flexDirection: 'column', width: '50%', gap: '1em', margin: '1.5em'}}>
+            <div className='rev-cards'>
                 {revCards}
             </div>
 
+            <div className='rev-cards' style={{minHeight: '20em'}}>
         {showInput ? 
-        <form onSubmit={handleSubmit} style={{display: 'flex', flexDirection: 'column', width: '50%', gap: '1em'}}>
+        <form onSubmit={handleSubmit} className='rev-form'>
             {/* Rating out of 10 in stars  */}
-            <div style={{display: 'flex', flexDirection: 'row'}}>
+            <div id='stars'>
                 {[...Array(10)].map((star, index) => {
                     index += 1;
                     return (
@@ -164,17 +168,30 @@ const KdramaReviews = () => {
             </div>
             <label htmlFor='text-review'>Enter a comment (optional): </label>
             <textarea id='text-review' name='content' value={content} onChange={(e) => setContent(e.target.value) }> </textarea>
-            <input type='submit'/>
+            <button className='rev-btn' style={{alignSelf: 'flex-end'}}
+                    onClick={handleSubmit}>Post</button>
         </form>:
-            <div>
-                <button onClick={handleEdit}>Edit Review</button>
-                <h4>Your Review</h4> 
-                <a>username: <span>{userReview.username}</span></a>
-                <p>rating: <span>{userReview.rating}</span></p>
-                <p>content: <span>{userReview.content}</span></p>
-                <p>review_date: <span>{userReview.review_date}</span></p>
+                <div className='review-card'>
+                <div className='flex-gap-1em'>
+                    <h3>Your Review</h3> 
+                    <button onClick={handleEdit} style={{fontSize: '0.8em'}}
+                            className='rev-btn'>Edit</button>
+                </div>
+                <div className='flex-gap-1em'>
+                    <a href={`/profile/${userReview.user_id}`} className='avatar sm' >
+                        <img id='avatar-img' src={userReview.image_path}/> </a>
+                    <strong >{userReview.username}</strong> 
+                    <p className='grey-400'>{userReview.rating}/10 <span className="star">&#9733;</span></p>
+                </div> 
+                <p>{userReview.content}</p>
+                <p className='grey-400 thin'>{userReview.review_date}</p>
+                <div className='review-like'>
+                    <i className="fas fa-heart grey-300"></i>
+                    <span className='grey-300'> {userReview.likes} {(userReview.likes === 1 ? 'like' : 'likes')}</span> 
+                </div>
             </div>
             }
+        </div>
         </div>
 
     );

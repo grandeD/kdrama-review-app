@@ -1,17 +1,3 @@
-#star {
-    background-color: transparent;
-    border: none;
-    outline: none;
-    cursor: pointer;
-  }
-#star.on {
-    color: gold;
-  }
-#star.off {
-    color: #ccc;
-  }
-
-
 #genre {
     border: none;
     outline: none;
