@@ -1,16 +1,25 @@
 #genre {
     border: none;
     outline: none;
-    color: black;
+    font-size: 1em;
     padding: 0.5em;
+    border-radius: 5px;
   }
  #genre.on {
-    background-color: lightskyblue;
+    background-color: var(--accent);
+    color: var(--lighter);
   }
  #genre.off {
-    background-color: #ccc;
+    background-color: var(--grey-50);
+    color: var(--dark);
   }
 
+#sortSelect {
+  font-size: 17px;
+  padding: 0.5em;
+  border: 1px solid var(--grey-50);
+  border-radius: 10px;
+}
 
 .flex-gap {
   display: inline-flex;
@@ -52,8 +61,8 @@
   align-items: center;
   justify-content: space-between;
   gap: 3em;
-  padding-inline: 10%;
-  padding-block: 2em;
+  padding: 2em 10%;
+  padding-bottom: 3em;
 }
 
 .data-item {
@@ -82,17 +91,16 @@ a {
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 1em;
+  padding: 0.25em 2em;
 
   border: none;
   border-radius: 5px;
 
-  padding-inline: 2em;
-  padding-block: .25em;
-  gap: 1em;
-
   line-height: 0;
   font-size: 17px;
   font-weight: 200;
+
   background: var(--light);
   color: var(--grey-400);
 }
@@ -110,7 +118,6 @@ a {
   transition: all .2s ease-in-out;
   text-align: center;
   width: 10em;
-  /* overflow-wrap: break-word;  */
 }
 
 .card a {
@@ -138,7 +145,6 @@ a {
 }
 
 .card-text {
-  /* padding-left: 1.5em;  */
   padding-inline: 1em;
   line-height: 1.25em;
   font-size: 14px;

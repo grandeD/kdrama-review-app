@@ -1,6 +1,11 @@
 'use strict';
 
-const sort_by = ['popularity.desc', 'popularity.asc','first_air_date.desc', 'first_air_date.asc' ];
+// const sort_by = ['popularity.desc', 'popularity.asc','first_air_date.desc', 'first_air_date.asc' ];
+const sort_by = [
+{val: 'popularity.desc', display_val: 'Popularity Descending'}, 
+{val: 'popularity.asc', display_val: 'Popularity Ascending'},
+{val: 'first_air_date.desc', display_val: 'Newest First'}, 
+{val: 'first_air_date.asc', display_val: 'Oldest First'}];
 
 // Card view component of a specific korean drama
 const KdramaCard = (props) => {
@@ -98,6 +103,9 @@ const Discover = (props) => {
         setPage((page) => ({...page,   ['currentPage']: new_page }));
         handlePageButtons(new_page, page.totalPages);
         get_sorted_results(sort_value, genre_string(), new_page);
+
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
     };
 
 
@@ -149,27 +157,32 @@ const Discover = (props) => {
     // create options for each value of the sort_by array for a select element
     const sortSelect = [];
     for (const ndx in sort_by) {
-        sortSelect.push(<option key={ndx} value={sort_by[ndx]}>
-        {sort_by[ndx]}</option>)
+        sortSelect.push(<option key={ndx} value={sort_by[ndx].val}>
+        {sort_by[ndx].display_val}</option>)
     }
 
     return (
-        <React.Fragment>
+        <div style={{padding: '0 2em', margin: '0 0 3em'}}>
             <h2>Discover</h2>
-            <select id='sortSelect' value={sort_value} onChange={updateSortValue}> 
-                {sortSelect}
-            </select>
-            <br></br><br></br>
-            <div className='flex-gap'>
+            <div className='flex-gap' style={{padding: '0 1em 2em'}}>
                 {genreButtons}
             </div>
-            <br></br><br></br>
-            <div className='flex-gap'>{kdramaCards}</div>
+            <div className='flex-gap-1em'>
+                <select id='sortSelect' value={sort_value} onChange={updateSortValue}> 
+                    {sortSelect}
+                </select>
+                {page.totalResults > 0 &&
+                <h4 className="grey-400">Page {page.currentPage} of {page.totalPages}</h4> }
+            </div>
+
+            
+            <div className='flex-gap' style={{margin: '1em 0 2em'}}>
+                {kdramaCards}</div>
             {(sortedDramas.length === 0 && loaded) ? 
             <h2>No results :( Try changing filter options</h2>
             :  <div>
                     <h3>{page.totalResults} results found</h3>
-                    <h4>Page {page.currentPage} of {page.totalPages}</h4> 
+                    <h4 className="grey-400">Page {page.currentPage} of {page.totalPages}</h4> 
                     <div className="pagination">
                         <button name='decrement' onClick={handlePagination}
                         disabled={pageButtons.decrement}>❮</button>
@@ -177,7 +190,7 @@ const Discover = (props) => {
                         disabled={pageButtons.increment}>❯</button>
                     </div>
                 </div>}
-        </React.Fragment>
+        </div>
     );
 
 };
