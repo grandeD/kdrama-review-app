@@ -100,7 +100,7 @@ def autocomplete_results():
     kdrama_results = crud.kdrama_autocomplete(search_query)
     kdrama_json = []
     for kdrama in kdrama_results:
-        kdrama_json.append(kdrama.title)
+        kdrama_json.append({'title': kdrama.title, 'kdrama_id': kdrama.kdrama_id})
     return jsonify({'status':'success', 'results':kdrama_json})
 
 # Kdrama Page

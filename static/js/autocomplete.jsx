@@ -2,9 +2,14 @@
 
 const Autocomplete = () => {
     const [filteredSuggestions, setFilteredSuggestions] = React.useState([]);
-    const [activeSuggestionIndex, setActiveSuggestionIndex] = React.useState(0);
+    const [activeSuggestionIndex, setActiveSuggestionIndex] = React.useState(-1);
     const [showSuggestions, setShowSuggestions] = React.useState(false);
     const [input, setInput] = React.useState('');
+    const [change, setChange] = React.useState(false);
+
+    const handleSubmit = (e) => {
+      if (change) e.preventDefault();
+    }
 
     const onChange = (e) => {
         const userInput = e.target.value;
@@ -18,29 +23,34 @@ const Autocomplete = () => {
         });
 
         setInput(e.target.value);
-        setActiveSuggestionIndex(0);
+        setActiveSuggestionIndex(-1);
         setShowSuggestions(true);
       };
 
-      const onClick = (e) => {
-        console.log(e.target.key);
+      const handleClick = (title, kdrama_id) => {
         setFilteredSuggestions([]);
-        setInput(e.target.key);
-        setActiveSuggestionIndex(0);
+        setInput(title);
+        setActiveSuggestionIndex(-1);
         setShowSuggestions(false);
+        window.location = `/kdrama/${kdrama_id}`;
       };
 
       const onKeyDown = (e) => {
 
         if (e.keyCode === 13) // enter key, user selects input
         {
-            setActiveSuggestionIndex(0);
+          if (activeSuggestionIndex > -1) {
+            const selected = filteredSuggestions[activeSuggestionIndex];
+            setInput(selected.title)
+            setChange(true);
+            window.location = `/kdrama/${selected.kdrama_id}`;
+          }
+            setActiveSuggestionIndex(-1);
             setShowSuggestions(false);
-            setInput(filteredSuggestions[activeSuggestionIndex])
         }
         else if (e.keyCode === 38) // up arrow key
         {
-            if (activeSuggestionIndex === 0) {
+            if (activeSuggestionIndex === -1) {
               return;
             }
             setActiveSuggestionIndex(activeSuggestionIndex - 1);
@@ -62,14 +72,15 @@ const Autocomplete = () => {
           className = "autocomplete-active";
         }
         return (
-          <div className={className} key={suggestion} onClick={(suggestion) => onClick(suggestion)}>
-            {suggestion}
+          <div  className={className} key={suggestion.kdrama_id} 
+                onClick={() => handleClick(suggestion.title, suggestion.kdrama_id)}>
+            {suggestion.title}
           </div>
         );
       });
 
     return (
-        <form action="/search" autoComplete='off'>
+        <form action="/search" autoComplete='off' onSubmit={handleSubmit}>
             <div className='autocomplete'>
             <input  type="text" 
                     placeholder="Search for a Korean Drama.." 
@@ -77,8 +88,6 @@ const Autocomplete = () => {
                     onChange={onChange}
                     onKeyDown={onKeyDown}
                     value={input}
-                    onBlur={()=>setShowSuggestions(false)}
-                    onClick={()=>setShowSuggestions(true)}
                     />
                 {showSuggestions && input && 
                     <div className='autocomplete-items'>
