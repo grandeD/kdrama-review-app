@@ -17,31 +17,39 @@
 {% block body %}
 <div class='container'>
 {%if similar_users%}
-<h2>Users with same favorite genre</h2>
+<h2>Users with Same Favorite Genre</h2>
 <div class='flex-gap'>
    {%for user in similar_users%}
-    <div>
-        <div class='avatar med'><img id='avatar-img' src={{user.image_path}}/></div>
-        <h3>{{user.fname}} {{user.lname}}</h3>
-        <h4>@{{user.username}}</h4>
-        <a href='profile/{{user.user_id}}'>Profile</a>
+    <div class='user-card-sm' >
+        <a href='profile/{{user.user_id}}' class='flex-gap-1em user'>
+            <div class='avatar med'><img id='avatar-img' src={{user.image_path}}/></div>
+            <div>
+                <h3 style='line-height: 0.5em;'>{{user.username}}</h3>
+                <p class='thin dark' style='font-size: 0.9em;'>{{user.fname}} {{user.lname}}</p>
+                <p class='thin grey-300' style='font-size: 0.8em;'>
+                    <i class="fas fa-heart grey-300"></i> {{user.fav_genre}}</p>
+            </div>
+        </a>
     </div>
-    <br></br>
    {%endfor%}
 </div>
 {%endif%}
-
+<br></br>
 {%if all_users%}
 <h2>All Users</h2>
 <div class='flex-gap'>
    {%for user in all_users%}
-    <div>
-        <div class='avatar med'><img id='avatar-img' src={{user.image_path}}/></div>
-        <h3>{{user.fname}} {{user.lname}}</h3>
-        <h4>@{{user.username}}</h4>
-        <a href='profile/{{user.user_id}}'>Profile</a>
+    <div class='user-card-sm' >
+        <a href='profile/{{user.user_id}}' class='flex-gap-1em user'>
+            <div class='avatar med'><img id='avatar-img' src={{user.image_path}}/></div>
+            <div>
+                <h3 style='line-height: 0.5em;'>{{user.username}}</h3>
+                <p class='thin dark' style='font-size: 0.9em;'>{{user.fname}} {{user.lname}}</p>
+                <p class='thin grey-300' style='font-size: 0.8em;'>
+                    <i class="fas fa-heart grey-300"></i> {{user.fav_genre}}</p>
+            </div>
+        </a>
     </div>
-    <br></br>
    {%endfor%}
 </div>
 {%else%}

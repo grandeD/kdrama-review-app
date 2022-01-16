@@ -108,9 +108,12 @@ def show_users():
     current_user = crud.get_user_by_id(session.get('user_id'))
     all_users = []
     similar_users = []
-    for user in users:
-        if user.user_id != current_user.user_id:
-            if current_user.fav_genre == user.fav_genre:
+    for u in users:
+        if u.user_id != current_user.user_id:
+            user = {'user_id': u.user_id, 'username': u.username, 
+                    'fname': u.fname, 'lname': u.lname,
+                    'image_path': u.image_path, 'fav_genre': GENRES.get(str(u.fav_genre))}
+            if current_user.fav_genre == u.fav_genre:
                 similar_users.append(user)
             all_users.append(user)
     return render_template('users.html', similar_users=similar_users, all_users=all_users)
