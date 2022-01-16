@@ -142,7 +142,7 @@ a {
 .kdrama-img {
   overflow: hidden;
   width: 10em;
-  height: 14em;
+  height: 15em;
 }
 
 .card-text {
@@ -171,6 +171,14 @@ a {
 
 #table th, #table td {
   padding: 1em;
+}
+
+
+@media only screen and (max-width: 500px) {
+
+  /* .card {
+    width: 9em;
+  } */
 }
 
 

@@ -3,15 +3,15 @@
 // Card view component of a specific korean drama
 const KdramaCard = (props) => {
     return(
-    <div className='card'>
+        <div className='card'>
         <a href={`/kdrama/${props.kdrama_id}`}>
         <div className='kdrama-img'>
-            <img style={{width: '100%'}} 
+            <img style={{width: '100%'}}
         src={props.poster_path} 
         alt='Kdrama Poster' />
         </div>
+        <p className='card-text'>{props.title} <span className='thin grey-400'>({props.year})</span></p>
         </a>
-        <p>{props.title}</p>
     </div>
     );
 }
@@ -66,6 +66,7 @@ const CardView = (props) => {
             kdrama_id={kdrama.id} 
             poster_path={poster_path}
             title={kdrama.name}
+            year={kdrama.first_air_date.slice(0,4)}
             />
         );
     }

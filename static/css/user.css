@@ -25,11 +25,8 @@
     align-items: center;
 
     padding: 1em 1.5em;
-    /* line-height: 0.5em; */
-    /* width: max(10em, 10%);  */
     width: 15em;
 
-    /* background: linear-gradient(90deg, var(--accent-lt) 10%, var(--lighter) 50%); */
     background-color: var(--lighter);
     border-radius: 10px;
     box-shadow: 1px 14px 17px -8px rgba(0,0,0,0.19);

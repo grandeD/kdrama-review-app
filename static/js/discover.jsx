@@ -17,7 +17,7 @@ const KdramaCard = (props) => {
         src={props.poster_path} 
         alt='Kdrama Poster' />
         </div>
-        <p>{props.title}</p>
+        <p className='card-text'>{props.title} <span className='thin grey-400'>({props.year})</span></p>
         </a>
     </div>
     );
@@ -25,7 +25,7 @@ const KdramaCard = (props) => {
 
 const Discover = (props) => {
     const [sortedDramas, setDramas] = React.useState([]);
-    const [sort_value, setSortVal] = React.useState(sort_by[0]); // value page is currently sorted by
+    const [sort_value, setSortVal] = React.useState(sort_by[0].val); // value page is currently sorted by
     // value of each genre_id is a boolean of whether it is currently selected
     const [genre_options, setGenOptions] = React.useState({}); 
     const [genres, setGenres] = React.useState({}); // genre_id: genre_name
@@ -129,7 +129,7 @@ const Discover = (props) => {
     for (const kdrama of sortedDramas) {
         let poster_path = '/static/img/placeholder-image.png';
         // handles default poster if drama does not have image
-        if (kdrama.poster_path !== null)
+        if (kdrama.poster_path !== null && kdrama.poster_path !== '')
             poster_path = `https://image.tmdb.org/t/p/original/${kdrama.poster_path}`;
         kdramaCards.push(
             <KdramaCard
@@ -137,6 +137,7 @@ const Discover = (props) => {
             kdrama_id={kdrama.id} 
             poster_path={poster_path}
             title={kdrama.name}
+            year={kdrama.first_air_date.slice(0,4)}
             />
         );
     }

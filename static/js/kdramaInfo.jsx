@@ -5,12 +5,14 @@ const TMDB_IMAGE_URL = 'https://image.tmdb.org/t/p/original/';
 // Card view component of a specific korean drama
 const KdramaCard = (props) => {
     return(
-    <div className='card'>
+        <div className='card'>
         <a href={`/kdrama/${props.kdrama_id}`}>
         <div className='kdrama-img'>
-            <img style={{width: '100%'}} src={props.poster_path} alt='Kdrama Poster' />
+            <img style={{width: '100%'}}
+        src={props.poster_path} 
+        alt='Kdrama Poster' />
         </div>
-        <p>{props.title}</p>
+        <p className='card-text'>{props.title} <span className='thin grey-400'>({props.year})</span></p>
         </a>
     </div>
     );
@@ -104,6 +106,7 @@ const KdramaInfo = (props) =>  {
             kdrama_id={rec.id} 
             poster_path={poster_path}
             title={rec.name}
+            year={rec.first_air_date.slice(0,4)}
             />
         );
     }
