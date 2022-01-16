@@ -97,7 +97,8 @@ a {
 /* Style page content */
 .main {
   margin-left: 250px; /* Same as the width of the sidebar */
-  /* padding: 0px 40px; */
+  padding: 0 min(2em, 2%);
+
 }
 
 /* User Avatar IMG */

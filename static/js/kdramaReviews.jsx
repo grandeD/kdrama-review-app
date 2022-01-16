@@ -139,7 +139,7 @@ const KdramaReviews = () => {
     }
 
     return (
-        <div style={{margin: '2em'}}>
+        <div style={{margin: '2em 0'}}>
             <h2>Reviews</h2>
             <div className='rev-cards'>
                 {revCards}

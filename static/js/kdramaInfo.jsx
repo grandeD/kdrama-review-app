@@ -204,7 +204,7 @@ const KdramaInfo = (props) =>  {
                     </div>
                 </div>                          
             }
-            <div style={{margin: '2em'}}>
+            <div style={{margin: '2em 0'}}>
             {castCards.length > 0 &&
                 <h3>Cast</h3>}
                 <div className='flex-gap center'>

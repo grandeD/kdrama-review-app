@@ -81,7 +81,7 @@ const PersonInfo = (props) =>  {
         <React.Fragment>
             {personData &&
                 <div className='data rounded' >
-                    <div className='data-item'>
+                    <div className='data-item' >
                     <img    className='poster-img rounded'
                             src={((personData.profile_path !== '' && personData.profile_path !== null) ? 
                                 `${TMDB_IMAGE_URL}${personData.profile_path}`:
@@ -105,7 +105,7 @@ const PersonInfo = (props) =>  {
                 </div>                          
             }
 
-            <div  style={{padding: '1em 2em 4em'}}>
+            <div  style={{padding: '1em 0 4em'}}>
             {/* Year    Title   role     genre */}
             {credits.cast.length > 0 &&
             <React.Fragment>

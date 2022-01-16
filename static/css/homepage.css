@@ -58,6 +58,3 @@
     background-color: var(--accent);
   }
 
-.main {
-  padding-inline: min(2em, 2%);
-}

@@ -163,7 +163,7 @@ const Discover = (props) => {
     }
 
     return (
-        <div style={{padding: '0 2em', margin: '0 0 3em'}}>
+        <div>
             <h2>Discover</h2>
             <div className='flex-gap' style={{padding: '0 1em 2em'}}>
                 {genreButtons}

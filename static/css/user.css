@@ -1,7 +1,6 @@
 .container {
     display: flex;
     flex-direction: column;
-    padding-inline: 2em;
 }
 
 .user_card {
