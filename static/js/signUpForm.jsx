@@ -141,7 +141,7 @@ const SignUpForm = () => {
         <React.Fragment>
         
         {step === 1 && 
-        <form onSubmit={handleSubmit} className='form'>
+        <form onSubmit={handleSubmit} className='form' autoComplete='off'>
             <h2>Create an Account</h2>
 
             <label className='input-label'>First Name</label>

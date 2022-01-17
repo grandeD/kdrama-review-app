@@ -36,7 +36,7 @@ const LoginForm = () => {
     };
     
     return (
-        <form onSubmit={handleSubmit} className='form'>
+        <form onSubmit={handleSubmit} className='form' autoComplete='off'>
             {submitted && <p className={message.status}><strong>{message.status}: </strong>{message.text}</p>}
             <h2>Login</h2>
 
