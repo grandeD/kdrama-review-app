@@ -25,7 +25,7 @@ const Reviews = () => {
             <div key={ndx} className='review-card'>
                 <div style={{paddingBottom: '1em'}}>
                     <h4>{reviews[ndx].title}</h4></div>
-                <div className='flex-gap'>
+                <div className='flex-gap' >
                 <a href={`/kdrama/${reviews[ndx].kdrama_id}`}>
                     <img style={{height: '200px', paddingBottom: '1em'}} 
                     src={`${TMDB_IMAGE_URL}${reviews[ndx].poster_path}`} alt='Kdrama Poster' />

@@ -34,7 +34,7 @@ a {
   align-items: center;
   margin-top: 1em;
   margin-bottom: 1.5em;
-  padding: 0px 40px;
+  padding: 0 min(2em, 2%);
 }
 
 .sm-title {
