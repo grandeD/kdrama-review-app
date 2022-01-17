@@ -22,35 +22,46 @@ const Reviews = () => {
     // Review cards populated from API call
     for (const ndx in reviews) {
         revCards.push(
-            <div key={ndx} className='flex-gap'>
+            <div key={ndx} className='review-card'>
+                <div style={{paddingBottom: '1em'}}>
+                    <h4>{reviews[ndx].title}</h4></div>
+                <div className='flex-gap'>
                 <a href={`/kdrama/${reviews[ndx].kdrama_id}`}>
-                    <img style={{height: '200px'}} 
+                    <img style={{height: '200px', paddingBottom: '1em'}} 
                     src={`${TMDB_IMAGE_URL}${reviews[ndx].poster_path}`} alt='Kdrama Poster' />
-                    <div>{reviews[ndx].title}</div>
                 </a>
-                <div>
-                    {user ? <div><p>{reviews[ndx].rating}/10 <span className="star">&#9733;</span></p></div> 
-                    : <div className='flex-gap-1em'>
-                        <a href={`/profile/${reviews[ndx].user_id}`} className='flex-gap-1em' >
-                            <div className='avatar sm'>
-                            <img id='avatar-img' src={reviews[ndx].image_path}/> 
-                            </div>    
-                        <span >{reviews[ndx].username}</span> 
-                        </a>
-                        <p>{reviews[ndx].rating}/10 <span className="star">&#9733;</span></p>
-                    </div> }
-                    <p>{reviews[ndx].content}</p>
-                    <p>{reviews[ndx].review_date}</p>
-                    <span>{reviews[ndx].likes} Likes</span> 
+                <div style={{flexShrink: '1'}}>
+
+                    {user ? <div><p className='grey-400'>{reviews[ndx].rating}/10 <span className="star">&#9733;</span></p></div> 
+                    :<div className='flex-gap-1em' >
+                        <a href={`/profile/${reviews[ndx].user_id}`} className='avatar sm' >
+                            <img id='avatar-img' src={reviews[ndx].image_path}/> </a>
+                        <strong >{reviews[ndx].username}</strong> 
+                        <p className='grey-400'>{reviews[ndx].rating}/10 <span className="star">&#9733;</span></p>
+                    </div>  }
+
+                    <p >{reviews[ndx].content}</p>
+                    <p className='grey-400 thin'>{reviews[ndx].review_date}</p>
+                    <div className='review-like'>
+                        <i className="fas fa-heart grey-300"></i>
+                        <span className='grey-300'> {reviews[ndx].likes} {(reviews[ndx].likes === 1 ? 'like' : 'likes')}</span> 
+                    </div>
                 </div>
+
+                </div>
+
             </div>
+
+
+
+
         );
     }
 
     return (
         <div>
-            <div style={{display: 'flex', flexDirection: 'column' , gap: '1em', margin: '1.5em'}}>
-                {revCards}
+            <div className='rev-cards'>
+            {revCards}
             </div>
         </div>
 

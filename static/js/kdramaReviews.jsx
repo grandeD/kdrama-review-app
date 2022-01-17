@@ -171,7 +171,7 @@ const KdramaReviews = () => {
             <button className='rev-btn' style={{alignSelf: 'flex-end'}}
                     onClick={handleSubmit}>Post</button>
         </form>:
-                <div className='review-card'>
+            <div className='review-card'>
                 <div className='flex-gap-1em'>
                     <h3>Your Review</h3> 
                     <button onClick={handleEdit} style={{fontSize: '0.8em'}}
