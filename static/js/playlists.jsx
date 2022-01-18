@@ -13,8 +13,6 @@ const PlaylistCard = (props) => {
                 <p>{props.followers} <i class="fas fa-users"></i></p>
                 <p>{props.amount} <i class="fas fa-film"></i></p>
             </div>
-
-
         </a>
         </div>
     );
