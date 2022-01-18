@@ -38,6 +38,7 @@ const LoginForm = () => {
     return (
         <form onSubmit={handleSubmit} className='form' autoComplete='off'>
             {submitted && <p className={message.status}><strong>{message.status}: </strong>{message.text}</p>}
+            <p className='input-label'>Demo username = user1&nbsp;&nbsp;password = test</p>
             <h2>Login</h2>
 
             <label className='input-label'>Username</label>
@@ -51,6 +52,7 @@ const LoginForm = () => {
    
             <input id='submit-btn' type="submit"/>
 
+            
             <p>Don't have an Account? <a href='/signup'>Sign Up</a></p>
         </form>
     )
