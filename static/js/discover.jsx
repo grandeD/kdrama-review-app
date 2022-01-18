@@ -55,7 +55,7 @@ const Discover = (props) => {
             }))
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);
+                    // console.log(data);
                     setDramas(data['results']);
                     setPage({   currentPage: currentPage, 
                                 totalResults: data['total_results'], 
@@ -72,11 +72,11 @@ const Discover = (props) => {
         {'api_key': props.api_key, 'language': 'en-US', }))
             .then(response => response.json())
             .then(data => {
-                console.log(data);
+                // console.log(data);
                 // set genre object with values in the form genre_id : genre_name
                 const gens = data.genres.reduce((gens, gen) => {
                     return {...gens, [gen.id]: gen.name} }, {});
-                console.log(gens);
+                // console.log(gens);
                 setGenres(gens);
                 // set genre_options object with values in the form genre_id : boolean
                 const gen_ops = Object.keys(gens).reduce((gen_ops, g_id) => {

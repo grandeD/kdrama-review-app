@@ -12,7 +12,7 @@ const Reviews = () => {
         fetch(api_url)
         .then(response => response.json())
         .then(data => {
-            console.log(data);
+            // console.log(data);
             if (data.status === 'success') setReviews(data.reviews);
         });
     }, []);

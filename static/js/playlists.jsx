@@ -27,7 +27,7 @@ const PlaylistsView = (props) => {
         fetch(props.api_url)
         .then(response => response.json())
         .then(data => {
-            console.log(data);
+            // console.log(data);
             if (data.status === 'success') setPlaylists(data.playlists);
         });
     }, []);

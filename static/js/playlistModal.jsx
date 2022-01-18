@@ -10,7 +10,7 @@ const PlaylistModal = (props) => {
         fetch('/playlists')
         .then(response => response.json())
         .then(data => {
-            console.log(data);
+            // console.log(data);
             if (data.status === 'success') setUserPlaylists(data.playlists);
         });
     }, []);
@@ -34,7 +34,7 @@ const PlaylistModal = (props) => {
                 body: JSON.stringify({'title': e.target.title.value, 'content': '' }),
             }).then(response => {
                 response.json().then(res=> {
-                    console.log(res);
+                    // console.log(res);
                     if (res.status === 'success') {
                         // add res.playlist to list of playlists
                         setUserPlaylists([res.playlist, ...userPlaylists]);
@@ -55,7 +55,7 @@ const PlaylistModal = (props) => {
             body: JSON.stringify({'kdrama_id': props.kdrama_id}),
         }).then(response => {
             response.json().then(res=> {
-                console.log(res);
+                // console.log(res);
                 let p = document.querySelector('#pl-message');
                 p.innerHTML = res.message;
                 p.classList.add(res.status);

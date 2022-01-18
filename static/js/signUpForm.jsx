@@ -86,7 +86,7 @@ const SignUpForm = () => {
                 body: JSON.stringify(values),
             }).then(response => {
                 response.json().then(res => {
-                    console.log(res)
+                    // console.log(res)
                     if (res.status == 'success') { // step1 successful, set step to 2
                         // store user_id for step2 POST call to update user
                         setId(res.user.user_id)
@@ -109,7 +109,7 @@ const SignUpForm = () => {
             body: JSON.stringify({image_path: avatarImg, fav_genre: favGenre}),
         }).then(response => {
             response.json().then(jsonResponse => {
-                console.log(jsonResponse)
+                // console.log(jsonResponse)
                 if (jsonResponse.status == 'success') {
                     // create account is complete, redirect to login form
                     window.location.replace('/login');

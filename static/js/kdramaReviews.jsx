@@ -20,7 +20,7 @@ const KdramaReviews = () => {
         fetch(`/reviews?kdrama_id=${kdrama_id}`)
         .then(response => response.json())
         .then(data => {
-            console.log(data);
+            // console.log(data);
             if (data.status === 'success') setReviews(data.reviews);
         });
 
@@ -28,7 +28,7 @@ const KdramaReviews = () => {
         fetch(`/review?kdrama_id=${kdrama_id}`)
         .then(response => response.json())
         .then(data => {
-            console.log(data);
+            // console.log(data);
             if (data.status === 'success') {
                 setReview(data.review);
                 setInput(false);
@@ -53,7 +53,7 @@ const KdramaReviews = () => {
                                     'rating': rating, 'content': content, 'kdrama_id': kdrama_id }),
             }).then(response => {
                 response.json().then(res=> {
-                    console.log(res)
+                    // console.log(res)
                     setReview(res.review);
                     setInput(false);
                 });
@@ -69,7 +69,7 @@ const KdramaReviews = () => {
                 body: JSON.stringify({'rating': rating, 'content': content, 'kdrama_id': kdrama_id }),
             }).then(response => {
                 response.json().then(res=> {
-                    console.log(res)
+                    // console.log(res)
                     setReview(res.review);
                     setInput(false);
                 });
@@ -90,7 +90,7 @@ const KdramaReviews = () => {
 
 
     const handleLike = (review, index) => {
-        console.log(review);
+        // console.log(review);
         // default values are for unlike review
         let method = 'DELETE'; let user_like = false; let like = -1
         if (!review.user_like)  {
@@ -102,7 +102,7 @@ const KdramaReviews = () => {
             method: method,  headers: {'Content-Type': 'application/json'},})
         .then(response => response.json())
         .then(res => {
-            console.log(res);
+            // console.log(res);
             if(res.status === 'success') {
                 // update state values for reviews
                 let newReviews = [...reviews];

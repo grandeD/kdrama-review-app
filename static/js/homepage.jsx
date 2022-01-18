@@ -36,7 +36,7 @@ const CardView = (props) => {
             }))
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);
+                    // console.log(data);
                     setDramas(data['results'].slice(0, amount));
                 });
     };
@@ -45,7 +45,7 @@ const CardView = (props) => {
         fetch(`/user/${props.user_id}`).
         then(response => response.json())
         .then(res => {
-            console.log(res);
+            // console.log(res);
             const fav_genre_id = res.user.fav_genre_id;
             const fav_genre = res.user.fav_genre;
             setGenre(fav_genre); 
@@ -108,7 +108,7 @@ const Slideshow = (props) => {
         }))
           .then(response => response.json())
           .then(data => {
-                console.log(data['results']);
+                // console.log(data['results']);
                 setTop(data['results'].slice(0,10));  // limit results to top 10
           });
     }, []);

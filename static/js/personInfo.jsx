@@ -32,7 +32,7 @@ const PersonInfo = (props) =>  {
         fetch(`https://api.themoviedb.org/3/person/${props.person_id}?language=en-US&api_key=${props.api_key}`)
           .then(response => response.json())
           .then(data => {
-                console.log(data);
+                // console.log(data);
                 setData(data)
           });
         
@@ -40,7 +40,7 @@ const PersonInfo = (props) =>  {
         fetch(`https://api.themoviedb.org/3/person/${props.person_id}/tv_credits?language=en-US&api_key=${props.api_key}`)
           .then(response => response.json())
           .then(data => {
-                console.log(data);
+                // console.log(data);
                 setCredits(data)
           });
     }, []);
@@ -49,7 +49,7 @@ const PersonInfo = (props) =>  {
     if (credits.cast.length > 0 ){
         // sorts cast credits in descending order
         let sortCredits = credits.cast.sort((a, b) => {return new Date(b.first_air_date) - new Date(a.first_air_date)});
-        console.log(sortCredits);
+        // console.log(sortCredits);
         castCredits = sortCredits.map((credit, index) => {
             return (
                 <tr key={index}>

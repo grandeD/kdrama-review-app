@@ -32,7 +32,7 @@ const Playlist = (props) => {
         fetch(`/playlist?playlist_id=${props.playlist_id}`)
         .then(response => response.json())
         .then(data => {
-            console.log(data);
+            // console.log(data);
             if (data.status === 'success') {
                 setInfo(data.info);
                 setUpdateInfo(data.info);
@@ -50,7 +50,7 @@ const Playlist = (props) => {
         fetch(`/playlist/${props.playlist_id}/follow`)
         .then(response => response.json())
         .then(data => {
-            console.log(data);
+            // console.log(data);
             if (data.follow) {
                 setFollow({show: true, id:data.follow_playlist_id});
             }
@@ -66,7 +66,7 @@ const Playlist = (props) => {
             },
         }).then(response => {
             response.json().then(res=> {
-                console.log(res);
+                // console.log(res);
                 if (res.status === 'success') {
                     // updates state to exclude deleted entry
                     const newEntries = playlistEntries.filter(entry => entry.playlistentry_id !== playlist_entry_id);
@@ -90,7 +90,7 @@ const Playlist = (props) => {
             body: JSON.stringify(updateInfo)
         }).then(response => response.json())
         .then(res => {
-            console.log(res);
+            // console.log(res);
             if(res.status === 'success') {
                 // update state values for playlistInfo
                 setModal(false);
@@ -113,7 +113,7 @@ const Playlist = (props) => {
             },
         }).then(response => response.json())
         .then(res => {
-            console.log(res);
+            // console.log(res);
             if(res.status === 'success') {
                 // update state values for playlistInfo
                 setInfo((playlistInfo) => ({
@@ -134,7 +134,7 @@ const Playlist = (props) => {
             },
         }).then(response => response.json())
         .then(res => {
-            console.log(res);
+            // console.log(res);
             if(res.status === 'success') {
                 // update state values for playlistInfo
                 setInfo((playlistInfo) => ({

@@ -18,7 +18,7 @@ const Autocomplete = () => {
         fetch(`/search/autocomplete?search-query=${userInput}`)
         .then(response => response.json())
         .then(data => {
-            console.log(data);
+            // console.log(data);
             if (data.status === 'success') setFilteredSuggestions(data.results);
         });
 

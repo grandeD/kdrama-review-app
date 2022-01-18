@@ -8,7 +8,7 @@ const TrailerModal = (props) => {
         fetch(`https://api.themoviedb.org/3/tv/${props.kdrama_id}/videos?api_key=${props.api_key}`)
           .then(response => response.json())
           .then(data => {
-                console.log(data);
+                // console.log(data);
                 for(const video of data.results) {
                     if (video.type === 'Trailer' && video.site === 'YouTube'){
                         setURL(`https://www.youtube.com/embed/${video.key}`);

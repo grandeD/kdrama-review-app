@@ -24,7 +24,7 @@ const LoginForm = () => {
             body: JSON.stringify(values),
           }).then(response => {
             response.json().then(jsonResponse => {
-                console.log(jsonResponse)
+                // console.log(jsonResponse)
                 setSubmitted(true);
                 setMessage({status: jsonResponse.status, text: jsonResponse.message })
                 if (jsonResponse.status === 'success'){

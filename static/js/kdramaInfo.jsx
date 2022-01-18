@@ -48,7 +48,7 @@ const KdramaInfo = (props) =>  {
         fetch(`https://api.themoviedb.org/3/tv/${props.kdrama_id}?language=en-US&api_key=${props.api_key}`)
           .then(response => response.json())
           .then(data => {
-                console.log(data);
+                // console.log(data);
                 setData(data)
           });
 
@@ -56,7 +56,7 @@ const KdramaInfo = (props) =>  {
         fetch(`https://api.themoviedb.org/3/tv/${props.kdrama_id}/credits?language=en-US&api_key=${props.api_key}`)
             .then(response => response.json())
             .then(data => {
-                console.log(data);
+                // console.log(data);
                 if (data.cast !== null){
                     setCast(data.cast);
                 }
@@ -67,7 +67,7 @@ const KdramaInfo = (props) =>  {
         fetch(`https://api.themoviedb.org/3/tv/${props.kdrama_id}/watch/providers?api_key=${props.api_key}`)
             .then(response => response.json())
             .then(data => {
-                console.log(data);
+                // console.log(data);
                 if (data.results.US && data.results.US.flatrate){
                     const logos = data.results.US.flatrate.map((watch_provider) => {
                         return watch_provider.logo_path;  
@@ -88,7 +88,7 @@ const KdramaInfo = (props) =>  {
                         if (result.original_language === 'ko')
                             kdrama_results.push(result);
                     }
-                    console.log(kdrama_results);
+                    // console.log(kdrama_results);
                     setRecommend(kdrama_results.slice(0, 10));
                 }
             });
