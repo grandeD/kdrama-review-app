@@ -190,5 +190,8 @@ const Homepage = (props) =>  {
 
 const api_key = document.querySelector('#data').dataset.api_key;
 const user_id = document.querySelector('#data').dataset.user_id;
-ReactDOM.render(<Homepage api_key={api_key} user_id={user_id}/>, document.querySelector('.content'));
+if (document.querySelector('.content') !== null) {
+    ReactDOM.render(<Homepage api_key={api_key} user_id={user_id}/>, document.querySelector('.content'));
+}
+
 

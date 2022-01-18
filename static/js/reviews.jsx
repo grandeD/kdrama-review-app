@@ -68,4 +68,7 @@ const Reviews = () => {
     );
 };
 
-ReactDOM.render(<Reviews/>, document.querySelector('.reviews'));
+if (document.querySelector('.reviews') !== null) {
+    ReactDOM.render(<Reviews/>, document.querySelector('.reviews'));
+}
+
