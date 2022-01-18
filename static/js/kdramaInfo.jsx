@@ -97,7 +97,7 @@ const KdramaInfo = (props) =>  {
     // creates and stores recommendations as KdramaCards in recCards
     const recCards = [];
     for (const rec of recommendations) {
-        const poster_path = (rec.poster_path !== '' ? 
+        const poster_path = ((rec.poster_path !== '' && rec.poster_path !== null) ? 
         `${TMDB_IMAGE_URL}${rec.poster_path}`:
         '/static/img/placeholder-image.png');
         recCards.push(
@@ -168,7 +168,9 @@ const KdramaInfo = (props) =>  {
                     url(${TMDB_IMAGE_URL}${kdramaData.backdrop_path}) no-repeat center center / cover` }}>
 
                     <div className='data-item'>
-                        <img className='poster-img rounded' src={`${TMDB_IMAGE_URL}${kdramaData.poster_path}`} alt='Kdrama Poster' />
+                        <img className='poster-img rounded' 
+                            src={(kdramaData.poster_path !== '' && kdramaData.poster_path !== null) &&
+                            `${TMDB_IMAGE_URL}${kdramaData.poster_path}`} alt='Kdrama Poster' />
 
                         {watch_logos.length > 0 && 
                         <div>

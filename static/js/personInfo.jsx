@@ -2,17 +2,6 @@
 const person_id = document.querySelector('#data').dataset.person_id;
  
 const TMDB_IMAGE_URL = 'https://image.tmdb.org/t/p/original/';
-// Card view component of a specific korean drama
-const KdramaCard = (props) => {
-    return(
-    <div className='card'>
-        <a href={`/kdrama/${props.kdrama_id}`}>
-        <img style={{height: '200px'}} src={`${TMDB_IMAGE_URL}${props.poster_path}`} alt='Kdrama Poster' />
-        </a>
-        <p>{props.title}</p>
-    </div>
-    );
-}
 
 // Takes in date string and converts it into the format Month, Day, Year
 const dateString = (date_str) => {

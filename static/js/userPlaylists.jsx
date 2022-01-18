@@ -12,8 +12,8 @@ const PlaylistCard = (props) => {
         <a href={`/playlist/${props.playlist_id}`}>
             <h3>{props.title} </h3>
             <div className='card-stats'>
-                <p>{props.followers} <i class="fas fa-users"></i></p>
-                <p>{props.amount} <i class="fas fa-film"></i></p>
+                <p>{props.followers} <i className="fas fa-users"></i></p>
+                <p>{props.amount} <i className="fas fa-film"></i></p>
             </div>
         </a>
         </div>
