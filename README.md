@@ -1,5 +1,3 @@
-# Koreview
-
 <div align="center"> 
   <img src="https://drive.google.com/uc?export=view&id=1Fg9iakvxQk1p85ZLYx4Pi63YK1dB0XtC" alt="Koreview" width="500px"/>
 </div>
@@ -13,6 +11,7 @@
   * Description
 
 * [Development](#development)
+* [Features](#features)
 
 
 ## Background
@@ -64,3 +63,11 @@ export TMDB_API_KEY="Put your API key here";
 python3 seed_database.py
 python3 server.py
 ```
+
+## Features
+
+### Postgres SQL Database Model
+
+<div align="center"> 
+  <img src="https://drive.google.com/uc?export=view&id=1wZz8IN9nwabEIZy7SyHQhBmUeCVOA5KP" alt="Koreview" width="1000px"/>
+</div>
